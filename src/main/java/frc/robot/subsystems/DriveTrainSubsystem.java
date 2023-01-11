@@ -19,7 +19,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public float rightScaler = 1;
 
 
-  public DriveTrainSubsystem() {    
+  public DriveTrainSubsystem() 
+  {    
     rightDriveFalconFront = new TeamTalonFX("Subsystems.DriveTrain.RightMain", Ports.RIGHT_DRIVE_FALCON_FRONT);
     leftDriveFalconFront = new TeamTalonFX("Subsystems.DriveTrain.LeftMain", Ports.LEFT_DRIVE_FALCON_FRONT);
     rightDriveFalconBack = new TeamTalonFX("Subsystems.DriveTrain.RightSub", Ports.RIGHT_DRIVE_FALCON_BACK);
@@ -42,11 +43,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftDriveFalconBack.setNeutralMode(NeutralMode.Brake);
   }
   
-  private double getCappedPower(double desired) {
+  private double getCappedPower(double desired) 
+  {
     return Math.min(1, Math.max(-1, desired));
   }
 
-  public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) {
+  public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
+  {
     leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler);
     rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler);
 
@@ -88,7 +91,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
+  public void periodic() 
+  {
     // This method will be called once per scheduler run
   }
 }
