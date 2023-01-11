@@ -25,6 +25,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightDriveFalconBack = new TeamTalonFX("Subsystems.DriveTrain.RightSub", Ports.RIGHT_DRIVE_FALCON_BACK);
     leftDriveFalconBack = new TeamTalonFX("Subsystems.DriveTrain.LeftSub", Ports.LEFT_DRIVE_FALCON_BACK);
 
+    rightDriveFalconFront.enableVoltageCompensation(true);
+    leftDriveFalconFront.enableVoltageCompensation(true);
+    rightDriveFalconBack.enableVoltageCompensation(true);
+    leftDriveFalconBack.enableVoltageCompensation(true);
+
     leftDriveFalconFront.setInverted(true);
     leftDriveFalconBack.setInverted(true);
 
