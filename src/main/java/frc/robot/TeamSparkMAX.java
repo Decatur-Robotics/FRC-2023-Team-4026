@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class TeamSparkMAX extends CANSparkMax {
   public static double telemetryUpdateInterval_secs = 0.0;
