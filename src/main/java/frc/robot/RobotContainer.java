@@ -7,10 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PositioningSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -24,6 +26,7 @@ public class RobotContainer {
 
   public DriveTrainSubsystem drivetrain;
   public PositioningSubsystem positioning;
+  public IntakeSubsystem intake;
 
   public Joystick primaryController;
 
@@ -36,6 +39,7 @@ public class RobotContainer {
   public RobotContainer() {
     drivetrain = new DriveTrainSubsystem();
     positioning = new PositioningSubsystem();
+    intake = new IntakeSubsystem();
     // Configure the button bindings
     configureButtonBindings();
   }
