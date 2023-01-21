@@ -14,14 +14,12 @@ public class ConeIntakeCommand extends CommandBase {
     public final double MOTOR_POSITION = 0;
 
 
-    public ConeIntakeCommand(IntakeSubsystem intake) 
-    {
+    public ConeIntakeCommand(IntakeSubsystem intake) {
         this.intake = intake;
         addRequirements(intake);
     }
 
-    public void initialize() 
-    {
+    public void initialize() {
         intake.ActivateIntake(MOTOR_POSITION, "Button said so");
     }
 

@@ -13,8 +13,7 @@ public class IntakeSubsystem extends SubsystemBase {
     ITeamTalon intakeMotor;
 
 
-    public IntakeSubsystem() 
-    {
+    public IntakeSubsystem() {
         intakeMotor = new TeamTalonFX("Subsystem.Intake.IntakeMotor", Ports.INTAKE_MOTOR);
 
         intakeMotor.enableVoltageCompensation(true);
@@ -22,8 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void ActivateIntake(double motorSpeed, String reason) 
-    {
+    public void ActivateIntake(double motorSpeed, String reason) {
         intakeMotor.set(motorSpeed, reason);
     }
 }
