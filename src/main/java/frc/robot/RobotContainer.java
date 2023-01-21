@@ -7,19 +7,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
+import frc.robot.commands.ConeAdjustCommand;
 import frc.robot.commands.ConeIntakeCommand;
 import frc.robot.commands.CubeIntakeCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.OpenIntakeCommand;
 import frc.robot.commands.TankDriveCommand;
+import frc.robot.subsystems.ConeAdjustSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PositioningSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants;
 
 
 /**
@@ -33,6 +33,7 @@ public class RobotContainer {
   public DriveTrainSubsystem drivetrain;
   public PositioningSubsystem positioning;
   public IntakeSubsystem intake;
+  public ConeAdjustSubsystem coneAdjust;
 
   public Joystick primaryController;
   public Joystick secondaryController;
@@ -47,6 +48,8 @@ public class RobotContainer {
     drivetrain = new DriveTrainSubsystem();
     positioning = new PositioningSubsystem();
     intake = new IntakeSubsystem();
+    coneAdjust = new ConeAdjustSubsystem();
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -65,10 +68,13 @@ public class RobotContainer {
     JoystickButton x = new JoystickButton(secondaryController,LogitechControllerButtons.x);
     JoystickButton a = new JoystickButton(secondaryController,LogitechControllerButtons.a);
     JoystickButton b = new JoystickButton(secondaryController,LogitechControllerButtons.b);
+    JoystickButton y = new JoystickButton(secondaryController, LogitechControllerButtons.y);
 
     x.onTrue(new OpenIntakeCommand(intake));
     a.onTrue(new ConeIntakeCommand(intake));
     b.onTrue(new CubeIntakeCommand(intake));
+    y.onTrue(new ConeAdjustCommand(coneAdjust));
+
 
   }
 
