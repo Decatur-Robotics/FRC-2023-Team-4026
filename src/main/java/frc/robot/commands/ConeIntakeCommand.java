@@ -6,12 +6,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class ConeIntakeCommand extends CommandBase {
     IntakeSubsystem intake;
 
-    /**
-     * 
-     * CHANGE THIS TO THE MOTOR POSITION LATER!!!
-     * 
-     */
-    public final double MOTOR_POSITION = 0;
+    public long target = 3;
+    public double motorSpeed = 1;
 
 
     public ConeIntakeCommand(IntakeSubsystem intake) {
@@ -19,10 +15,23 @@ public class ConeIntakeCommand extends CommandBase {
         addRequirements(intake);
     }
 
-    public void initialize() {
-        intake.ActivateIntake(MOTOR_POSITION, "Button said so");
+    public void execute() {
+        if (intake.intakeMotor.getCurrentEncoderValue() >= target) {
+            intake.intakeMotor.set(0,"Command said so");
+            System.out.println("This is the current encoder value: " + intake.intakeMotor.getCurrentEncoderValue());
+        }
     }
 
-    
+    public void initialize() {
+        intake.ActivateIntake(motorSpeed, "Button said so");
+    }
+
+    public boolean isFinished() {
+        return intake.intakeMotor.getCurrentEncoderValue() >= target;
+    }
+
+    public void end(boolean interrupted) {
+        intake.intakeMotor.set(0,"The Command is finished");
+    }    
 
 }

@@ -10,7 +10,7 @@ import frc.robot.TeamTalonFX;
 public class IntakeSubsystem extends SubsystemBase {
     
     
-    ITeamTalon intakeMotor;
+    public ITeamTalon intakeMotor;
 
 
     public IntakeSubsystem() {

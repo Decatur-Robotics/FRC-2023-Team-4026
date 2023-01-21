@@ -8,13 +8,19 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import frc.robot.commands.ConeIntakeCommand;
+import frc.robot.commands.CubeIntakeCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.OpenIntakeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PositioningSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,6 +35,7 @@ public class RobotContainer {
   public IntakeSubsystem intake;
 
   public Joystick primaryController;
+  public Joystick secondaryController;
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -53,6 +60,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     primaryController = new Joystick(0);
     drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
+
+    secondaryController = new Joystick(1);
+    JoystickButton x = new JoystickButton(secondaryController,LogitechControllerButtons.x);
+    JoystickButton a = new JoystickButton(secondaryController,LogitechControllerButtons.a);
+    JoystickButton b = new JoystickButton(secondaryController,LogitechControllerButtons.b);
+
+    x.onTrue(new OpenIntakeCommand(intake));
+    a.onTrue(new ConeIntakeCommand(intake));
+    b.onTrue(new CubeIntakeCommand(intake));
+
   }
 
   /**
