@@ -11,6 +11,9 @@ public class IntakeSubsystem extends SubsystemBase {
     
     
     public ITeamTalon intakeMotor;
+    public double targetPosition; 
+    public double motorSpeed = 1;
+    public final double DEADBAND_VALUE = 10;
 
 
     public IntakeSubsystem() {
@@ -21,7 +24,16 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void ActivateIntake(double motorSpeed, String reason) {
-        intakeMotor.set(motorSpeed, reason);
+    public void setTargetPosition(double newTargetPosition, String reason) {
+        targetPosition = newTargetPosition;
+    }
+
+    public void periodic() {
+        if (intakeMotor.getCurrentEncoderValue() < targetPosition && intakeMotor.getCurrentEncoderValue() > targetPosition + DEADBAND_VALUE) {
+            intakeMotor.set(motorSpeed, "Buttons said so.");
+        }
+        else if (intakeMotor.getCurrentEncoderValue() > targetPosition && intakeMotor.getCurrentEncoderValue() < targetPosition - DEADBAND_VALUE) {
+            intakeMotor.set(-motorSpeed, "Buttons said so.");
+        }
     }
 }
