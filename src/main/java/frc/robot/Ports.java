@@ -9,4 +9,6 @@ public class Ports {
    public final static int CONE_ADJUST_MOTOR = 0;
    public final static int ELEVATOR_MOTOR_MAIN = 0;
    public final static int ELEVATOR_MOTOR_SUB = 0;
+   public final static int WHEELED_INTAKE_MOTOR_MAIN = 0;
+   public final static int WHEELED_INTAKE_MOTOR_SUB = 0;
 }
