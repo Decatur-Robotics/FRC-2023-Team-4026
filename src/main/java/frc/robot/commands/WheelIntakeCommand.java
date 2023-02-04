@@ -11,7 +11,7 @@ public class WheelIntakeCommand extends CommandBase {
         addRequirements(wheelIntake);
     }
 
-    public void initialize() {
+    public void execute() {
         wheelIntake.RunIntake("Button said so");
     }
 }
