@@ -17,7 +17,7 @@ public class ClawIntakeSubsystem extends SubsystemBase {
 
 
     public ClawIntakeSubsystem() {
-        mainCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+        mainCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
         mainCompressor.enableDigital();
 
         clawIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.CLAW_INTAKE_SOLENOID);
