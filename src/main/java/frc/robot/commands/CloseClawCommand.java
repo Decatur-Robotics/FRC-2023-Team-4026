@@ -4,17 +4,17 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClawIntakeSubsystem;
 
-public class OpenClawCommand extends CommandBase {
+public class CloseClawCommand extends CommandBase {
     
     ClawIntakeSubsystem clawIntake;
 
-    Value clawMode = Value.kForward;
+    Value clawMode = Value.kReverse;
 
-    public OpenClawCommand(ClawIntakeSubsystem clawIntake) {
+    public CloseClawCommand(ClawIntakeSubsystem clawIntake) {
         this.clawIntake = clawIntake;
         addRequirements(clawIntake);
     }
-
+    
     public void initialize() {
         clawIntake.clawTime(clawMode, "Button said so");
     }
