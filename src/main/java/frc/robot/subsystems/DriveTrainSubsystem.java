@@ -11,8 +11,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
  
   static final double MAXPOWERCHANGE = 0.1;
-  ITeamTalon rightDriveFalconFront;
-  ITeamTalon leftDriveFalconFront;
+  public ITeamTalon rightDriveFalconFront;
+  public ITeamTalon leftDriveFalconFront;
   ITeamTalon rightDriveFalconBack;
   ITeamTalon leftDriveFalconBack;
   public float leftScaler = 1;
