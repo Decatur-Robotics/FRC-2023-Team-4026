@@ -51,13 +51,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void setFindingGillMod(double newFindingGillMod) {
-    findingGillMod = newFindingGillMod;
+    findingGillMod = newFindingGillMod / 320;
   }
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
   {
-    leftPowerDesired -= findingGillMod;
-    rightPowerDesired += findingGillMod;
+    leftPowerDesired += findingGillMod;
+    rightPowerDesired -= findingGillMod;
     
     leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler);
     rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler);
