@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.OpenClawCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.subsystems.ConeAdjustSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -64,7 +63,6 @@ public class RobotContainer {
     secondaryController = new Joystick(1);
     JoystickButton x = new JoystickButton(secondaryController,LogitechControllerButtons.x);
 
-    x.onTrue(new OpenClawCommand(clawIntake));
     
 
 
