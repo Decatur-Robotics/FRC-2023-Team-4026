@@ -8,10 +8,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.FindingGillCenterCommand;
+import frc.robot.commands.FindingGillLeftCommand;
+import frc.robot.commands.FindingGillRightCommand;
+import frc.robot.commands.FindingGillSubstationCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.subsystems.ConeAdjustSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.FindingGillSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
 import frc.robot.subsystems.PositioningSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
 
+  public FindingGillSubsystem findingGill;
   public DriveTrainSubsystem drivetrain;
   public PositioningSubsystem positioning;
   public ClawIntakeSubsystem clawIntake;
@@ -41,13 +47,15 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    findingGill = new FindingGillSubsystem();
     drivetrain = new DriveTrainSubsystem();
     positioning = new PositioningSubsystem();
     clawIntake = new ClawIntakeSubsystem();
     coneAdjust = new ConeAdjustSubsystem();
 
     // Configure the button bindings
-    configureButtonBindings();
+    configurePrimaryBindings();
+    configureSecondaryBindings();
   }
 
   /**
@@ -56,14 +64,47 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configurePrimaryBindings() {
     primaryController = new Joystick(0);
-    drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
-
-    secondaryController = new Joystick(1);
-    JoystickButton x = new JoystickButton(secondaryController,LogitechControllerButtons.x);
-
     
+    drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
+    
+    JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
+    JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
+    JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
+    JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
+    JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
+    JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
+    JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
+    JoystickButton triggerRight = new JoystickButton(primaryController,LogitechControllerButtons.triggerRight);
+    JoystickButton up = new JoystickButton(primaryController,LogitechControllerButtons.up);
+    JoystickButton down = new JoystickButton(primaryController,LogitechControllerButtons.down);
+    JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
+    JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
+
+    x.whileHeld(new FindingGillLeftCommand(findingGill, drivetrain));
+    y.whileHeld(new FindingGillCenterCommand(findingGill, drivetrain));
+    a.whileHeld(new FindingGillRightCommand(findingGill, drivetrain));
+    b.whileHeld(new FindingGillSubstationCommand(findingGill, drivetrain));
+
+  }
+
+  private void configureSecondaryBindings() {
+    secondaryController = new Joystick(1);
+    
+    JoystickButton a = new JoystickButton(secondaryController,LogitechControllerButtons.a);
+    JoystickButton b = new JoystickButton(secondaryController,LogitechControllerButtons.b);
+    JoystickButton x = new JoystickButton(secondaryController,LogitechControllerButtons.x);
+    JoystickButton y = new JoystickButton(secondaryController,LogitechControllerButtons.y);
+    JoystickButton bumperLeft = new JoystickButton(secondaryController,LogitechControllerButtons.bumperLeft);
+    JoystickButton bumperRight = new JoystickButton(secondaryController,LogitechControllerButtons.bumperRight);
+    JoystickButton triggerLeft = new JoystickButton(secondaryController,LogitechControllerButtons.triggerLeft);
+    JoystickButton triggerRight = new JoystickButton(secondaryController,LogitechControllerButtons.triggerRight);
+    JoystickButton up = new JoystickButton(secondaryController,LogitechControllerButtons.up);
+    JoystickButton down = new JoystickButton(secondaryController,LogitechControllerButtons.down);
+    JoystickButton left = new JoystickButton(secondaryController,LogitechControllerButtons.left);
+    JoystickButton right = new JoystickButton(secondaryController,LogitechControllerButtons.right);
+
 
 
   }
