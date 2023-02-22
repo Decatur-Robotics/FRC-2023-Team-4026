@@ -14,9 +14,9 @@ public class DriveDistance extends CommandBase {
 
 
     public void execute() {
-        driveTrain.setMotorPowers(0.5, 0.5,"Atonomus says motors go brrrrrrrrrrrr");
+        driveTrain.setMotorPowers(0.5, 0.5,"Autonomous says motors go brrrrrrrrrrrr");
         if (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() > distance-200 && driveTrain.leftDriveFalconFront.getCurrentEncoderValue() < distance+200){
-            driveTrain.setMotorPowers(0, 0,"Atonomus says motors stop now (:");
+            driveTrain.setMotorPowers(0, 0,"Autonomous says motors stop now (:");
         }
     }
 }
