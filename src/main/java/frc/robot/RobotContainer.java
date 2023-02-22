@@ -7,14 +7,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.commands.BottomElevatorCommand;
+import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FindingGillCenterCommand;
 import frc.robot.commands.FindingGillLeftCommand;
 import frc.robot.commands.FindingGillRightCommand;
 import frc.robot.commands.FindingGillSubstationCommand;
+import frc.robot.commands.HighElevatorCommand;
+import frc.robot.commands.MiddleElevatorCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.subsystems.ConeAdjustSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FindingGillSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
@@ -36,6 +42,7 @@ public class RobotContainer {
   public PositioningSubsystem positioning;
   public ClawIntakeSubsystem clawIntake;
   public ConeAdjustSubsystem coneAdjust;
+  public ElevatorSubsystem elevator;
 
   public Joystick primaryController;
   public Joystick secondaryController;
@@ -52,6 +59,7 @@ public class RobotContainer {
     positioning = new PositioningSubsystem();
     clawIntake = new ClawIntakeSubsystem();
     coneAdjust = new ConeAdjustSubsystem();
+    elevator = new ElevatorSubsystem();
 
     // Configure the button bindings
     configurePrimaryBindings();
@@ -82,10 +90,10 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
 
-    x.whileHeld(new FindingGillLeftCommand(findingGill, drivetrain));
-    y.whileHeld(new FindingGillCenterCommand(findingGill, drivetrain));
-    a.whileHeld(new FindingGillRightCommand(findingGill, drivetrain));
-    b.whileHeld(new FindingGillSubstationCommand(findingGill, drivetrain));
+    x.whileTrue(new FindingGillLeftCommand(findingGill, drivetrain));
+    y.whileTrue(new FindingGillCenterCommand(findingGill, drivetrain));
+    a.whileTrue(new FindingGillRightCommand(findingGill, drivetrain));
+    b.whileTrue(new FindingGillSubstationCommand(findingGill, drivetrain));
 
   }
 
@@ -105,6 +113,12 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(secondaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(secondaryController,LogitechControllerButtons.right);
 
+    a.onTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
+    b.onTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
+
+    up.onTrue(new HighElevatorCommand(elevator));
+    left.onTrue(new MiddleElevatorCommand(elevator));
+    down.onTrue(new BottomElevatorCommand(elevator));
 
 
   }
