@@ -22,10 +22,6 @@ public class ClawIntakeSubsystem extends SubsystemBase {
         clawGrabber.set(Value.kOff);
     }
 
-    public void clawTime(Value clawMode, String reason) {
-        clawGrabber.set(clawMode);
-    }
-
     public void periodic() {
         
     }
