@@ -17,8 +17,8 @@ import frc.robot.commands.FindingGillRightCommand;
 import frc.robot.commands.FindingGillSubstationCommand;
 import frc.robot.commands.HighElevatorCommand;
 import frc.robot.commands.MiddleElevatorCommand;
+import frc.robot.commands.NormalAutoCommand;
 import frc.robot.commands.TankDriveCommand;
-import frc.robot.subsystems.ConeAdjustSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -37,12 +37,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
 
-  public FindingGillSubsystem findingGill;
-  public DriveTrainSubsystem drivetrain;
-  public PositioningSubsystem positioning;
-  public ClawIntakeSubsystem clawIntake;
-  public ConeAdjustSubsystem coneAdjust;
-  public ElevatorSubsystem elevator;
+  public static FindingGillSubsystem findingGill;
+  public static DriveTrainSubsystem drivetrain;
+  public static PositioningSubsystem positioning;
+  public static ClawIntakeSubsystem clawIntake;
+  public static ElevatorSubsystem elevator;
 
   public Joystick primaryController;
   public Joystick secondaryController;
@@ -58,7 +57,6 @@ public class RobotContainer {
     drivetrain = new DriveTrainSubsystem();
     positioning = new PositioningSubsystem();
     clawIntake = new ClawIntakeSubsystem();
-    coneAdjust = new ConeAdjustSubsystem();
     elevator = new ElevatorSubsystem();
 
     // Configure the button bindings
@@ -122,6 +120,10 @@ public class RobotContainer {
 
 
   }
+
+  private final Command normalAuto = new NormalAutoCommand();
+
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
