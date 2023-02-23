@@ -19,7 +19,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public float rightScaler = 1;
 
   public double findingGillMod;
-
+  public double speedMod;
 
   public DriveTrainSubsystem() 
   {    
@@ -50,6 +50,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return Math.min(1, Math.max(-1, desired));
   }
 
+  public void setSpeedMod(double newSpeedMod) {
+    speedMod = newSpeedMod;
+  }
+
   public void setFindingGillMod(double newFindingGillMod) {
     findingGillMod = newFindingGillMod / 320;
   }
@@ -58,6 +62,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   {
     leftPowerDesired += findingGillMod;
     rightPowerDesired -= findingGillMod;
+
+    leftPowerDesired *= speedMod;
+    rightPowerDesired *= speedMod;
     
     leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler);
     rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler);
