@@ -16,6 +16,7 @@ import frc.robot.commands.HighElevatorCommand;
 import frc.robot.commands.MiddleElevatorCommand;
 import frc.robot.commands.NormalAutoCommand;
 import frc.robot.commands.SetFindingGillSideCommand;
+import frc.robot.commands.SpeedModeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -93,6 +94,8 @@ public class RobotContainer {
 
     left.whileTrue(new SetFindingGillSideCommand(drivetrain, 0));
     right.whileTrue(new SetFindingGillSideCommand(drivetrain, 2));
+
+    triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
 
   }
 

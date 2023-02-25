@@ -7,10 +7,8 @@ public class SpeedModeCommand extends CommandBase {
     DriveTrainSubsystem drivetrain;
 
 
-    public SpeedModeCommand() {
+    public SpeedModeCommand(DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
-
-        addRequirements(drivetrain);
     }
 
     public void initialize() {
