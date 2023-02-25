@@ -92,8 +92,8 @@ public class RobotContainer {
     a.whileTrue(new FindingGillCommand(findingGill, drivetrain, 2));
     b.whileTrue(new FindingGillCommand(findingGill, drivetrain, 3));
 
-    left.whileTrue(new SetFindingGillSideCommand(drivetrain, 0));
-    right.whileTrue(new SetFindingGillSideCommand(drivetrain, 2));
+    bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, 0));
+    bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, 2));
 
     triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
 
