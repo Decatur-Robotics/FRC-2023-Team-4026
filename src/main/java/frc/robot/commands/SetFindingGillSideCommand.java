@@ -3,19 +3,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class SpeedModeCommand extends CommandBase {
+public class SetFindingGillSideCommand extends CommandBase {
     DriveTrainSubsystem drivetrain;
 
+    public double side;
 
-    public SpeedModeCommand(DriveTrainSubsystem drivetrain) {
+    public SetFindingGillSideCommand(DriveTrainSubsystem drivetrain, double side) {
         this.drivetrain = drivetrain;
+        this.side = side;
     }
 
     public void initialize() {
-        drivetrain.setSpeedMod(1);
+        drivetrain.setFindingGillSide(side);
     }
 
     public void end() {
-        drivetrain.setSpeedMod(0.5);
+        drivetrain.setFindingGillSide(1);
     }
 }

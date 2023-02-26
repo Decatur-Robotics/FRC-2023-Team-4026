@@ -32,33 +32,52 @@ public class FindingGillSubsystem extends SubsystemBase {
     public double tag8X;
     public double tag8Y;
 
-    public void Periodic() {
-        this.numberOfApriltags = (double) TeamUtils.getFromNetworkTable("apriltags", "Tags");
-        
-        this.tag1Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 Visible");
-        this.tag2Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 2 Visible");
-        this.tag3Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 3 Visible");
-        this.tag4Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 4 Visible");
-        this.tag5Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 5 Visible");
-        this.tag6Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 6 Visible");
-        this.tag7Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 Visible");
-        this.tag8Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 Visible");
+    public double tag1Width;
+    public double tag2Width;
+    public double tag3Width;
+    public double tag4Width;
+    public double tag5Width;
+    public double tag6Width;
+    public double tag7Width;
+    public double tag8Width;
 
-        this.tag1X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 X");
-        this.tag1Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 Y");
-        this.tag2X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 2 X");
-        this.tag2Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 2 Y");
-        this.tag3X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 3 X");
-        this.tag3Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 3 Y");
-        this.tag4X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 4 X");
-        this.tag4Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 4 Y");
-        this.tag5X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 5 X");
-        this.tag5Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 5 Y");
-        this.tag6X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 6 X");
-        this.tag6Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 6 Y");
-        this.tag7X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 X");
-        this.tag7Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 Y");
-        this.tag8X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 X");
-        this.tag8Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 Y");
+    public void Periodic() {
+        numberOfApriltags = (double) TeamUtils.getFromNetworkTable("apriltags", "Tags");
+        
+        tag1Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 Visible");
+        tag2Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 2 Visible");
+        tag3Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 3 Visible");
+        tag4Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 4 Visible");
+        tag5Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 5 Visible");
+        tag6Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 6 Visible");
+        tag7Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 Visible");
+        tag8Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 Visible");
+
+        tag1X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 X");
+        tag1Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 Y");
+        tag2X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 2 X");
+        tag2Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 2 Y");
+        tag3X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 3 X");
+        tag3Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 3 Y");
+        tag4X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 4 X");
+        tag4Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 4 Y");
+        tag5X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 5 X");
+        tag5Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 5 Y");
+        tag6X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 6 X");
+        tag6Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 6 Y");
+        tag7X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 X");
+        tag7Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 Y");
+        tag8X = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 X");
+        tag8Y = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 Y");
+
+        tag1Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 Width");
+        tag2Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 2 Width");
+        tag3Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 3 Width");
+        tag4Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 4 Width");
+        tag5Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 5 Width");
+        tag6Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 6 Width");
+        tag7Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 Width");
+        tag8Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 Width");
+
     }
 }

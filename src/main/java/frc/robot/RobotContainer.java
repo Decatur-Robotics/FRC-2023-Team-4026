@@ -12,13 +12,12 @@ import frc.robot.commands.RetractedElevatorCommand;
 import frc.robot.commands.BottomElevatorCommand;
 import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.FindingGillCenterCommand;
-import frc.robot.commands.FindingGillLeftCommand;
-import frc.robot.commands.FindingGillRightCommand;
-import frc.robot.commands.FindingGillSubstationCommand;
+import frc.robot.commands.FindingGillCommand;
 import frc.robot.commands.HighElevatorCommand;
 import frc.robot.commands.MiddleElevatorCommand;
 import frc.robot.commands.NormalAutoCommand;
+import frc.robot.commands.SetFindingGillSideCommand;
+import frc.robot.commands.SpeedModeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -89,10 +88,15 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
 
-    x.whileTrue(new FindingGillLeftCommand(findingGill, drivetrain));
-    y.whileTrue(new FindingGillCenterCommand(findingGill, drivetrain));
-    a.whileTrue(new FindingGillRightCommand(findingGill, drivetrain));
-    b.whileTrue(new FindingGillSubstationCommand(findingGill, drivetrain));
+    x.whileTrue(new FindingGillCommand(findingGill, drivetrain, 0));
+    y.whileTrue(new FindingGillCommand(findingGill, drivetrain, 1));
+    a.whileTrue(new FindingGillCommand(findingGill, drivetrain, 2));
+    b.whileTrue(new FindingGillCommand(findingGill, drivetrain, 3));
+
+    bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, 0));
+    bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, 2));
+
+    triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
 
   }
 

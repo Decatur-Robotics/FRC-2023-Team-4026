@@ -18,7 +18,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public float leftScaler = 1;
   public float rightScaler = 1;
 
+  public double tagWidth;
   public double findingGillMod;
+  public double findingGillSide;
   public double speedMod;
 
   public DriveTrainSubsystem() 
@@ -54,8 +56,20 @@ public class DriveTrainSubsystem extends SubsystemBase {
     speedMod = newSpeedMod;
   }
 
-  public void setFindingGillMod(double newFindingGillMod) {
+  public void setFindingGillSide(double newFindingGillSide) {
+    findingGillSide = newFindingGillSide;
+  }
+
+  public void setFindingGillMod(double newFindingGillMod, double newTagWidth) {
     findingGillMod = newFindingGillMod / 320;
+    tagWidth = newTagWidth;
+
+    if (findingGillSide == 0) {
+      findingGillMod = findingGillMod - (1 * (tagWidth / 320));
+    }
+    else if (findingGillSide == 2) {
+      findingGillMod = findingGillMod + (1 * (tagWidth / 320));
+    }
   }
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
