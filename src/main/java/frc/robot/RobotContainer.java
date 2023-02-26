@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.commands.RetractedElevatorCommand;
 import frc.robot.commands.BottomElevatorCommand;
 import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.ExampleCommand;
@@ -116,7 +117,9 @@ public class RobotContainer {
 
     up.onTrue(new HighElevatorCommand(elevator));
     left.onTrue(new MiddleElevatorCommand(elevator));
-    down.onTrue(new BottomElevatorCommand(elevator));
+    right.onTrue(new BottomElevatorCommand(elevator));
+    down.onTrue(new RetractedElevatorCommand(elevator));
+
 
 
   }
