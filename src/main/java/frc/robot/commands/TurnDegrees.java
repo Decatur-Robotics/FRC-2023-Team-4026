@@ -9,6 +9,7 @@ public class TurnDegrees extends CommandBase {
     final double startDeg;//get degree in gyro once Complete
     double endDeg;
     DriveTrainSubsystem driveTrain;
+    boolean isFinished = false;
     
     public TurnDegrees(double changeDeg, DriveTrainSubsystem driveTrain, AnalogGyro gyro){
         this.gyro = gyro;
@@ -31,6 +32,11 @@ public class TurnDegrees extends CommandBase {
         double accuracy = 1;
         if(angle < endDeg + accuracy && angle > endDeg - accuracy){
             driveTrain.setMotorPowers(0,0,"Autonomous says beep beep robo-TURN done now (:");
+            isFinished = true;
         }
+    }
+
+    public boolean isFinished(){
+        return isFinished;
     }
 }
