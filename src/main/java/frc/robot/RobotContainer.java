@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RetractedElevatorCommand;
+import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.BottomElevatorCommand;
 import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
@@ -103,6 +104,7 @@ public class RobotContainer {
 
     triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
 
+    triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }
 
   private void configureSecondaryBindings() {
