@@ -6,7 +6,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class HighElevatorCommand extends CommandBase {
     ElevatorSubsystem elevator;
 
-    public long targetPosition = 0;
+    public long targetPosition = 15;
 
     public HighElevatorCommand(ElevatorSubsystem elevator) {
         this.elevator = elevator;

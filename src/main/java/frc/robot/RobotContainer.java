@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.RetractedElevatorCommand;
 import frc.robot.commands.BottomElevatorCommand;
+import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FindingGillCommand;
@@ -61,6 +65,8 @@ public class RobotContainer {
     // Configure the button bindings
     configurePrimaryBindings();
     configureSecondaryBindings();
+
+    addAutoChoicesToGui();
   }
 
   /**
@@ -120,13 +126,31 @@ public class RobotContainer {
 
     up.onTrue(new HighElevatorCommand(elevator));
     left.onTrue(new MiddleElevatorCommand(elevator));
-    down.onTrue(new BottomElevatorCommand(elevator));
+    right.onTrue(new BottomElevatorCommand(elevator));
+    down.onTrue(new RetractedElevatorCommand(elevator));
+
 
 
   }
 
-  private final Command normalAuto = new NormalAutoCommand();
+  enum PossibleAutos {
+    TWO_BALL_AUTO,
+    ONE_BALL_AUTO,
+  }
 
+
+  private final Command normalAuto = new NormalAutoCommand();
+  private final Command chargeStationAuto = new ChargeStationAutoCommand();
+
+  SendableChooser<PossibleAutos> autoChooser = new SendableChooser<PossibleAutos>();
+
+  private void addAutoChoicesToGui() {
+    PossibleAutos[] enumValues = PossibleAutos.values();
+    for (int i = 0; i < enumValues.length; i++) {
+      autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
+    }
+    SmartDashboard.putData(autoChooser);
+  }
   
 
   /**
@@ -136,6 +160,14 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    PossibleAutos choice = autoChooser.getSelected();
+    switch (choice) {
+      case TWO_BALL_AUTO:
+        return normalAuto;
+      case ONE_BALL_AUTO:
+        return chargeStationAuto;
+      default:
+        return null;
+    }
   }
 }
