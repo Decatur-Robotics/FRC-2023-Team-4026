@@ -19,9 +19,17 @@ public final class Constants {
     public static double chargeStationAutoDriveBackDistance = -2.18;
     public static double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
 
+    public static double encoderTicksPerRevolution = 2048;
+    public static double andyMarkHiGripWheelCircumference = 0.1524*Math.PI;
+    public static double motorRotationsPerWheelRotationGearRatio = 10.71;
+    public static double driveDistanceMotorSpeed = 0.5;
+    public static final double DRIVEDISTANCE_DEADBANDVALUE = 200;
+
+
     public static final double DRIVETRAIN_MAXPOWERCHANGE = 0.1;
     public static float drivetrainLeftScaler = 1;
     public static float drivetrainRightScaler = 1;
+    public static double stopSpeed = 0;
 
 
     public static final double ELEVATOR_DEADBAND_VALUE = 10;
@@ -31,6 +39,12 @@ public final class Constants {
     public static long bottomElevatorTargetPositionv = 5;
     public static long middleElevatorTargetPosition = 10;
     public static long highElevatorTargetPosition = 15; 
+
+
+    public static double turnDegreesMotorSpeed = 0.5;
+
+
+    
 
 
 

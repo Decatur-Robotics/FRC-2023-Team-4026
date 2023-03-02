@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -11,6 +12,7 @@ public class AutoBalanceCommand extends CommandBase {
     DriveTrainSubsystem drivetrain;
     AHRS gyro;
     double power;
+    double stopSpeed = Constants.stopSpeed;
 
     public AutoBalanceCommand(DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
@@ -33,6 +35,6 @@ public class AutoBalanceCommand extends CommandBase {
     }
 
     public void end() {
-        drivetrain.setMotorPowers(0, 0, "auto balance ended");
+        drivetrain.setMotorPowers(stopSpeed, stopSpeed, "auto balance ended");
     }
 }

@@ -28,7 +28,6 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FindingGillSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
-import frc.robot.subsystems.PositioningSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -43,7 +42,6 @@ public class RobotContainer {
 
   public static FindingGillSubsystem findingGill;
   public static DriveTrainSubsystem drivetrain;
-  public static PositioningSubsystem positioning;
   public static ClawIntakeSubsystem clawIntake;
   public static ElevatorSubsystem elevator;
 
@@ -59,7 +57,6 @@ public class RobotContainer {
   public RobotContainer() {
     findingGill = new FindingGillSubsystem();
     drivetrain = new DriveTrainSubsystem();
-    positioning = new PositioningSubsystem();
     clawIntake = new ClawIntakeSubsystem();
     elevator = new ElevatorSubsystem();
 

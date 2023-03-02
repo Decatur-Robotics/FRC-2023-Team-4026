@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class TurnDegrees extends CommandBase {
@@ -10,6 +11,8 @@ public class TurnDegrees extends CommandBase {
     double endDeg;
     DriveTrainSubsystem driveTrain;
     boolean isFinished = false;
+    double motorSpeed = Constants.turnDegreesMotorSpeed;
+    double stopSpeed = Constants.stopSpeed;
     
     public TurnDegrees(double changeDeg, DriveTrainSubsystem driveTrain, AnalogGyro gyro){
         this.gyro = gyro;
@@ -18,12 +21,13 @@ public class TurnDegrees extends CommandBase {
         this.driveTrain = driveTrain;
         
     }
-
+    //henry pls tell me what the rest of these constants are
+    
     public void initialize() {
         if(endDeg-startDeg < 0 && Math.abs(endDeg-startDeg)<180){
-            driveTrain.setMotorPowers(0.5,-0.5,"Autonomous says beep boop robo-TURN right");
+            driveTrain.setMotorPowers(motorSpeed,-motorSpeed,"Autonomous says beep boop robo-TURN right");
         }else{
-            driveTrain.setMotorPowers(-0.5, 0.5, "Autonomous says beep boop robo-TURN left");
+            driveTrain.setMotorPowers(-motorSpeed, motorSpeed, "Autonomous says beep boop robo-TURN left");
         }
     }
 
@@ -31,7 +35,7 @@ public class TurnDegrees extends CommandBase {
         double angle = gyro.getAngle();
         double accuracy = 1;
         if(angle < endDeg + accuracy && angle > endDeg - accuracy){
-            driveTrain.setMotorPowers(0,0,"Autonomous says beep beep robo-TURN done now (:");
+            driveTrain.setMotorPowers(stopSpeed, stopSpeed, "Autonomous says beep beep robo-TURN done now (:");
             isFinished = true;
         }
     }
