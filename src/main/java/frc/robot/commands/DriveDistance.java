@@ -8,7 +8,7 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveDistance extends CommandBase {
     double startTics;
-    double distance;
+    public double distance;
     public DriveTrainSubsystem driveTrain;
     boolean isFinished = false;
     double motorSpeed = Constants.driveDistanceMotorSpeed;
