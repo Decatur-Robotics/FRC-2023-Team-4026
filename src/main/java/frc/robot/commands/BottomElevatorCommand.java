@@ -1,12 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class BottomElevatorCommand extends CommandBase {
     ElevatorSubsystem elevator;
 
-    public long targetPosition = 5;
+    public long targetPosition = Constants.bottomElevatorTargetPositionv;
 
     public BottomElevatorCommand(ElevatorSubsystem elevator) {
         this.elevator = elevator;

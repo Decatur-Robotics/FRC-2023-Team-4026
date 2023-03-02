@@ -7,19 +7,20 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
+import frc.robot.Constants;
 import frc.robot.ITeamTalon;
 import frc.robot.TeamTalonFX;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
  
-  static final double MAXPOWERCHANGE = 0.1;
+  static final double MAXPOWERCHANGE = Constants.DRIVETRAIN_MAXPOWERCHANGE;
   public ITeamTalon rightDriveFalconFront;
   public ITeamTalon leftDriveFalconFront;
   ITeamTalon rightDriveFalconBack;
   ITeamTalon leftDriveFalconBack;
-  public float leftScaler = 1;
-  public float rightScaler = 1;
+  public float leftScaler = Constants.drivetrainLeftScaler;
+  public float rightScaler = Constants.drivetrainRightScaler;
 
   public double tagWidth;
   public double findingGillMod;

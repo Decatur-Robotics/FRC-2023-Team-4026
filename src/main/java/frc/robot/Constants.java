@@ -12,4 +12,26 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+
+
+    public static double normalAutoDriveBackDistance = -3.78;
+    public static double chargeStationAutoDriveBackDistance = -2.18;
+    public static double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
+
+    public static final double DRIVETRAIN_MAXPOWERCHANGE = 0.1;
+    public static float drivetrainLeftScaler = 1;
+    public static float drivetrainRightScaler = 1;
+
+
+    public static final double ELEVATOR_DEADBAND_VALUE = 10;
+    public static double elevatorMotorSpeed = 1;
+
+    public static long retractedElevatorTargetPosition = 0;
+    public static long bottomElevatorTargetPositionv = 5;
+    public static long middleElevatorTargetPosition = 10;
+    public static long highElevatorTargetPosition = 15; 
+
+
+
+}
