@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class SetFindingGillSideCommand extends CommandBase {
@@ -18,6 +19,6 @@ public class SetFindingGillSideCommand extends CommandBase {
     }
 
     public void end() {
-        drivetrain.setFindingGillSide(1);
+        drivetrain.setFindingGillSide(Constants.FINDING_GILL_SIDE_CENTER);
     }
 }

@@ -23,12 +23,12 @@ public class AutoBalanceCommand extends CommandBase {
 
     public void execute() {
         if (gyro.getPitch() < -1) {
-            power = (gyro.getPitch()/60);
+            power = (gyro.getPitch()/Constants.AUTO_BALANCE_DEGREES_TO_MOTOR_POWER_DIVISOR);
 
             drivetrain.setMotorPowers(power, power, "auto balance");
         }
         else if (gyro.getPitch() > 1) {
-            power = -(gyro.getPitch()/60);
+            power = -(gyro.getPitch()/Constants.AUTO_BALANCE_DEGREES_TO_MOTOR_POWER_DIVISOR);
 
             drivetrain.setMotorPowers(power, power, "auto balance");
         }

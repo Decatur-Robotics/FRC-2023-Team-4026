@@ -91,13 +91,13 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
 
-    x.whileTrue(new FindingGillCommand(findingGill, drivetrain, 0));
-    y.whileTrue(new FindingGillCommand(findingGill, drivetrain, 1));
-    a.whileTrue(new FindingGillCommand(findingGill, drivetrain, 2));
-    b.whileTrue(new FindingGillCommand(findingGill, drivetrain, 3));
+    x.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_LEFT));
+    y.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_CENTER));
+    a.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_RIGHT));
+    b.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_SUBSTATION));
 
-    bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, 0));
-    bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, 2));
+    bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
+    bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
     triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
 

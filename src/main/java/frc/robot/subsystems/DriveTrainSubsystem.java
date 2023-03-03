@@ -72,10 +72,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     tagWidth = newTagWidth;
 
     if (findingGillSide == 0) {
-      findingGillMod = findingGillMod - (1 * (tagWidth / 320));
+      findingGillMod = findingGillMod - (tagWidth / Constants.FINDING_GILL_TAG_WIDTH_DIVISOR);
     }
     else if (findingGillSide == 2) {
-      findingGillMod = findingGillMod + (1 * (tagWidth / 320));
+      findingGillMod = findingGillMod + (tagWidth / Constants.FINDING_GILL_TAG_WIDTH_DIVISOR);
     }
   }
 
