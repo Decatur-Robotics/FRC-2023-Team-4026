@@ -22,7 +22,7 @@ public final class Constants {
     public static double encoderTicksPerRevolution = 2048;
     public static double andyMarkHiGripWheelCircumference = 0.1524*Math.PI;
     public static double motorRotationsPerWheelRotationGearRatio = 10.71;
-    public static double driveDistanceMotorSpeed = 0.25;
+    public static double driveDistanceMotorSpeed = 0.1;
     public static final double DRIVEDISTANCE_DEADBANDVALUE = 200;
 
 
@@ -33,14 +33,14 @@ public final class Constants {
 
 
     public static final double ELEVATOR_DEADBAND_VALUE = 10;
-    public static double elevatorMotorSpeed = 0.1;
+    public static double elevatorMotorSpeed = 0.01;
 
     public static long retractedElevatorTargetPosition = 0;
     public static long bottomElevatorTargetPositionv = 5;
     public static long middleElevatorTargetPosition = 10;
     public static long highElevatorTargetPosition = 15; 
 
-    public static double turnDegreesMotorSpeed = 0.25;
+    public static double turnDegreesMotorSpeed = 0.1;
 
     public static final int FINDING_GILL_TAG_WIDTH_DIVISOR = 320;
 
