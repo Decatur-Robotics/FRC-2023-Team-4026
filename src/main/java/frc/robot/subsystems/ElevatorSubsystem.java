@@ -21,6 +21,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public Joystick secondaryController;
 
 
+
     public ElevatorSubsystem(Joystick secondary) {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
         // elevatorMotorSub = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorSub", Ports.ELEVATOR_MOTOR_SUB);
@@ -45,19 +46,15 @@ public class ElevatorSubsystem extends SubsystemBase {
         else elevatorMotorMain.set(0, "Stopping elevator");
     }
 
-    // public void periodic() {
-    //     System.out.println("Target Pos: " + targetPosition);
-        
-    //     if (elevatorMotorMain.getCurrentEncoderValue() < targetPosition && elevatorMotorMain.getCurrentEncoderValue() > targetPosition + DEADBAND_VALUE) {
-    //         elevatorMotorMain.set(motorSpeed, "Buttons said so.");
-    //     }
-    //     else if (elevatorMotorMain.getCurrentEncoderValue() > targetPosition && elevatorMotorMain.getCurrentEncoderValue() < targetPosition - DEADBAND_VALUE) {
-    //         elevatorMotorMain.set(-motorSpeed, "Buttons said so.");
-    //     }
-    //     else {
-    //         elevatorMotorMain.set(0, "Stopping elevator");
-    //     }
-    // }
+    public void periodic() {
+        return;
+        //double delta = targetPosition - elevatorMotorMain.getCurrentEncoderValue();
+        //if (Math.abs(delta)> DEADBAND_VALUE) {
+        //    elevatorMotorMain.set(Math.signum(delta)*motorSpeed, "drive to position");
+        //} else {
+        //    elevatorMotorMain.set(0, "inside deadband");
+        //}
+    }
     
     public void initDefaultCommand() {
         setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), this));
