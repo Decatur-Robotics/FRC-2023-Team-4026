@@ -13,7 +13,6 @@ public class TankDriveCommand extends CommandBase {
     
     public TankDriveCommand(DoubleSupplier leftStick, DoubleSupplier rightStick, DriveTrainSubsystem driveTrain) 
     {
-
         this.leftStick = leftStick;
         this.rightStick = rightStick;
         this.driveTrain = driveTrain;
@@ -32,6 +31,7 @@ public class TankDriveCommand extends CommandBase {
     
     public void execute() 
     {
-        driveTrain.setMotorPowers(deadZone(leftStick.getAsDouble()) / 4, deadZone(rightStick.getAsDouble()), "Joysticks said so");
+        // System.out.println("Left Input: " + leftStick.getAsDouble() + ", Right Input: " + rightStick.getAsDouble());
+        driveTrain.setMotorPowers(deadZone(leftStick.getAsDouble()), deadZone(rightStick.getAsDouble()), "Joysticks said so");
     }
 }
