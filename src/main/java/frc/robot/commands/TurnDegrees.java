@@ -21,7 +21,7 @@ public class TurnDegrees extends CommandBase {
         this.driveTrain = driveTrain;
         
     }
-    //henry pls tell me what the rest of these constants are
+    
     
     public void initialize() {
         if(endDeg-startDeg < 0 && Math.abs(endDeg-startDeg)<180){
