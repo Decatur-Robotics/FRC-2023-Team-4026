@@ -25,7 +25,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double tagWidth;
   public double findingGillMod;
   public double findingGillSide;
-  public double speedMod;
+  public double speedMod = .5;
 
   public DriveTrainSubsystem() 
   {    
@@ -81,8 +81,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
   {
-    leftPowerDesired += findingGillMod;
-    rightPowerDesired -= findingGillMod;
+    // leftPowerDesired += findingGillMod;
+    // rightPowerDesired -= findingGillMod;
 
     leftPowerDesired *= speedMod;
     rightPowerDesired *= speedMod;
@@ -121,8 +121,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
       {
         newPowerLeft = leftPowerDesired;
       }
-
-
+    
+    // System.out.println("Left: " + newPowerLeft + ", Right: " + newPowerRight);
+    
     rightDriveFalconFront.set(newPowerRight, reason);
     leftDriveFalconFront.set(newPowerLeft, reason);
   }

@@ -23,6 +23,7 @@ import frc.robot.commands.NormalAutoCommand;
 import frc.robot.commands.SetFindingGillSideCommand;
 import frc.robot.commands.SpeedModeCommand;
 import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.MoveElevatorCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -58,11 +59,11 @@ public class RobotContainer {
     // findingGill = new FindingGillSubsystem();
     drivetrain = new DriveTrainSubsystem();
     // clawIntake = new ClawIntakeSubsystem();
-    // elevator = new ElevatorSubsystem();
+    elevator = new ElevatorSubsystem();
 
     // Configure the button bindings
     configurePrimaryBindings();
-    // configureSecondaryBindings();
+    configureSecondaryBindings();
 
     // addAutoChoicesToGui();
   }
@@ -120,15 +121,15 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(secondaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(secondaryController,LogitechControllerButtons.right);
 
-    a.onTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
-    b.onTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
+    // a.onTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
+    // b.onTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
 
-    up.onTrue(new HighElevatorCommand(elevator));
-    left.onTrue(new MiddleElevatorCommand(elevator));
-    right.onTrue(new BottomElevatorCommand(elevator));
-    down.onTrue(new RetractedElevatorCommand(elevator));
+    // up.onTrue(new HighElevatorCommand(elevator));
+    // left.onTrue(new MiddleElevatorCommand(elevator));
+    // right.onTrue(new BottomElevatorCommand(elevator));
+    // down.onTrue(new RetractedElevatorCommand(elevator));
 
-
+    elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
 
   }
 
