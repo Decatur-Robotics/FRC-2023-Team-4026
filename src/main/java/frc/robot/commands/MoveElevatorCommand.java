@@ -13,6 +13,8 @@ public class MoveElevatorCommand extends CommandBase {
     public MoveElevatorCommand(DoubleSupplier in, ElevatorSubsystem elev) {
         elevator = elev;
         input = in;
+
+        addRequirements(elev);
     }
 
     public void execute() {

@@ -57,7 +57,7 @@ public class RobotContainer {
     drivetrain = new DriveTrainSubsystem();
     // clawIntake = new ClawIntakeSubsystem();
     secondaryController = new Joystick(2); //We need this for testing in elevator
-    elevator = new ElevatorSubsystem(secondaryController);
+    elevator = new ElevatorSubsystem();
 
     // Configure the button bindings
     configurePrimaryBindings();
@@ -128,8 +128,9 @@ public class RobotContainer {
     //down.onTrue(new SetElevatorTargetCommand(elevator, Constants.restElevatorTargetPosition));
     //bumperLeft.onTrue(new SetElevatorTargetCommand(elevator, Constants.substationPickupElevatorTargetPosition));
 
-    // elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
+    elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
     
+
   }
 
   enum PossibleAutos {
