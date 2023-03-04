@@ -44,6 +44,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         if(Math.abs(speed) > 0.05)
             elevatorMotorMain.set(speed, "Joystick said so");
         else elevatorMotorMain.set(0, "Stopping elevator");
+        System.out.println(elevatorMotorMain.getCurrentEncoderValue());
     }
 
     public void periodic() {
