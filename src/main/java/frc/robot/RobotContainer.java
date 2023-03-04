@@ -59,7 +59,8 @@ public class RobotContainer {
     // findingGill = new FindingGillSubsystem();
     drivetrain = new DriveTrainSubsystem();
     // clawIntake = new ClawIntakeSubsystem();
-    elevator = new ElevatorSubsystem();
+    secondaryController = new Joystick(2); //We need this for testing in elevator
+    elevator = new ElevatorSubsystem(secondaryController);
 
     // Configure the button bindings
     configurePrimaryBindings();
@@ -106,7 +107,7 @@ public class RobotContainer {
   }
 
   private void configureSecondaryBindings() {
-    secondaryController = new Joystick(2);
+    // secondaryController = new Joystick(2);
     
     JoystickButton a = new JoystickButton(secondaryController,LogitechControllerButtons.a);
     JoystickButton b = new JoystickButton(secondaryController,LogitechControllerButtons.b);

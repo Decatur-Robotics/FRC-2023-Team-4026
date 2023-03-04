@@ -2,11 +2,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.ITeamTalon;
 import frc.robot.Ports;
 import frc.robot.TeamTalonFX;
+import frc.robot.commands.MoveElevatorCommand;
 
 public class ElevatorSubsystem extends SubsystemBase {
     
@@ -16,8 +18,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double targetPosition;
     public final double DEADBAND_VALUE = Constants.ELEVATOR_DEADBAND_VALUE;
 
+    public Joystick secondaryController;
 
-    public ElevatorSubsystem() {
+
+    public ElevatorSubsystem(Joystick secondary) {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
         // elevatorMotorSub = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorSub", Ports.ELEVATOR_MOTOR_SUB);
 
@@ -28,6 +32,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         // elevatorMotorSub.setNeutralMode(NeutralMode.Brake);
 
         // elevatorMotorSub.follow(elevatorMotorMain);
+
+        secondaryController = secondary;
     }
     public void setTargetPosition(double newTargetPosition, String reason) {
         targetPosition = newTargetPosition;
@@ -53,4 +59,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     //     }
     // }
     
+    public void initDefaultCommand() {
+        setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), this));
+    }
+
 }
