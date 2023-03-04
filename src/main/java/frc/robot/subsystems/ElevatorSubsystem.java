@@ -31,6 +31,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         // elevatorMotorSub.enableVoltageCompensation(true);
 
         elevatorMotorMain.setNeutralMode(NeutralMode.Brake);
+
+        elevatorMotorMain.setInverted(true);
         // elevatorMotorSub.setNeutralMode(NeutralMode.Brake);
 
         // elevatorMotorSub.follow(elevatorMotorMain);
