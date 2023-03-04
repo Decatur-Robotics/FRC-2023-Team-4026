@@ -74,7 +74,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configurePrimaryBindings() {
-    primaryController = new Joystick(0);
+    primaryController = new Joystick(1);
     
     drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
     
@@ -105,7 +105,7 @@ public class RobotContainer {
   }
 
   private void configureSecondaryBindings() {
-    secondaryController = new Joystick(1);
+    secondaryController = new Joystick(2);
     
     JoystickButton a = new JoystickButton(secondaryController,LogitechControllerButtons.a);
     JoystickButton b = new JoystickButton(secondaryController,LogitechControllerButtons.b);
