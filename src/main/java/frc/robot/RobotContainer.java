@@ -10,15 +10,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.RetractedElevatorCommand;
+import frc.robot.commands.SetElevatorTargetCommand;
 import frc.robot.commands.AutoBalanceCommand;
-import frc.robot.commands.BottomElevatorCommand;
 import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FindingGillCommand;
-import frc.robot.commands.HighElevatorCommand;
-import frc.robot.commands.MiddleElevatorCommand;
 import frc.robot.commands.NormalAutoCommand;
 import frc.robot.commands.SetFindingGillSideCommand;
 import frc.robot.commands.SpeedModeCommand;
@@ -125,10 +122,11 @@ public class RobotContainer {
     // a.onTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
     // b.onTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
 
-    // up.onTrue(new HighElevatorCommand(elevator));
-    // left.onTrue(new MiddleElevatorCommand(elevator));
-    // right.onTrue(new BottomElevatorCommand(elevator));
-    // down.onTrue(new RetractedElevatorCommand(elevator));
+    //up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
+    //left.onTrue(new SetElevatorTargetCommand(elevator, Constants.middleElevatorTargetPosition));
+    //right.onTrue(new SetElevatorTargetCommand(elevator, Constants.bottomElevatorTargetPosition));
+    //down.onTrue(new SetElevatorTargetCommand(elevator, Constants.restElevatorTargetPosition));
+    //bumperLeft.onTrue(new SetElevatorTargetCommand(elevator, Constants.substationPickupElevatorTargetPosition));
 
     // elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
     

@@ -13,9 +13,9 @@ public class ChargeStationAutoCommand extends CommandBase{
     }
 
     public void initialize() {
-        new HighElevatorCommand(RobotContainer.elevator)
+        new SetElevatorTargetCommand(RobotContainer.elevator, Constants.topElevatorTargetPosition)
             .andThen(new ClawGrabberCommand(RobotContainer.clawIntake, Value.kForward))
-            .andThen(new RetractedElevatorCommand(RobotContainer.elevator), 
+            .andThen(new SetElevatorTargetCommand(RobotContainer.elevator, Constants.restElevatorTargetPosition), 
             new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), new DriveDistance(drivebackDistance, RobotContainer.drivetrain))
             .andThen(new AutoBalanceCommand(RobotContainer.drivetrain));
 
