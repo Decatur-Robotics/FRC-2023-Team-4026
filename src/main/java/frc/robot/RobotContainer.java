@@ -55,16 +55,16 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    findingGill = new FindingGillSubsystem();
+    // findingGill = new FindingGillSubsystem();
     drivetrain = new DriveTrainSubsystem();
-    clawIntake = new ClawIntakeSubsystem();
-    elevator = new ElevatorSubsystem();
+    // clawIntake = new ClawIntakeSubsystem();
+    // elevator = new ElevatorSubsystem();
 
     // Configure the button bindings
     configurePrimaryBindings();
-    configureSecondaryBindings();
+    // configureSecondaryBindings();
 
-    addAutoChoicesToGui();
+    // addAutoChoicesToGui();
   }
 
   /**
@@ -78,30 +78,30 @@ public class RobotContainer {
     
     drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
     
-    JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
-    JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
-    JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
-    JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
-    JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
-    JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
-    JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
-    JoystickButton triggerRight = new JoystickButton(primaryController,LogitechControllerButtons.triggerRight);
-    JoystickButton up = new JoystickButton(primaryController,LogitechControllerButtons.up);
-    JoystickButton down = new JoystickButton(primaryController,LogitechControllerButtons.down);
-    JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
-    JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
+    // JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
+    // JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
+    // JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
+    // JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
+    // JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
+    // JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
+    // JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
+    // JoystickButton triggerRight = new JoystickButton(primaryController,LogitechControllerButtons.triggerRight);
+    // JoystickButton up = new JoystickButton(primaryController,LogitechControllerButtons.up);
+    // JoystickButton down = new JoystickButton(primaryController,LogitechControllerButtons.down);
+    // JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
+    // JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
 
-    x.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_LEFT));
-    y.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_CENTER));
-    a.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_RIGHT));
-    b.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_SUBSTATION));
+    // x.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_LEFT));
+    // y.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_CENTER));
+    // a.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_RIGHT));
+    // b.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_SUBSTATION));
 
-    bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
-    bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
+    // bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
+    // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
-    triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
+    // triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
 
-    triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
+    // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }
 
   private void configureSecondaryBindings() {
