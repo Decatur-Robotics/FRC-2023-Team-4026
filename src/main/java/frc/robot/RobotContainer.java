@@ -129,8 +129,8 @@ public class RobotContainer {
     // right.onTrue(new BottomElevatorCommand(elevator));
     // down.onTrue(new RetractedElevatorCommand(elevator));
 
-    elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
-
+    // elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
+    
   }
 
   enum PossibleAutos {

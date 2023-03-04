@@ -25,7 +25,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double tagWidth;
   public double findingGillMod;
   public double findingGillSide;
-  public double speedMod = .5;
+  public double speedMod = .1;
 
   public DriveTrainSubsystem() 
   {    
