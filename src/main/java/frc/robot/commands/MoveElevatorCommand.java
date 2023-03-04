@@ -18,7 +18,7 @@ public class MoveElevatorCommand extends CommandBase {
     }
 
     public void execute() {
-        elevator.setSpeed(input.getAsDouble());
+        elevator.setSpeed(Math.abs(input.getAsDouble()) > .05 ? input.getAsDouble() : 0);
     }
 
 }
