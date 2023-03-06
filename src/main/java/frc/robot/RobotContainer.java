@@ -16,6 +16,7 @@ import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FindingGillCommand;
+import frc.robot.commands.IntakeMotorCommand;
 import frc.robot.commands.NormalAutoCommand;
 import frc.robot.commands.SetFindingGillSideCommand;
 import frc.robot.commands.SpeedModeCommand;
@@ -129,7 +130,7 @@ public class RobotContainer {
     //bumperLeft.onTrue(new SetElevatorTargetCommand(elevator, Constants.substationPickupElevatorTargetPosition));
 
     elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
-    
+    //bumperRight.onTrue(new IntakeMotorCommand(clawIntake));
 
   }
 

@@ -57,4 +57,7 @@ public final class Constants {
 
     public static final int AUTO_BALANCE_DEGREES_TO_MOTOR_POWER_DIVISOR = 90;
 
+
+    public static double intakeMotorSpeed = 0.25;
+
 }
