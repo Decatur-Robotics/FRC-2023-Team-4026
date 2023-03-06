@@ -16,7 +16,8 @@ public final class Constants {
 
 
     public static double normalAutoDriveBackDistance = -3.78;
-    public static double chargeStationAutoDriveBackDistance = -2.18;
+    public static double chargeStationAutoDriveBackDistance = -4.11;
+    public static double chargeStationAutoDriveForwardDistance = 1.93;
     public static double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
 
     public static double encoderTicksPerRevolution = 2048;

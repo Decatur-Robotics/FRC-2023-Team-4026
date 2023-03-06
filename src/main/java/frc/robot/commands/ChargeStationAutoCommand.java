@@ -9,6 +9,7 @@ import frc.robot.commands.SetElevatorTargetCommand;
 public class ChargeStationAutoCommand extends CommandBase{
     
     public double drivebackDistance = Constants.chargeStationAutoDriveBackDistance;
+    public double driveForwardDistance = Constants.chargeStationAutoDriveForwardDistance;
     public ChargeStationAutoCommand() {
 
     }
@@ -18,6 +19,7 @@ public class ChargeStationAutoCommand extends CommandBase{
             .andThen(new ClawGrabberCommand(RobotContainer.clawIntake, Value.kForward))
             .andThen(new SetElevatorTargetCommand(RobotContainer.elevator, Constants.restElevatorTargetPosition), 
             new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), new DriveDistance(drivebackDistance, RobotContainer.drivetrain))
+            .andThen(new DriveDistance(driveForwardDistance, RobotContainer.drivetrain))
             .andThen(new AutoBalanceCommand(RobotContainer.drivetrain));
 
     }
