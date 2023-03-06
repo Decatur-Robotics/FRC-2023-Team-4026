@@ -35,11 +35,11 @@ public final class Constants {
     public static final double ELEVATOR_DEADBAND_VALUE = 10;
     public static double elevatorMotorSpeed = 0.1;
 
-    public static long restElevatorTargetPosition = 2048 * 0;
-    public static long bottomElevatorTargetPosition = 2048/4;
-    public static long middleElevatorTargetPosition = 2048/2;
-    public static long topElevatorTargetPosition = 2048; 
-    public static long substationPickupElevatorTargetPosition = 2047;
+    public static long restElevatorTargetPosition = 0;
+    public static long bottomElevatorTargetPosition = 25;
+    public static long middleElevatorTargetPosition = 50;
+    public static long topElevatorTargetPosition = 75; 
+    public static long substationPickupElevatorTargetPosition = 100;
 
     public static double turnDegreesMotorSpeed = 0.1;
 

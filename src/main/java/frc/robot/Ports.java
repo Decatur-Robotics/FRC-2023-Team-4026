@@ -10,5 +10,6 @@ public class Ports {
    // public final static int ELEVATOR_MOTOR_SUB = 0;
    public final static int CLAW_CLOSE = 0; //Do these later
    public final static int CLAW_OPEN = 0;
+   public final static int ELEVATOR_POTENTIOMETER = 0;
 }
 

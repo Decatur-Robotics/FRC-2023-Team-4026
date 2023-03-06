@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,9 +18,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double motorSpeed = Constants.elevatorMotorSpeed;
     public double targetPosition;
     public final double DEADBAND_VALUE = Constants.ELEVATOR_DEADBAND_VALUE;
-
-
-
+    
+    public AnalogPotentiometer potentiometer;
 
     public ElevatorSubsystem() {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
@@ -36,7 +36,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         // elevatorMotorSub.setNeutralMode(NeutralMode.Brake);
 
         // elevatorMotorSub.follow(elevatorMotorMain);
+
+        potentiometer = new AnalogPotentiometer(Ports.ELEVATOR_POTENTIOMETER, 100);
     }
+
     public void setTargetPosition(double newTargetPosition, String reason) {
         targetPosition = newTargetPosition;
     }
@@ -53,7 +56,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void periodic() {
         return;
-        //double delta = targetPosition - elevatorMotorMain.getCurrentEncoderValue();
+        //double delta = targetPosition - potentiometer.get();
         //if (Math.abs(delta)> DEADBAND_VALUE) {
         //    elevatorMotorMain.set(Math.signum(delta)*motorSpeed, "drive to position");
         //} else {
