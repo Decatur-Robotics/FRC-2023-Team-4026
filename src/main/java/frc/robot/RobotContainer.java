@@ -134,8 +134,8 @@ public class RobotContainer {
   }
 
   enum PossibleAutos {
-    TWO_BALL_AUTO,
-    ONE_BALL_AUTO,
+    NORMAL_AUTO,
+    CHARGE_STATION_AUTO,
   }
 
 
@@ -162,9 +162,9 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     PossibleAutos choice = autoChooser.getSelected();
     switch (choice) {
-      case TWO_BALL_AUTO:
+      case NORMAL_AUTO:
         return normalAuto;
-      case ONE_BALL_AUTO:
+      case CHARGE_STATION_AUTO:
         return chargeStationAuto;
       default:
         return null;
