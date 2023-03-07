@@ -11,21 +11,23 @@ import frc.robot.TeamSparkMAX;
 public class ClawIntakeSubsystem extends SubsystemBase {
     
     
-    Compressor mainCompressor;
+    public Compressor mainCompressor;
 
     public DoubleSolenoid clawGrabber;
 
     public TeamSparkMAX intakeMotor;
 
     public ClawIntakeSubsystem() {
-        mainCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
-        clawGrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.CLAW_CLOSE, Ports.CLAW_OPEN);
+        mainCompressor = new Compressor(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH);
+        clawGrabber = new DoubleSolenoid(PneumaticsModuleType.REVPH, Ports.CLAW_CLOSE, Ports.CLAW_OPEN);
 
         clawGrabber.set(Value.kOff);
 
         intakeMotor = new TeamSparkMAX("Subsystems.ClawIntake.IntakeMotor", Ports.INTAKE_MOTOR);
 
         intakeMotor.enableVoltageCompensation(12);
+
+        mainCompressor.enableDigital();
     }
 
     public void periodic() {

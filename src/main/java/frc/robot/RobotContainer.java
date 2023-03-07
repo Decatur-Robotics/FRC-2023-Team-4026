@@ -56,7 +56,7 @@ public class RobotContainer {
   public RobotContainer() {
     // findingGill = new FindingGillSubsystem();
     drivetrain = new DriveTrainSubsystem();
-    // clawIntake = new ClawIntakeSubsystem();
+    clawIntake = new ClawIntakeSubsystem();
     secondaryController = new Joystick(2); //We need this for testing in elevator
     elevator = new ElevatorSubsystem();
 
@@ -120,8 +120,9 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(secondaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(secondaryController,LogitechControllerButtons.right);
 
-    // a.onTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
-    // b.onTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
+    a.onTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
+    b.onTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
+    new IntakeMotorCommand(clawIntake, () -> bumperRight.getAsBoolean());
 
     //up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
     //left.onTrue(new SetElevatorTargetCommand(elevator, Constants.middleElevatorTargetPosition));
@@ -130,7 +131,6 @@ public class RobotContainer {
     //bumperLeft.onTrue(new SetElevatorTargetCommand(elevator, Constants.substationPickupElevatorTargetPosition));
 
     elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
-    //bumperRight.onTrue(new IntakeMotorCommand(clawIntake));
 
   }
 

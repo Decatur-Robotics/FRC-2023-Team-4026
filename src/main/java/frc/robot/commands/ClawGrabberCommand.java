@@ -16,8 +16,11 @@ public class ClawGrabberCommand extends CommandBase {
 
     public ClawGrabberCommand(ClawIntakeSubsystem clawIntake, Value clawMode) {
         this.clawIntake = clawIntake;
-        addRequirements(clawIntake);
         this.clawMode = clawMode;
+        // addRequirements(clawIntake);
+        
+        clawIntake.clawGrabber.set(clawMode);
+        startTime = LocalTime.now();
     }
 
     public void execute() {
