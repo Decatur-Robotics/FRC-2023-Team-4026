@@ -58,7 +58,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         
 
     public void periodic() {
-        System.out.println("Elevator Power: " + elevatorMotorMain.get());
+        // System.out.println("Elevator Power: " + elevatorMotorMain.get());
         // System.out.println("Current Elevator Encoder Value: " + potentiometer.get());
         return;
         //double delta = targetPosition - potentiometer.get();

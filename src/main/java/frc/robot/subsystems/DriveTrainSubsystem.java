@@ -109,11 +109,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
         newPowerRight = rightPowerDesired;
       }
 
-      if ((leftPowerDesired < currentLeftPower) && (currentRightPower < 0))
+      if ((leftPowerDesired < currentLeftPower) && (currentLeftPower < 0))
       {
         newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
       } 
-      else if ((leftPowerDesired > currentLeftPower) && (currentRightPower > 0))
+      else if ((leftPowerDesired > currentLeftPower) && (currentLeftPower > 0))
       {
         newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
       } 

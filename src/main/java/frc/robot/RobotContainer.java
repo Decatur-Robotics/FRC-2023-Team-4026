@@ -85,7 +85,7 @@ public class RobotContainer {
     // JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
     // JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
     // JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
-    // JoystickButton triggerRight = new JoystickButton(primaryController,LogitechControllerButtons.triggerRight);
+    JoystickButton triggerRight = new JoystickButton(primaryController,LogitechControllerButtons.triggerRight);
     // JoystickButton up = new JoystickButton(primaryController,LogitechControllerButtons.up);
     // JoystickButton down = new JoystickButton(primaryController,LogitechControllerButtons.down);
     // JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
@@ -99,7 +99,7 @@ public class RobotContainer {
     // bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
     // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
-    // triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
+    triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
 
     // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }
@@ -120,8 +120,8 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(secondaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(secondaryController,LogitechControllerButtons.right);
 
-    a.onTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
-    b.onTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
+    a.whileTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
+    b.whileTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
     new IntakeMotorCommand(clawIntake, () -> bumperRight.getAsBoolean());
 
     //up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
