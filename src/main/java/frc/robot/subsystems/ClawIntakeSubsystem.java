@@ -31,6 +31,6 @@ public class ClawIntakeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        
+        System.out.println("Solenoid Mode: " + clawGrabber.get());
     }
 }
