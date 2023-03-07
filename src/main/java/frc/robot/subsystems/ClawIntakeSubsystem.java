@@ -19,7 +19,7 @@ public class ClawIntakeSubsystem extends SubsystemBase {
 
     public ClawIntakeSubsystem() {
         mainCompressor = new Compressor(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH);
-        clawGrabber = new DoubleSolenoid(PneumaticsModuleType.REVPH, Ports.CLAW_CLOSE, Ports.CLAW_OPEN);
+        clawGrabber = new DoubleSolenoid(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH, Ports.CLAW_CLOSE, Ports.CLAW_OPEN);
 
         clawGrabber.set(Value.kOff);
 
