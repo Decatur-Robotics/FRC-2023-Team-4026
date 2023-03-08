@@ -29,10 +29,10 @@ public class DriveDistance extends CommandBase {
     }
 
     public void execute() {
-        long ticksRemaing = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
-        System.out.println("Executing DriveDistance... Ticks Remaining: " + ticksRemaing);
-        if (ticksRemaing > distance - DEADBAND_VALUE && 
-            ticksRemaing < distance + DEADBAND_VALUE)
+        long ticksTraveled = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
+        System.out.println("Executing DriveDistance... Ticks Remaining: " + ticksTraveled + ", Distance: " + distance);
+        if (ticksTraveled > distance - DEADBAND_VALUE && 
+            ticksTraveled < distance + DEADBAND_VALUE)
         {
             driveTrain.setMotorPowers(Constants.stopSpeed, Constants.stopSpeed,"Autonomous says motors stop now (:");
             isFinished = true;
