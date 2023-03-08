@@ -64,7 +64,7 @@ public class RobotContainer {
     configurePrimaryBindings();
     configureSecondaryBindings();
 
-    // addAutoChoicesToGui();
+    addAutoChoicesToGui();
   }
 
   /**
@@ -143,13 +143,16 @@ public class RobotContainer {
   private final Command normalAuto = new NormalAutoCommand();
   private final Command chargeStationAuto = new ChargeStationAutoCommand();
 
-  SendableChooser<PossibleAutos> autoChooser = new SendableChooser<PossibleAutos>();
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private void addAutoChoicesToGui() {
-    PossibleAutos[] enumValues = PossibleAutos.values();
-    for (int i = 0; i < enumValues.length; i++) {
-      autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
-    }
+    // PossibleAutos[] enumValues = PossibleAutos.values();
+    // for (int i = 0; i < enumValues.length; i++) {
+    //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
+    // }
+    autoChooser.setDefaultOption("Norml", normalAuto);
+    // autoChooser.addOption("Normal", normalAuto);
+    autoChooser.addOption("Charge Station", chargeStationAuto);
     SmartDashboard.putData(autoChooser);
   }
   
@@ -161,14 +164,16 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    PossibleAutos choice = autoChooser.getSelected();
-    switch (choice) {
-      case NORMAL_AUTO:
-        return normalAuto;
-      case CHARGE_STATION_AUTO:
-        return chargeStationAuto;
-      default:
-        return null;
-    }
+    Command choice = autoChooser.getSelected();
+    // choice.schedule();
+    return choice;
+    // switch (choice) {
+    //   case NORMAL_AUTO:
+    //     return new NormalAutoCommand();
+    //   case CHARGE_STATION_AUTO:
+    //     return new ChargeStationAutoCommand();
+    //   default:
+    //     return null;
+    // }
   }
 }

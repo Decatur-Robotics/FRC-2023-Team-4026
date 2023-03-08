@@ -31,7 +31,7 @@ public class ClawIntakeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        System.out.println("Solenoid Mode: " + clawGrabber.get());
+        // System.out.println("Solenoid Mode: " + clawGrabber.get());
     }
 
     public void setSolenoid(Value mode) {

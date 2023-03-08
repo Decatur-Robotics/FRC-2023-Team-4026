@@ -23,7 +23,7 @@ public final class Constants {
     public static double encoderTicksPerRevolution = 2048;
     public static double andyMarkHiGripWheelCircumference = 0.1524*Math.PI;
     public static double motorRotationsPerWheelRotationGearRatio = 10.71;
-    public static double driveDistanceMotorSpeed = 0.1;
+    public static double driveDistanceMotorSpeed = 0.25;
     public static final double DRIVEDISTANCE_DEADBANDVALUE = 200;
 
 
