@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.SetElevatorTargetCommand;
@@ -152,10 +153,11 @@ public class RobotContainer {
     // for (int i = 0; i < enumValues.length; i++) {
     //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
     // }
-    autoChooser.setDefaultOption("Default", normalAuto);
+    autoChooser.setDefaultOption("Normal", normalAuto);
     // autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
-    SmartDashboard.putData(autoChooser);
+    Shuffleboard.getTab("Auto Selector").add(autoChooser);
+    // SmartDashboard.putData(autoChooser);
   }
   
 
