@@ -34,7 +34,7 @@ public final class Constants {
 
 
     public static final double ELEVATOR_DEADBAND_VALUE = 10;
-    public static double elevatorMotorSpeed = 0.1;
+    public static double elevatorMotorSpeed = 0.2;
 
     public static long restElevatorTargetPosition = 0;
     public static long bottomElevatorTargetPosition = 25;
