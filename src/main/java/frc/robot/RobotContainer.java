@@ -155,7 +155,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Default", normalAuto);
     // autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
-    SmartDashboard.putData("Auto Selector", autoChooser);
+    SmartDashboard.putData(autoChooser);
   }
   
 
