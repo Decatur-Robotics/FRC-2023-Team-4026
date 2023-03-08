@@ -133,6 +133,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     
 
     // System.out.println("Left: " + newPowerLeft + ", Right: " + newPowerRight);
+
+    newPowerLeft = Math.signum(newPowerLeft) * Math.pow(newPowerLeft, Constants.DRIVE_TRAIN_POWER_EXPONENT);
+    newPowerRight = Math.signum(newPowerRight) * Math.pow(newPowerRight, Constants.DRIVE_TRAIN_POWER_EXPONENT);
     
     rightDriveFalconFront.set(newPowerRight, reason);
     leftDriveFalconFront.set(newPowerLeft, reason);
