@@ -30,7 +30,8 @@ public class DriveDistance extends CommandBase {
 
     public void execute() {
         long ticksTraveled = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
-        System.out.println("Executing DriveDistance... Ticks Remaining: " + ticksTraveled + ", Distance: " + distance);
+        System.out.println("Executing DriveDistance... Ticks Remaining: " + ticksTraveled + ", Distance: " + distance
+             + ", Deadband: " + DEADBAND_VALUE);
         if (ticksTraveled > distance - DEADBAND_VALUE && 
             ticksTraveled < distance + DEADBAND_VALUE)
         {

@@ -152,10 +152,10 @@ public class RobotContainer {
     // for (int i = 0; i < enumValues.length; i++) {
     //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
     // }
-    autoChooser.setDefaultOption("Norml", normalAuto);
+    autoChooser.setDefaultOption("Default", normalAuto);
     // autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
-    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("Auto Selector", autoChooser);
   }
   
 
