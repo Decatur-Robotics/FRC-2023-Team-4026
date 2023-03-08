@@ -32,7 +32,7 @@ public class DriveDistance extends CommandBase {
         long ticksRemaing = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
         System.out.println("Executing DriveDistance... Ticks Remaining: " + ticksRemaing);
         if (ticksRemaing > distance - DEADBAND_VALUE && 
-            ticksRemaing - startTics < distance + DEADBAND_VALUE)
+            ticksRemaing < distance + DEADBAND_VALUE)
         {
             driveTrain.setMotorPowers(Constants.stopSpeed, Constants.stopSpeed,"Autonomous says motors stop now (:");
             isFinished = true;
