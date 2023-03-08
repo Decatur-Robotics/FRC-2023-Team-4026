@@ -14,6 +14,7 @@ import frc.robot.commands.SetElevatorTargetCommand;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
+import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FindingGillCommand;
 import frc.robot.commands.IntakeMotorCommand;
@@ -100,6 +101,7 @@ public class RobotContainer {
     // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
     triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
+    // triggerLeft.whileTrue(new DriveStraightCommand(drivetrain));
 
     // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }

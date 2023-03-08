@@ -60,4 +60,6 @@ public final class Constants {
 
     public static double intakeMotorSpeed = 0.25;
 
+    public static double DRIVE_TRAIN_POWER_EXPONENT = 2;
+
 }
