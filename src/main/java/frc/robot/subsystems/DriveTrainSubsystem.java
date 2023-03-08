@@ -27,6 +27,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double findingGillSide;
   public double speedMod = 0.5;
 
+  public float driveStraightLeftScaler = 1;
+  public float driveStraightRightScaler = 1;
+  public boolean driveStraight = false;
+
   public DriveTrainSubsystem() 
   {    
     
@@ -87,8 +91,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftPowerDesired *= speedMod;
     rightPowerDesired *= speedMod;
     
-    leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler);
-    rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler);
+    leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler * driveStraightLeftScaler);
+    rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler *driveStraightRightScaler);
+
+    if (driveStraight) {
+      rightPowerDesired = leftPowerDesired;
+    }
+
 
     double newPowerRight;
     double newPowerLeft;
@@ -122,6 +131,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
         newPowerLeft = leftPowerDesired;
       }
     
+
     // System.out.println("Left: " + newPowerLeft + ", Right: " + newPowerRight);
     
     rightDriveFalconFront.set(newPowerRight, reason);
