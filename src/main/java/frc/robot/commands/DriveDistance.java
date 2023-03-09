@@ -16,6 +16,9 @@ public class DriveDistance extends CommandBase {
 
     public DriveDistance(Double distance,DriveTrainSubsystem driveTrain){
         System.out.println("Constructing DriveDistance...");
+
+        driveTrain.resetEncoders();
+
         this.startTics = driveTrain.leftDriveFalconFront.getCurrentEncoderValue();
         this.distance = (distance/(Constants.andyMarkHiGripWheelCircumference/Constants.motorRotationsPerWheelRotationGearRatio))*Constants.encoderTicksPerRevolution;
         //= (distance traveled / (circumference of driven wheel or pulley / gear ratio)) * encoder counts per revolution

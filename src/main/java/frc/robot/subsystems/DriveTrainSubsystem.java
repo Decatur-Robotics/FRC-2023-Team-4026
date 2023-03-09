@@ -58,11 +58,23 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightDriveFalconBack.setNeutralMode(NeutralMode.Brake);
     leftDriveFalconFront.setNeutralMode(NeutralMode.Brake);
     leftDriveFalconBack.setNeutralMode(NeutralMode.Brake);
+
+    rightDriveFalconFront.resetEncoder();
+    leftDriveFalconFront.resetEncoder();
+    rightDriveFalconBack.resetEncoder();
+    leftDriveFalconBack.resetEncoder();
   }
   
   private double getCappedPower(double desired) 
   {
     return Math.min(1, Math.max(-1, desired));
+  }
+
+  public void resetEncoders() {
+    rightDriveFalconFront.resetEncoder();
+    leftDriveFalconFront.resetEncoder();
+    rightDriveFalconBack.resetEncoder();
+    leftDriveFalconBack.resetEncoder();
   }
 
   public void setSpeedMod(double newSpeedMod) {

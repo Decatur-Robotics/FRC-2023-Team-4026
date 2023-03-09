@@ -6,14 +6,17 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class SpeedModeCommand extends CommandBase {
     DriveTrainSubsystem drivetrain;
+    public double speedMod;
 
 
-    public SpeedModeCommand(DriveTrainSubsystem drivetrain) {
+    public SpeedModeCommand(DriveTrainSubsystem drivetrain, double newSpeedMod) {
         this.drivetrain = drivetrain;
+        
+        speedMod = newSpeedMod;
     }
 
     public void initialize() {
-        drivetrain.setSpeedMod(Constants.FAST_SPEED);
+        drivetrain.setSpeedMod(speedMod);
     }
 
     public void end() {

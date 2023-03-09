@@ -84,7 +84,7 @@ public class RobotContainer {
     // JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
     // JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
     // JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
-    // JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
+    JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
     // JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
     JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
     JoystickButton triggerRight = new JoystickButton(primaryController,LogitechControllerButtons.triggerRight);
@@ -101,8 +101,10 @@ public class RobotContainer {
     // bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
     // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
-    triggerRight.whileTrue(new SpeedModeCommand(drivetrain));
-    triggerLeft.whileTrue(new DriveStraightCommand(drivetrain));
+    triggerRight.whileTrue(new SpeedModeCommand(drivetrain, Constants.FAST_SPEED));
+    triggerLeft.whileTrue(new SpeedModeCommand(drivetrain, Constants.SLOW_SPEED));
+    
+    bumperLeft.whileTrue(new DriveStraightCommand(drivetrain));
 
     // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }

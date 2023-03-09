@@ -62,6 +62,7 @@ public final class Constants {
 
     public static double DRIVE_TRAIN_POWER_EXPONENT = 2;
 
+    public static double SLOW_SPEED = 0.2;
     public static double NORMAL_SPEED = 0.5;
     public static double FAST_SPEED = 1;
 
