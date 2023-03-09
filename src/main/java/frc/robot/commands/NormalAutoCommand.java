@@ -10,6 +10,8 @@ public class NormalAutoCommand extends CommandBase{
     
     public double drivebackDistance = Constants.normalAutoDriveBackDistance;
 
+    public static SequentialCommandGroup commands;
+
     public NormalAutoCommand() {
         System.out.println("Constructed NormalAutoCommand");
     }
@@ -20,7 +22,7 @@ public class NormalAutoCommand extends CommandBase{
         //     .andThen(//new SetElevatorTargetCommand(RobotContainer.elevator, Constants.restElevatorTargetPosition), 
         //     new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), new DriveDistance(drivebackDistance, RobotContainer.drivetrain));
 
-        SequentialCommandGroup commands = new ClawGrabberCommand(RobotContainer.clawIntake, Value.kForward)
+        commands = new ClawGrabberCommand(RobotContainer.clawIntake, Value.kForward)
             .andThen(new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), 
             new DriveDistance(drivebackDistance, RobotContainer.drivetrain));
         commands.schedule();
@@ -29,5 +31,9 @@ public class NormalAutoCommand extends CommandBase{
 
     public void execute() {
         System.out.println("Executing NormalAutoCommand...");
+    }
+
+    public void end() {
+        commands.cancel();
     }
 }

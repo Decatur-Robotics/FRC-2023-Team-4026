@@ -19,6 +19,7 @@ public class DriveDistance extends CommandBase {
         this.startTics = driveTrain.leftDriveFalconFront.getCurrentEncoderValue();
         this.distance = (distance/(Constants.andyMarkHiGripWheelCircumference/Constants.motorRotationsPerWheelRotationGearRatio))*Constants.encoderTicksPerRevolution;
         //= (distance traveled / (circumference of driven wheel or pulley / gear ratio)) * encoder counts per revolution
+        this.distance = -50000;
         this.driveTrain = driveTrain;
         System.out.println("Inputted Distance: " + distance + ", Converted Encoder Ticks: " + this.distance);
     }
@@ -35,9 +36,10 @@ public class DriveDistance extends CommandBase {
             + ", Deadband: " + DEADBAND_VALUE
             + ", Motor Powers: " + driveTrain.leftDriveFalconFront.get()
             + ", " + driveTrain.rightDriveFalconFront.get()
-            + ", Intended Motor Speed: " + motorSpeed);
-        if (ticksTraveled > distance - DEADBAND_VALUE && 
-            ticksTraveled < distance + DEADBAND_VALUE)
+            + ", Intended Motor Speed: " + motorSpeed
+            + ", Start Ticks: " + startTics);
+        if ((ticksTraveled > distance && distance > 0) ||
+            (ticksTraveled < distance && distance < 0))
         {
             driveTrain.setDirect(Constants.stopSpeed, Constants.stopSpeed,"Autonomous says motors stop now (:");
             isFinished = true;
@@ -47,8 +49,8 @@ public class DriveDistance extends CommandBase {
 
     public boolean isFinished() {
         long ticksTraveled = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
-        return isFinished || (ticksTraveled > distance - DEADBAND_VALUE && 
-        ticksTraveled < distance + DEADBAND_VALUE);
+        return isFinished || (ticksTraveled > distance && distance > 0) ||
+        (ticksTraveled < distance && distance < 0);
     }
 
     public void end() {
@@ -61,13 +63,13 @@ public class DriveDistance extends CommandBase {
         {
             System.out.println("Setting motor powers backwards...");
             driveTrain.setDirect(
-                -motorSpeed, -motorSpeed,
+                motorSpeed, motorSpeed,
                 "Atonomous says motors go rrrrrrrrrrrrb");
         } else if(distance > 0)
         {
             System.out.println("Setting motor powers forwards...");
             driveTrain.setDirect(
-                motorSpeed, motorSpeed,
+                -motorSpeed, -motorSpeed,
                 "Atonomous says motors go rrrrrrrrrrrrb");
         }
 

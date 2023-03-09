@@ -28,8 +28,8 @@ public final class Constants {
 
 
     public static final double DRIVETRAIN_MAXPOWERCHANGE = 0.1;
-    public static float drivetrainLeftScaler = 1;
-    public static float drivetrainRightScaler = 1;
+    public static float drivetrainLeftScaler = 1f;
+    public static float drivetrainRightScaler = 1.225f;
     public static double stopSpeed = 0;
 
 

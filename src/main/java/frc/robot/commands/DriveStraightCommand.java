@@ -13,7 +13,7 @@ public class DriveStraightCommand extends CommandBase {
     public AHRS gyro;
     double startYaw;
 
-    public DriveStraightCommand(DriveTrainSubsystem drivetrains) {
+    public DriveStraightCommand(DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         gyro = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte) 50);
     }
@@ -24,10 +24,11 @@ public class DriveStraightCommand extends CommandBase {
     }
     
     public void execute() {
-        if (gyro.getYaw() < startYaw) {
+        System.out.println("Gyro Yaw: " + gyro.getYaw() + ", Start Yaw: " + startYaw);
+        if (gyro.getYaw() > startYaw) {
             drivetrain.driveStraightLeftScaler = 1.1f;
         } 
-        else if (gyro.getYaw() > startYaw) {
+        else if (gyro.getYaw() < startYaw) {
             drivetrain.driveStraightRightScaler = 1.1f;
         }
         else {

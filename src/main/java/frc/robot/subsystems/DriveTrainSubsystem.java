@@ -93,46 +93,45 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
       leftPowerDesired *= speedMod;
       rightPowerDesired *= speedMod;
-      
-      leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler * driveStraightLeftScaler);
-      rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler *driveStraightRightScaler);
 
       if (driveStraight) {
         rightPowerDesired = leftPowerDesired;
       }
+      
+      leftPowerDesired = getCappedPower(leftPowerDesired * driveStraightLeftScaler);
+      rightPowerDesired = getCappedPower(rightPowerDesired * driveStraightRightScaler);
 
-
-      double newPowerRight;
-      double newPowerLeft;
+      double newPowerRight = rightPowerDesired;
+      double newPowerLeft = leftPowerDesired;
 
       double currentRightPower = rightDriveFalconFront.get();
       double currentLeftPower = leftDriveFalconFront.get();
 
-      if ((rightPowerDesired < currentRightPower) && (currentRightPower < 0))
-        {
-          newPowerRight = Math.max(rightPowerDesired, currentRightPower - MAXPOWERCHANGE);
-        } 
-        else if ((rightPowerDesired > currentRightPower) && (currentRightPower > 0))
-        {
-          newPowerRight = Math.min(rightPowerDesired, currentRightPower + MAXPOWERCHANGE);
-        } 
-        else 
-        {
-          newPowerRight = rightPowerDesired;
-        }
+      // if ((rightPowerDesired < currentRightPower) && (currentRightPower < 0))
+      // {
+      //   newPowerRight = Math.max(rightPowerDesired, currentRightPower - MAXPOWERCHANGE);
+      // } 
+      // else if ((rightPowerDesired > currentRightPower) && (currentRightPower > 0))
+      // {
+      //   newPowerRight = Math.min(rightPowerDesired, currentRightPower + MAXPOWERCHANGE);
+      // } 
+      // else 
+      // {
+      //   newPowerRight = rightPowerDesired;
+      // }
 
-        if ((leftPowerDesired < currentLeftPower) && (currentLeftPower < 0))
-        {
-          newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
-        } 
-        else if ((leftPowerDesired > currentLeftPower) && (currentLeftPower > 0))
-        {
-          newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
-        } 
-        else 
-        {
-          newPowerLeft = leftPowerDesired;
-        }
+      // if ((leftPowerDesired < currentLeftPower) && (currentLeftPower < 0))
+      // {
+      //   newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
+      // } 
+      // else if ((leftPowerDesired > currentLeftPower) && (currentLeftPower > 0))
+      // {
+      //   newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
+      // } 
+      // else 
+      // {
+      //   newPowerLeft = leftPowerDesired;
+      // }
 
       if(speedMod == Constants.FAST_SPEED) {
         newPowerLeft *= 2;
@@ -147,17 +146,25 @@ public class DriveTrainSubsystem extends SubsystemBase {
       if(Math.abs(newPowerRight) >= 0.01)
         newPowerRight = Math.signum(newPowerRight) * Math.max(Math.abs(newPowerRight), 0.1);
 
-      rightDriveFalconFront.set(newPowerRight, reason);
-      leftDriveFalconFront.set(newPowerLeft, reason);
+      newPowerLeft *= leftScaler;
+      newPowerRight *= rightScaler;
 
-      System.out.println("Set motor powers: " + leftDriveFalconFront.get()
-        + ", " + rightDriveFalconFront.get());
+      System.out.println("Calculated Powers: L: " + newPowerLeft
+        + ", R: " + newPowerRight);
+
+      leftDriveFalconFront.set(newPowerLeft, reason);
+      rightDriveFalconFront.set(newPowerRight, reason);
+
+      System.out.println("Set motor powers: LF: " + leftDriveFalconFront.get()
+        + ", LB: " + leftDriveFalconBack.get()
+        + ", RF: " + rightDriveFalconFront.get()
+        + ", RB: " + rightDriveFalconBack.get());
     }
   }
 
   public void setDirect(double left, double right, String reason) {
-    leftDriveFalconFront.set(left);
-    rightDriveFalconFront.set(right);
+    leftDriveFalconFront.set(left * leftScaler);
+    rightDriveFalconFront.set(right * rightScaler);
 
     System.out.println("Set motor powers directly: " + leftDriveFalconFront.get()
        + ", " + rightDriveFalconFront.get());
