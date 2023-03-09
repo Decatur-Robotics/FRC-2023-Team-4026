@@ -25,11 +25,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double tagWidth;
   public double findingGillMod;
   public double findingGillSide;
-  public double speedMod = 0.5;
+  public double speedMod = Constants.NORMAL_SPEED;
 
   public float driveStraightLeftScaler = 1;
   public float driveStraightRightScaler = 1;
   public boolean driveStraight = false;
+
+  public boolean enabled = true;
 
   public DriveTrainSubsystem() 
   {    
@@ -85,60 +87,80 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
   {
-    // leftPowerDesired += findingGillMod;
-    // rightPowerDesired -= findingGillMod;
+    if(enabled) {
+      // leftPowerDesired += findingGillMod;
+      // rightPowerDesired -= findingGillMod;
 
-    leftPowerDesired *= speedMod;
-    rightPowerDesired *= speedMod;
-    
-    leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler * driveStraightLeftScaler);
-    rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler *driveStraightRightScaler);
+      leftPowerDesired *= speedMod;
+      rightPowerDesired *= speedMod;
+      
+      leftPowerDesired = getCappedPower(leftPowerDesired * leftScaler * driveStraightLeftScaler);
+      rightPowerDesired = getCappedPower(rightPowerDesired * rightScaler *driveStraightRightScaler);
 
-    if (driveStraight) {
-      rightPowerDesired = leftPowerDesired;
+      if (driveStraight) {
+        rightPowerDesired = leftPowerDesired;
+      }
+
+
+      double newPowerRight;
+      double newPowerLeft;
+
+      double currentRightPower = rightDriveFalconFront.get();
+      double currentLeftPower = leftDriveFalconFront.get();
+
+      if ((rightPowerDesired < currentRightPower) && (currentRightPower < 0))
+        {
+          newPowerRight = Math.max(rightPowerDesired, currentRightPower - MAXPOWERCHANGE);
+        } 
+        else if ((rightPowerDesired > currentRightPower) && (currentRightPower > 0))
+        {
+          newPowerRight = Math.min(rightPowerDesired, currentRightPower + MAXPOWERCHANGE);
+        } 
+        else 
+        {
+          newPowerRight = rightPowerDesired;
+        }
+
+        if ((leftPowerDesired < currentLeftPower) && (currentLeftPower < 0))
+        {
+          newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
+        } 
+        else if ((leftPowerDesired > currentLeftPower) && (currentLeftPower > 0))
+        {
+          newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
+        } 
+        else 
+        {
+          newPowerLeft = leftPowerDesired;
+        }
+
+      if(speedMod == Constants.FAST_SPEED) {
+        newPowerLeft *= 2;
+        newPowerRight *= 2;
+      }
+
+      newPowerLeft = Math.signum(newPowerLeft) * Math.pow(newPowerLeft, Constants.DRIVE_TRAIN_POWER_EXPONENT);
+      newPowerRight = Math.signum(newPowerRight) * Math.pow(newPowerRight, Constants.DRIVE_TRAIN_POWER_EXPONENT);
+      
+      if (Math.abs(newPowerLeft) >= 0.01)
+        newPowerLeft = Math.signum(newPowerLeft) * Math.max(Math.abs(newPowerLeft), 0.1);
+      if(Math.abs(newPowerRight) >= 0.01)
+        newPowerRight = Math.signum(newPowerRight) * Math.max(Math.abs(newPowerRight), 0.1);
+
+      rightDriveFalconFront.set(newPowerRight, reason);
+      leftDriveFalconFront.set(newPowerLeft, reason);
+
+      System.out.println("Set motor powers: " + leftDriveFalconFront.get()
+        + ", " + rightDriveFalconFront.get());
     }
+  }
 
+  public void setDirect(double left, double right, String reason) {
+    leftDriveFalconFront.set(left);
+    rightDriveFalconFront.set(right);
 
-    double newPowerRight;
-    double newPowerLeft;
-
-    double currentRightPower = rightDriveFalconFront.get();
-    double currentLeftPower = leftDriveFalconFront.get();
-
-    if ((rightPowerDesired < currentRightPower) && (currentRightPower < 0))
-      {
-        newPowerRight = Math.max(rightPowerDesired, currentRightPower - MAXPOWERCHANGE);
-      } 
-      else if ((rightPowerDesired > currentRightPower) && (currentRightPower > 0))
-      {
-        newPowerRight = Math.min(rightPowerDesired, currentRightPower + MAXPOWERCHANGE);
-      } 
-      else 
-      {
-        newPowerRight = rightPowerDesired;
-      }
-
-      if ((leftPowerDesired < currentLeftPower) && (currentLeftPower < 0))
-      {
-        newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
-      } 
-      else if ((leftPowerDesired > currentLeftPower) && (currentLeftPower > 0))
-      {
-        newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
-      } 
-      else 
-      {
-        newPowerLeft = leftPowerDesired;
-      }
-    
-
-    // System.out.println("Left: " + newPowerLeft + ", Right: " + newPowerRight);
-
-    newPowerLeft = Math.signum(newPowerLeft) * Math.pow(newPowerLeft, Constants.DRIVE_TRAIN_POWER_EXPONENT);
-    newPowerRight = Math.signum(newPowerRight) * Math.pow(newPowerRight, Constants.DRIVE_TRAIN_POWER_EXPONENT);
-    
-    rightDriveFalconFront.set(newPowerRight, reason);
-    leftDriveFalconFront.set(newPowerLeft, reason);
+    System.out.println("Set motor powers directly: " + leftDriveFalconFront.get()
+       + ", " + rightDriveFalconFront.get());
   }
 
   @Override

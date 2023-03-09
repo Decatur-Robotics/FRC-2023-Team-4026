@@ -25,43 +25,66 @@ public class DriveDistance extends CommandBase {
 
     public void initialize() {
         System.out.println("Initializing DriveDistance...");
+        driveTrain.enabled = false;
         setPower();
     }
 
     public void execute() {
         long ticksTraveled = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
-        System.out.println("Executing DriveDistance... Ticks Remaining: " + ticksTraveled + ", Distance: " + distance
-             + ", Deadband: " + DEADBAND_VALUE);
+        System.out.println("Executing DriveDistance... Ticks Traveled: " + ticksTraveled + ", Distance: " + distance
+            + ", Deadband: " + DEADBAND_VALUE
+            + ", Motor Powers: " + driveTrain.leftDriveFalconFront.get()
+            + ", " + driveTrain.rightDriveFalconFront.get()
+            + ", Intended Motor Speed: " + motorSpeed);
         if (ticksTraveled > distance - DEADBAND_VALUE && 
             ticksTraveled < distance + DEADBAND_VALUE)
         {
-            driveTrain.setMotorPowers(Constants.stopSpeed, Constants.stopSpeed,"Autonomous says motors stop now (:");
+            driveTrain.setDirect(Constants.stopSpeed, Constants.stopSpeed,"Autonomous says motors stop now (:");
             isFinished = true;
         }
         else setPower();
     }
 
     public boolean isFinished() {
-        return isFinished;
+        long ticksTraveled = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
+        return isFinished || (ticksTraveled > distance - DEADBAND_VALUE && 
+        ticksTraveled < distance + DEADBAND_VALUE);
     }
 
-    public void end() {        
+    public void end() {
+        driveTrain.enabled = true;
         System.out.println("Ending DriveDistance...");
     }
 
     public void setPower() {
-        if(distance > 0)
+        if(distance < 0)
         {
-            driveTrain.setMotorPowers(motorSpeed, motorSpeed,"Autonomous says motors go brrrrrrrrrrrr");
-        }
-        else if(distance < 0)
+            System.out.println("Setting motor powers backwards...");
+            driveTrain.setDirect(
+                -motorSpeed, -motorSpeed,
+                "Atonomous says motors go rrrrrrrrrrrrb");
+        } else if(distance > 0)
         {
-            driveTrain.setMotorPowers(-motorSpeed,-motorSpeed,"Atonomous says motors go rrrrrrrrrrrrb");
+            System.out.println("Setting motor powers forwards...");
+            driveTrain.setDirect(
+                motorSpeed, motorSpeed,
+                "Atonomous says motors go rrrrrrrrrrrrb");
         }
-        else
-        {
-            System.out.println("you make robot go 0 idiot");
-            isFinished = true;
-        }
+
+
+
+        // if(distance > 0)
+        // {
+        //     driveTrain.setMotorPowers(motorSpeed, motorSpeed,"Autonomous says motors go brrrrrrrrrrrr");
+        // }
+        // else if(distance < 0)
+        // {
+        //     driveTrain.setMotorPowers(-motorSpeed,-motorSpeed,"Atonomous says motors go rrrrrrrrrrrrb");
+        // }
+        // else
+        // {
+        //     System.out.println("you make robot go 0 idiot");
+        //     isFinished = true;
+        // }
     }
 }
