@@ -14,8 +14,12 @@ public class DriveDistance extends CommandBase {
     double motorSpeed = Constants.driveDistanceMotorSpeed;
     public final double DEADBAND_VALUE = Constants.DRIVEDISTANCE_DEADBANDVALUE;
 
+    
     public DriveDistance(Double distance,DriveTrainSubsystem driveTrain){
         System.out.println("Constructing DriveDistance...");
+        this.distance = distance;
+        this.driveTrain = driveTrain;
+        addRequirements(driveTrain);
     }
 
     public void initialize() {
@@ -23,42 +27,40 @@ public class DriveDistance extends CommandBase {
 
         // this.distance = (distance/(Constants.andyMarkHiGripWheelCircumference/Constants.motorRotationsPerWheelRotationGearRatio))*Constants.encoderTicksPerRevolution;
         //= (distance traveled / (circumference of driven wheel or pulley / gear ratio)) * encoder counts per revolution
-        this.distance = distance;
-        this.driveTrain = driveTrain;
+  
         System.out.println("Inputted Distance: " + distance + ", Converted Encoder Ticks: " + this.distance);
 
         System.out.println("Initializing DriveDistance...");
-        driveTrain.enabled = false;
+        // driveTrain.enabled = false;W
         driveTrain.leftDriveFalconFront.resetEncoder();
         driveTrain.rightDriveFalconFront.resetEncoder();
-        startTics = 0; // driveTrain.leftDriveFalconFront.getCurrentEncoderValue();
+        // startTics = 0; // driveTrain.leftDriveFalconFront.getCurrentEncoderValue();
         setPower();
     }
 
     public void execute() {
-        long ticksTraveled = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
-        System.out.println("Executing DriveDistance... Ticks Traveled: " + ticksTraveled + ", Distance: " + distance
-            + ", Deadband: " + DEADBAND_VALUE
-            + ", Motor Powers: " + driveTrain.leftDriveFalconFront.get()
-            + ", " + driveTrain.rightDriveFalconFront.get()
-            + ", Intended Motor Speed: " + motorSpeed
-            + ", Start Ticks: " + startTics);
-        if (Math.abs(ticksTraveled) >= Math.abs(distance))
-        {
-            driveTrain.setDirect(Constants.stopSpeed, Constants.stopSpeed,"Autonomous says motors stop now (:");
-            isFinished = true;
-        }
-        else setPower();
+        // System.out.println("Executing DriveDistance... Ticks Traveled: "  + ", Distance: " + distance
+        //     + ", Deadband: " + DEADBAND_VALUE
+        //     + ", Motor Powers: " + driveTrain.leftDriveFalconFront.get()
+        //     + ", " + driveTrain.rightDriveFalconFront.get()
+        //     + ", Intended Motor Speed: " + motorSpeed
+        //     + ", Start Ticks: " + startTics);
+
+         setPower();
     }
 
     public boolean isFinished() {
-        long ticksTraveled = (long) (driveTrain.leftDriveFalconFront.getCurrentEncoderValue() - startTics);
-        return isFinished || (ticksTraveled > distance && distance > 0) ||
-        (ticksTraveled < distance && distance < 0);
+        long ticksTraveled =  (driveTrain.leftDriveFalconFront.getCurrentEncoderValue());
+        if (Math.abs(ticksTraveled) >= Math.abs(distance))
+        {
+            return true;
+        }
+        return false;
+
     }
 
     public void end() {
-        driveTrain.enabled = true;
+        driveTrain.setDirect(Constants.stopSpeed, Constants.stopSpeed, "Drive Distance ending");
         System.out.println("Ending DriveDistance...");
     }
 

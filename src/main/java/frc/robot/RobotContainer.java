@@ -18,6 +18,7 @@ import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.DriveBackAutoCommand;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FindingGillCommand;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FindingGillSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
@@ -160,7 +162,7 @@ public class RobotContainer {
 
   private final Command normalAuto = new NormalAutoCommand();
   private final Command chargeStationAuto = new ChargeStationAutoCommand();
-  private final Command driveBackAuto = new DriveBackAutoCommand();
+  private final Command driveBackAuto = new DriveDistance(-10000.0, drivetrain);
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -174,6 +176,7 @@ public class RobotContainer {
     autoChooser.addOption("Charge Station", chargeStationAuto);
     autoChooser.addOption("Drive Back", driveBackAuto);
     shuffleboard.add(autoChooser);
+
     // SmartDashboard.putData(autoChooser);
   }
   
