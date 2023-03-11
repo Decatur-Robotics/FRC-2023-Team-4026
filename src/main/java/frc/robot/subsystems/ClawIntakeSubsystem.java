@@ -6,13 +6,14 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
+import frc.robot.RobotContainer;
 import frc.robot.TeamSparkMAX;
 
 public class ClawIntakeSubsystem extends SubsystemBase {
     
     
     public Compressor mainCompressor;
-
+    
     public DoubleSolenoid clawGrabber;
 
     public TeamSparkMAX intakeMotor;
@@ -28,6 +29,9 @@ public class ClawIntakeSubsystem extends SubsystemBase {
         intakeMotor.enableVoltageCompensation(12);
 
         mainCompressor.enableDigital();
+        // mainCompressor.enableAnalog(100, 115);
+        RobotContainer.shuffleboard.addDouble(
+            "Pressure", () -> mainCompressor.getPressure());
     }
 
     public void periodic() {

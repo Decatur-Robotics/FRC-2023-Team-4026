@@ -8,7 +8,7 @@ import frc.robot.RobotContainer;
 
 public class NormalAutoCommand extends CommandBase{
     
-    public double drivebackDistance = Constants.normalAutoDriveBackDistance;
+    public double drivebackDistance = -50000;
 
     public static SequentialCommandGroup commands;
 
@@ -23,6 +23,7 @@ public class NormalAutoCommand extends CommandBase{
         //     new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), new DriveDistance(drivebackDistance, RobotContainer.drivetrain));
 
         commands = new ClawGrabberCommand(RobotContainer.clawIntake, Value.kForward)
+            .andThen(new SetElevatorTargetCommand(RobotContainer.elevator, Constants.middleElevatorTargetPosition))
             .andThen(new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), 
             new DriveDistance(drivebackDistance, RobotContainer.drivetrain));
         commands.schedule();

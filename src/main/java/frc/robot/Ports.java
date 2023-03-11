@@ -11,6 +11,7 @@ public class Ports {
    public final static int PNEUMATICS_HUB = 5;
    public final static int CLAW_CLOSE = 13; //Do these later
    public final static int CLAW_OPEN = 15;
-   public final static int ELEVATOR_POTENTIOMETER = 0;
+   public final static int ELEVATOR_POTENTIOMETER = 1;
+   public final static int GYRO = 0;
 }
 

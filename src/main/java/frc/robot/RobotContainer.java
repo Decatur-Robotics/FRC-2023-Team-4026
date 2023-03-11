@@ -4,17 +4,20 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.SetElevatorTargetCommand;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
+import frc.robot.commands.DriveBackAutoCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FindingGillCommand;
@@ -46,8 +49,12 @@ public class RobotContainer {
   public static ClawIntakeSubsystem clawIntake;
   public static ElevatorSubsystem elevator;
 
+  public static AnalogGyro gyro;
+
   public Joystick primaryController;
   public Joystick secondaryController;
+
+  public static ShuffleboardTab shuffleboard;
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -56,6 +63,11 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    shuffleboard = Shuffleboard.getTab("SmartDashboard");
+
+    gyro = new AnalogGyro(Ports.GYRO);
+    shuffleboard.addDouble("Gyro", ()->gyro.getAngle());
+
     // findingGill = new FindingGillSubsystem();
     drivetrain = new DriveTrainSubsystem();
     clawIntake = new ClawIntakeSubsystem();
@@ -85,7 +97,7 @@ public class RobotContainer {
     // JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
     // JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
     JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
-    // JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
+    JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
     JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
     JoystickButton triggerRight = new JoystickButton(primaryController,LogitechControllerButtons.triggerRight);
     // JoystickButton up = new JoystickButton(primaryController,LogitechControllerButtons.up);
@@ -101,10 +113,11 @@ public class RobotContainer {
     // bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
     // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
-    triggerRight.whileTrue(new SpeedModeCommand(drivetrain, Constants.FAST_SPEED));
+    bumperRight.whileTrue(new SpeedModeCommand(drivetrain, Constants.FAST_SPEED));
     triggerLeft.whileTrue(new SpeedModeCommand(drivetrain, Constants.SLOW_SPEED));
-    
-    bumperLeft.whileTrue(new DriveStraightCommand(drivetrain));
+    triggerRight.whileTrue(new SpeedModeCommand(drivetrain, Constants.NORMAL_SPEED));
+
+    // bumperLeft.whileTrue(new DriveStraightCommand(drivetrain, ()->bumperLeft.getAsBoolean()));
 
     // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }
@@ -129,11 +142,11 @@ public class RobotContainer {
     b.whileTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
     new IntakeMotorCommand(clawIntake, () -> bumperRight.getAsBoolean());
 
-    //up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
-    //left.onTrue(new SetElevatorTargetCommand(elevator, Constants.middleElevatorTargetPosition));
-    //right.onTrue(new SetElevatorTargetCommand(elevator, Constants.bottomElevatorTargetPosition));
-    //down.onTrue(new SetElevatorTargetCommand(elevator, Constants.restElevatorTargetPosition));
-    //bumperLeft.onTrue(new SetElevatorTargetCommand(elevator, Constants.substationPickupElevatorTargetPosition));
+    // up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
+    // left.onTrue(new SetElevatorTargetCommand(elevator, Constants.middleElevatorTargetPosition));
+    // right.onTrue(new SetElevatorTargetCommand(elevator, Constants.bottomElevatorTargetPosition));
+    // down.onTrue(new SetElevatorTargetCommand(elevator, Constants.restElevatorTargetPosition));
+    // bumperLeft.onTrue(new SetElevatorTargetCommand(elevator, Constants.substationPickupElevatorTargetPosition));
 
     elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
 
@@ -147,6 +160,7 @@ public class RobotContainer {
 
   private final Command normalAuto = new NormalAutoCommand();
   private final Command chargeStationAuto = new ChargeStationAutoCommand();
+  private final Command driveBackAuto = new DriveBackAutoCommand();
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -155,14 +169,14 @@ public class RobotContainer {
     // for (int i = 0; i < enumValues.length; i++) {
     //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
     // }
-    autoChooser.setDefaultOption("Normal", normalAuto);
-    // autoChooser.addOption("Normal", normalAuto);
+    autoChooser.setDefaultOption("None", null);
+    autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
-    Shuffleboard.getTab("SmartDashboard").add(autoChooser);
+    autoChooser.addOption("Drive Back", driveBackAuto);
+    shuffleboard.add(autoChooser);
     // SmartDashboard.putData(autoChooser);
   }
   
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

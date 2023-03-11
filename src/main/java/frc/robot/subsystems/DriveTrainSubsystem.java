@@ -1,12 +1,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.AHRS.SerialDataType;
 import edu.wpi.first.wpilibj.SerialPort;
-
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
+import frc.robot.RobotContainer;
 import frc.robot.Constants;
 import frc.robot.ITeamTalon;
 import frc.robot.TeamTalonFX;
@@ -34,10 +33,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public boolean enabled = true;
 
   public DriveTrainSubsystem() 
-  {    
-    
-    AHRS gyro = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte) 50);
-
+  {
     rightDriveFalconFront = new TeamTalonFX("Subsystems.DriveTrain.RightMain", Ports.RIGHT_DRIVE_FALCON_FRONT);
     leftDriveFalconFront = new TeamTalonFX("Subsystems.DriveTrain.LeftMain", Ports.LEFT_DRIVE_FALCON_FRONT);
     rightDriveFalconBack = new TeamTalonFX("Subsystems.DriveTrain.RightSub", Ports.RIGHT_DRIVE_FALCON_BACK);
@@ -63,6 +59,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftDriveFalconFront.resetEncoder();
     rightDriveFalconBack.resetEncoder();
     leftDriveFalconBack.resetEncoder();
+
+    ShuffleboardTab tab = RobotContainer.shuffleboard;
+    tab.addDouble("Speed Mod", ()->speedMod);
+    tab.addDouble("Left Drive", ()->leftDriveFalconFront.get());
+    tab.addDouble("Right Drive", ()->rightDriveFalconFront.get());
+    tab.addDouble("Left Drive Straight", ()->driveStraightLeftScaler);
+    tab.addDouble("Right Drive Straight", ()->driveStraightRightScaler);
+    tab.addDouble("Left Ticks", ()->leftDriveFalconFront.getCurrentEncoderValue());
+    tab.addDouble("Right Ticks", ()->rightDriveFalconFront.getCurrentEncoderValue());
+    tab.addBoolean("Drive Straight", ()->driveStraight);
   }
   
   private double getCappedPower(double desired) 
@@ -145,7 +151,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
       //   newPowerLeft = leftPowerDesired;
       // }
 
-      if(speedMod == Constants.FAST_SPEED) {
+      if (speedMod == Constants.SLOW_SPEED) {
+        newPowerLeft *= 5;
+        newPowerRight *= 5;
+      }
+
+      if(speedMod == Constants.NORMAL_SPEED) {
         newPowerLeft *= 2;
         newPowerRight *= 2;
       }
@@ -160,6 +171,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
       newPowerLeft *= leftScaler;
       newPowerRight *= rightScaler;
+
+      if (speedMod == Constants.SLOW_SPEED) {
+        newPowerLeft /= 5;
+        newPowerRight /= 5;
+      }
+
+      if(speedMod == Constants.NORMAL_SPEED) {
+        newPowerLeft /= 2;
+        newPowerRight /= 2;
+      }
 
       System.out.println("Calculated Powers: L: " + newPowerLeft
         + ", R: " + newPowerRight);

@@ -1,37 +1,44 @@
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.AHRS.SerialDataType;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveStraightCommand extends CommandBase {
 
     public DriveTrainSubsystem drivetrain;
-    public AHRS gyro;
-    double startYaw;
+    public BooleanSupplier input;
 
-    public DriveStraightCommand(DriveTrainSubsystem drivetrain) {
+    public DriveStraightCommand(DriveTrainSubsystem drivetrain, BooleanSupplier input) {
         this.drivetrain = drivetrain;
-        gyro = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte) 50);
+        this.input = input;
     }
 
     public void initialize() {
-        startYaw = gyro.getYaw();
         drivetrain.driveStraight = true;
+        drivetrain.leftDriveFalconFront.resetEncoder();
+        drivetrain.rightDriveFalconFront.resetEncoder();
     }
     
     public void execute() {
-        System.out.println("Gyro Yaw: " + gyro.getYaw() + ", Start Yaw: " + startYaw);
-        if (gyro.getYaw() > startYaw) {
-            drivetrain.driveStraightLeftScaler = 1.1f;
-        } 
-        else if (gyro.getYaw() < startYaw) {
-            drivetrain.driveStraightRightScaler = 1.1f;
+        if(input.getAsBoolean()) {
+            long left = drivetrain.leftDriveFalconFront.getCurrentEncoderValue(), 
+                right = drivetrain.rightDriveFalconFront.getCurrentEncoderValue();
+
+            if(left > right) drivetrain.driveStraightLeftScaler = 1f + (float)(left-right)/5000f;
+            else drivetrain.driveStraightLeftScaler = 1;
+            
+            if(right > left) drivetrain.driveStraightRightScaler = 1f + (float)(right-left)/5000f;
+            else drivetrain.driveStraightRightScaler = 1;
+
+            System.out.println("Straight Diff: " + (left-right));
         }
-        else {
+        else
+        {
+            drivetrain.driveStraight = false;
             drivetrain.driveStraightLeftScaler = 1;
             drivetrain.driveStraightRightScaler = 1;
         }

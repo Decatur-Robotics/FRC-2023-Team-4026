@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.ITeamTalon;
 import frc.robot.Ports;
+import frc.robot.RobotContainer;
 import frc.robot.TeamTalonFX;
 import frc.robot.commands.MoveElevatorCommand;
 
 public class ElevatorSubsystem extends SubsystemBase {
     
     public ITeamTalon elevatorMotorMain;
-    // public ITeamTalon elevatorMotorSub;
     public double motorSpeed = Constants.elevatorMotorSpeed;
     public double targetPosition;
     public final double DEADBAND_VALUE = Constants.ELEVATOR_DEADBAND_VALUE;
@@ -24,26 +24,18 @@ public class ElevatorSubsystem extends SubsystemBase {
     public ElevatorSubsystem()
     {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
-        // elevatorMotorSub = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorSub", Ports.ELEVATOR_MOTOR_SUB);
 
         elevatorMotorMain.resetEncoder();
-
-        elevatorMotorMain.enableVoltageCompensation(true);
-        // elevatorMotorSub.enableVoltageCompensation(true);
-
-        
-
+        elevatorMotorMain.enableVoltageCompensation(true);       
         elevatorMotorMain.setInverted(true);
-        // elevatorMotorSub.setNeutralMode(NeutralMode.Brake);
-
         elevatorMotorMain.setNeutralMode(NeutralMode.Brake);
 
-        // elevatorMotorSub.follow(elevatorMotorMain);
-
-        // potentiometer = new AnalogPotentiometer(Ports.ELEVATOR_POTENTIOMETER, 100);
+        potentiometer = new AnalogPotentiometer(Ports.ELEVATOR_POTENTIOMETER, 100);
+        RobotContainer.shuffleboard.addDouble("Elevator", () -> potentiometer.get());
+        RobotContainer.shuffleboard.addDouble("Elevator Target", () -> targetPosition);
     }
 
-    public void setTargetPosition(double newTargetPosition, String reason) {
+    public void  setTargetPosition(double newTargetPosition, String reason) {
         targetPosition = newTargetPosition;
     }
 
@@ -59,18 +51,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void periodic() {
         // System.out.println("Elevator Power: " + elevatorMotorMain.get());
-        // System.out.println("Current Elevator Encoder Value: " + potentiometer.get());
-        return;
-        //double delta = targetPosition - potentiometer.get();
-        //if (Math.abs(delta)> DEADBAND_VALUE) {
-        //    elevatorMotorMain.set(Math.signum(delta)*motorSpeed, "drive to position");
-        //} else {
-        //    elevatorMotorMain.set(0, "inside deadband");
-        //}
+        // System.out.println("Current Potentiometer Value: " + potentiometer.get());
+        
+        // double delta = targetPosition - potentiometer.get();
+        // if (Math.abs(delta) > DEADBAND_VALUE) {
+        //    elevatorMotorMain.set(Math.signum(delta)*motorSpeed, "moving elevator to position");
+        // } else {
+        //    elevatorMotorMain.set(0, "elevator inside deadband");
+        // }
     }
-    
-    // public void initDefaultCommand() {
-    //     setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), this));
-    // }
 
 }
