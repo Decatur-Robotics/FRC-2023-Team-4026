@@ -35,6 +35,7 @@ import frc.robot.subsystems.FindingGillSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
@@ -163,6 +164,8 @@ public class RobotContainer {
   private final Command normalAuto = new NormalAutoCommand();
   private final Command chargeStationAuto = new ChargeStationAutoCommand();
   private final Command driveBackAuto = new DriveDistance(-10000.0, drivetrain);
+  private final SequentialCommandGroup cubeLaunchAuto = new ClawGrabberCommand(clawIntake, Value.kReverse)
+    .andThen(new DriveDistance(-10000.0, drivetrain));
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -175,6 +178,7 @@ public class RobotContainer {
     autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
     autoChooser.addOption("Drive Back", driveBackAuto);
+    autoChooser.addOption("Cube Launch", cubeLaunchAuto);
     shuffleboard.add(autoChooser);
 
     // SmartDashboard.putData(autoChooser);
