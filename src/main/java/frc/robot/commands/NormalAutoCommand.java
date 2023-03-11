@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
+@Deprecated
 public class NormalAutoCommand extends CommandBase{
     
     public double drivebackDistance = -50000;
@@ -22,11 +23,7 @@ public class NormalAutoCommand extends CommandBase{
         //     .andThen(//new SetElevatorTargetCommand(RobotContainer.elevator, Constants.restElevatorTargetPosition), 
         //     new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), new DriveDistance(drivebackDistance, RobotContainer.drivetrain));
 
-        commands = new ClawGrabberCommand(RobotContainer.clawIntake, Value.kForward)
-            .andThen(new SetElevatorTargetCommand(RobotContainer.elevator, Constants.middleElevatorTargetPosition))
-            .andThen(new ClawGrabberCommand(RobotContainer.clawIntake, Value.kReverse), 
-            new DriveDistance(drivebackDistance, RobotContainer.drivetrain));
-        commands.schedule();
+
 
     }
 

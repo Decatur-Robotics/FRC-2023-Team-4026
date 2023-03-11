@@ -50,7 +50,7 @@ public class DriveDistance extends CommandBase {
     }
 
     public boolean isFinished() {
-        long ticksTraveled =  (driveTrain.leftDriveFalconFront.getCurrentEncoderValue());
+        double ticksTraveled =  (driveTrain.leftDriveFalconFront.getCurrentEncoderValue());
         if (Math.abs(ticksTraveled) >= Math.abs(distance))
         {
             return true;
@@ -67,13 +67,13 @@ public class DriveDistance extends CommandBase {
     public void setPower() {
         if(distance < 0)
         {
-            System.out.println("Setting motor powers backwards...");
+            // System.out.println("Setting motor powers backwards...");
             driveTrain.setDirect(
                 motorSpeed, motorSpeed,
                 "Atonomous says motors go rrrrrrrrrrrrb");
         } else if(distance > 0)
         {
-            System.out.println("Setting motor powers forwards...");
+            // System.out.println("Setting motor powers forwards...");
             driveTrain.setDirect(
                 -motorSpeed, -motorSpeed,
                 "Atonomous says motors go rrrrrrrrrrrrb");

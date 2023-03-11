@@ -14,7 +14,7 @@ public class SetElevatorTargetCommand extends CommandBase {
     LocalTime startTime;
     long timeToWait = 2000000000;
 
-    public SetElevatorTargetCommand(ElevatorSubsystem elevator, double targetPosition) {
+    public SetElevatorTargetCommand( double targetPosition,ElevatorSubsystem elevator) {
         this.elevator = elevator;
         this.targetPosition = targetPosition;
         addRequirements(elevator);

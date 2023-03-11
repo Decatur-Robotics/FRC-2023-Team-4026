@@ -14,11 +14,12 @@ public class TurnDegrees extends CommandBase {
     double motorSpeed = Constants.turnDegreesMotorSpeed;
     double stopSpeed = Constants.stopSpeed;
     
-    public TurnDegrees(double changeDeg, DriveTrainSubsystem driveTrain, AnalogGyro gyro){
+    public TurnDegrees(double changeDeg,AnalogGyro gyro, DriveTrainSubsystem driveTrain ){
         this.gyro = gyro;
         this.startDeg = this.gyro.getAngle();
         this.endDeg = startDeg + changeDeg;
         this.driveTrain = driveTrain;
+        addRequirements(driveTrain);
         
     }
     

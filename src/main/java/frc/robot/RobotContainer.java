@@ -46,17 +46,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
 
-  public static FindingGillSubsystem findingGill;
-  public static DriveTrainSubsystem drivetrain;
-  public static ClawIntakeSubsystem clawIntake;
-  public static ElevatorSubsystem elevator;
+  // public  FindingGillSubsystem findingGill =  new FindingGillSubsystem();
+  public  DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();;
+  public  ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
+  public  ElevatorSubsystem elevator = new ElevatorSubsystem();;
 
+  public static final double drivebackDistance = -10000.0;
   public static AnalogGyro gyro;
 
   public Joystick primaryController;
   public Joystick secondaryController;
 
-  public static ShuffleboardTab shuffleboard;
+  public static ShuffleboardTab shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -65,16 +66,13 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    shuffleboard = Shuffleboard.getTab("SmartDashboard");
+    // shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
     gyro = new AnalogGyro(Ports.GYRO);
     shuffleboard.addDouble("Gyro", ()->gyro.getAngle());
 
-    // findingGill = new FindingGillSubsystem();
-    drivetrain = new DriveTrainSubsystem();
-    clawIntake = new ClawIntakeSubsystem();
+    // findingGill =;
     secondaryController = new Joystick(2); //We need this for testing in elevator
-    elevator = new ElevatorSubsystem();
 
     // Configure the button bindings
     configurePrimaryBindings();
@@ -115,9 +113,9 @@ public class RobotContainer {
     // bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
     // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
-    bumperRight.whileTrue(new SpeedModeCommand(drivetrain, Constants.FAST_SPEED));
-    triggerLeft.whileTrue(new SpeedModeCommand(drivetrain, Constants.SLOW_SPEED));
-    triggerRight.whileTrue(new SpeedModeCommand(drivetrain, Constants.NORMAL_SPEED));
+    bumperRight.whileTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain));
+    triggerLeft.whileTrue(new SpeedModeCommand( Constants.SLOW_SPEED,drivetrain));
+    triggerRight.whileTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
     // bumperLeft.whileTrue(new DriveStraightCommand(drivetrain, ()->bumperLeft.getAsBoolean()));
 
@@ -140,9 +138,9 @@ public class RobotContainer {
     JoystickButton left = new JoystickButton(secondaryController,LogitechControllerButtons.left);
     JoystickButton right = new JoystickButton(secondaryController,LogitechControllerButtons.right);
 
-    a.whileTrue(new ClawGrabberCommand(clawIntake, Value.kForward));
-    b.whileTrue(new ClawGrabberCommand(clawIntake, Value.kReverse));
-    new IntakeMotorCommand(clawIntake, () -> bumperRight.getAsBoolean());
+    a.whileTrue(new ClawGrabberCommand(Value.kForward,clawIntake));
+    b.whileTrue(new ClawGrabberCommand(Value.kReverse,clawIntake));
+    new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
 
     // up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
     // left.onTrue(new SetElevatorTargetCommand(elevator, Constants.middleElevatorTargetPosition));
@@ -160,9 +158,18 @@ public class RobotContainer {
   }
 
 
-  private final Command normalAuto = new NormalAutoCommand();
-  private final Command chargeStationAuto = new ChargeStationAutoCommand();
-  private final Command driveBackAuto = new DriveDistance(-10000.0, drivetrain);
+  private final Command normalAuto = new ClawGrabberCommand(Value.kForward, clawIntake)
+  .andThen(new SetElevatorTargetCommand( Constants.middleElevatorTargetPosition,elevator))
+  .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
+  .andThen(new DriveDistance(drivebackDistance, drivetrain));
+
+  private final Command chargeStationAuto = new SetElevatorTargetCommand( Constants.topElevatorTargetPosition,elevator)
+            .andThen(new ClawGrabberCommand( Value.kForward,clawIntake))
+            .andThen(new SetElevatorTargetCommand( Constants.restElevatorTargetPosition,elevator))
+            .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
+            .andThen(new DriveDistance(drivebackDistance, drivetrain))
+            .andThen(new DriveDistance(-drivebackDistance, drivetrain));
+  private final Command driveBackAuto = new DriveDistance(drivebackDistance, drivetrain);
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -175,9 +182,9 @@ public class RobotContainer {
     autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
     autoChooser.addOption("Drive Back", driveBackAuto);
-    shuffleboard.add(autoChooser);
+    // shuffleboard.add(autoChooser);
 
-    // SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData(autoChooser);
   }
   
   /**

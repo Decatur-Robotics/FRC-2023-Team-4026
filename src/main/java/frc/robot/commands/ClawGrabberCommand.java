@@ -14,11 +14,11 @@ public class ClawGrabberCommand extends CommandBase {
     LocalTime startTime;
     long timeToWait = 100000000;
 
-    public ClawGrabberCommand(ClawIntakeSubsystem clawIntake, Value clawMode) {
+    public ClawGrabberCommand( Value clawMode,ClawIntakeSubsystem clawIntake) {
         System.out.println("Constructing ClawGrabberCommand...");
         this.clawIntake = clawIntake;
         this.clawMode = clawMode;
-        // addRequirements(clawIntake);
+        addRequirements(clawIntake);
     }
 
     public void initialize() {        

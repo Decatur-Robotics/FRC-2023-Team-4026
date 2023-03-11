@@ -31,10 +31,11 @@ public class FindingGillCommand extends CommandBase {
 
     public double findingGillMod;
 
-    public FindingGillCommand(FindingGillSubsystem findingGill, DriveTrainSubsystem drivetrain, double targetTag) {
+    public FindingGillCommand(double targetTag,FindingGillSubsystem findingGill, DriveTrainSubsystem drivetrain ) {
         this.findingGill = findingGill;
         this.drivetrain = drivetrain;
         this.targetTag = targetTag;
+        addRequirements(findingGill);
     }
 
     public void execute() {

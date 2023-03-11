@@ -7,14 +7,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
+@Deprecated
 public class DriveStraightCommand extends CommandBase {
 
     public DriveTrainSubsystem drivetrain;
     public BooleanSupplier input;
 
-    public DriveStraightCommand(DriveTrainSubsystem drivetrain, BooleanSupplier input) {
+    public DriveStraightCommand( BooleanSupplier input,DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         this.input = input;
+        addRequirements(drivetrain);
     }
 
     public void initialize() {
@@ -25,7 +27,7 @@ public class DriveStraightCommand extends CommandBase {
     
     public void execute() {
         if(input.getAsBoolean()) {
-            long left = drivetrain.leftDriveFalconFront.getCurrentEncoderValue(), 
+            double left = drivetrain.leftDriveFalconFront.getCurrentEncoderValue(), 
                 right = drivetrain.rightDriveFalconFront.getCurrentEncoderValue();
 
             if(left > right) drivetrain.driveStraightLeftScaler = 1f + (float)(left-right)/5000f;

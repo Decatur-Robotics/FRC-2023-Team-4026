@@ -182,16 +182,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
         newPowerRight /= 2;
       }
 
-      System.out.println("Calculated Powers: L: " + newPowerLeft
-        + ", R: " + newPowerRight);
+      // System.out.println("Calculated Powers: L: " + newPowerLeft
+      //   + ", R: " + newPowerRight);
 
       leftDriveFalconFront.set(newPowerLeft, reason);
       rightDriveFalconFront.set(newPowerRight, reason);
 
-      System.out.println("Set motor powers: LF: " + leftDriveFalconFront.get()
-        + ", LB: " + leftDriveFalconBack.get()
-        + ", RF: " + rightDriveFalconFront.get()
-        + ", RB: " + rightDriveFalconBack.get());
+      // System.out.println("Set motor powers: LF: " + leftDriveFalconFront.get()
+      //   + ", LB: " + leftDriveFalconBack.get()
+      //   + ", RF: " + rightDriveFalconFront.get()
+      //   + ", RB: " + rightDriveFalconBack.get());
     }
   }
 
@@ -199,8 +199,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftDriveFalconFront.set(left * leftScaler);
     rightDriveFalconFront.set(right * rightScaler);
 
-    System.out.println("Set motor powers directly: " + leftDriveFalconFront.get()
-       + ", " + rightDriveFalconFront.get());
+    // System.out.println("Set motor powers directly: " + leftDriveFalconFront.get()
+    //    + ", " + rightDriveFalconFront.get());
   }
 
   @Override

@@ -9,10 +9,11 @@ public class SpeedModeCommand extends CommandBase {
     public double speedMod;
 
 
-    public SpeedModeCommand(DriveTrainSubsystem drivetrain, double newSpeedMod) {
+    public SpeedModeCommand( double newSpeedMod, DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         
         speedMod = newSpeedMod;
+        addRequirements(drivetrain);
     }
 
     public void initialize() {

@@ -9,9 +9,10 @@ public class SetFindingGillSideCommand extends CommandBase {
 
     public double side;
 
-    public SetFindingGillSideCommand(DriveTrainSubsystem drivetrain, double side) {
+    public SetFindingGillSideCommand( double side,DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         this.side = side;
+        addRequirements(drivetrain);
     }
 
     public void initialize() {

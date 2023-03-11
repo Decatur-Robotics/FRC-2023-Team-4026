@@ -15,9 +15,10 @@ public class IntakeMotorCommand extends CommandBase {
 
     BooleanSupplier input;
 
-    public IntakeMotorCommand(ClawIntakeSubsystem intake, BooleanSupplier in) {
+    public IntakeMotorCommand( BooleanSupplier in,ClawIntakeSubsystem intake) {
         this.intake = intake;
         input = in;
+        addRequirements(intake);
     }
 
     public void execute() {

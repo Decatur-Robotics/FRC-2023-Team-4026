@@ -18,6 +18,7 @@ public class AutoBalanceCommand extends CommandBase {
 
     public AutoBalanceCommand(DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
+        addRequirements(drivetrain);
 
     }
 
