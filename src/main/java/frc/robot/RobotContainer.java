@@ -51,7 +51,7 @@ public class RobotContainer {
   public  ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
   public  ElevatorSubsystem elevator = new ElevatorSubsystem();;
 
-  public static final double drivebackDistance = -10000.0;
+  public static final double drivebackDistance = -50000.0 * 2.04;
   public static AnalogGyro gyro;
 
   public Joystick primaryController;
@@ -113,11 +113,13 @@ public class RobotContainer {
     // bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
     // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
 
-    bumperRight.whileTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain));
-    triggerLeft.whileTrue(new SpeedModeCommand( Constants.SLOW_SPEED,drivetrain));
-    triggerRight.whileTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
+    bumperRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain))
+      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
+    triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,drivetrain))
+      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
+    // triggerRight.onTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
-    // bumperLeft.whileTrue(new DriveStraightCommand(drivetrain, ()->bumperLeft.getAsBoolean()));
+    // bumperLeft.whileTrue(new DriveStraightCommand(drivetrain));
 
     // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }
@@ -159,9 +161,9 @@ public class RobotContainer {
 
 
   private final Command normalAuto = new ClawGrabberCommand(Value.kForward, clawIntake)
-  .andThen(new SetElevatorTargetCommand( Constants.middleElevatorTargetPosition,elevator))
-  .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
-  .andThen(new DriveDistance(drivebackDistance, drivetrain));
+    .andThen(new SetElevatorTargetCommand( Constants.middleElevatorTargetPosition,elevator))
+    .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
+   .andThen(new DriveDistance(drivebackDistance, drivetrain));
 
   private final Command chargeStationAuto = new SetElevatorTargetCommand( Constants.topElevatorTargetPosition,elevator)
             .andThen(new ClawGrabberCommand( Value.kForward,clawIntake))
@@ -171,17 +173,21 @@ public class RobotContainer {
             .andThen(new DriveDistance(-drivebackDistance, drivetrain));
   private final Command driveBackAuto = new DriveDistance(drivebackDistance, drivetrain);
 
+  private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
+    .andThen(new DriveDistance(drivebackDistance, drivetrain));
+
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private void addAutoChoicesToGui() {
     // PossibleAutos[] enumValues = PossibleAutos.values();
     // for (int i = 0; i < enumValues.length; i++) {
-    //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
+    //   autoChooser.addOption(enumValues[i].toString(), enumValues[i);
     // }
-    autoChooser.setDefaultOption("None", null);
+    autoChooser.setDefaultOption("Open, then Drive Back", openThenDriveAuto);
     autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
     autoChooser.addOption("Drive Back", driveBackAuto);
+    autoChooser.addOption("Open, then Drive Back", openThenDriveAuto);
     // shuffleboard.add(autoChooser);
 
     SmartDashboard.putData(autoChooser);

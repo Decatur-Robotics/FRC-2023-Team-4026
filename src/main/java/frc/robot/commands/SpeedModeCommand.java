@@ -21,8 +21,12 @@ public class SpeedModeCommand extends CommandBase {
         drivetrain.setSpeedMod(speedMod);
     }
 
+    public boolean isFinished() {
+        return true;
+    }
+
     public void end() {
-        System.out.println("Ending speed mode. Prev Speed Mod: " + speedMod);
-        drivetrain.setSpeedMod(Constants.NORMAL_SPEED);
+        // System.out.println("Ending speed mode. Prev Speed Mod: " + speedMod);
+        // drivetrain.setSpeedMod(Constants.NORMAL_SPEED);
     }
 }

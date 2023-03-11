@@ -7,15 +7,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-@Deprecated
 public class DriveStraightCommand extends CommandBase {
 
     public DriveTrainSubsystem drivetrain;
-    public BooleanSupplier input;
 
-    public DriveStraightCommand( BooleanSupplier input,DriveTrainSubsystem drivetrain) {
+    public DriveStraightCommand(DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
-        this.input = input;
         addRequirements(drivetrain);
     }
 
@@ -26,24 +23,16 @@ public class DriveStraightCommand extends CommandBase {
     }
     
     public void execute() {
-        if(input.getAsBoolean()) {
-            double left = drivetrain.leftDriveFalconFront.getCurrentEncoderValue(), 
-                right = drivetrain.rightDriveFalconFront.getCurrentEncoderValue();
+        double left = drivetrain.leftDriveFalconFront.getCurrentEncoderValue(), 
+            right = drivetrain.rightDriveFalconFront.getCurrentEncoderValue();
 
-            if(left > right) drivetrain.driveStraightLeftScaler = 1f + (float)(left-right)/5000f;
-            else drivetrain.driveStraightLeftScaler = 1;
+        if(left < right) drivetrain.driveStraightLeftScaler = 1f + (float)(right-left)/2000f;
+        else drivetrain.driveStraightLeftScaler = 1;
             
-            if(right > left) drivetrain.driveStraightRightScaler = 1f + (float)(right-left)/5000f;
-            else drivetrain.driveStraightRightScaler = 1;
+        if(right < left) drivetrain.driveStraightRightScaler = 1f + (float)(left-right)/2000f;
+        else drivetrain.driveStraightRightScaler = 1;
 
-            System.out.println("Straight Diff: " + (left-right));
-        }
-        else
-        {
-            drivetrain.driveStraight = false;
-            drivetrain.driveStraightLeftScaler = 1;
-            drivetrain.driveStraightRightScaler = 1;
-        }
+        System.out.println("Straight Diff: " + (left-right));
     }
 
     public void end() {
