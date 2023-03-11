@@ -16,7 +16,9 @@ public class DriveDistance extends CommandBase {
 
     public DriveDistance(Double distance,DriveTrainSubsystem driveTrain){
         System.out.println("Constructing DriveDistance...");
+    }
 
+    public void initialize() {
         driveTrain.resetEncoders();
 
         // this.distance = (distance/(Constants.andyMarkHiGripWheelCircumference/Constants.motorRotationsPerWheelRotationGearRatio))*Constants.encoderTicksPerRevolution;
@@ -24,9 +26,7 @@ public class DriveDistance extends CommandBase {
         this.distance = distance;
         this.driveTrain = driveTrain;
         System.out.println("Inputted Distance: " + distance + ", Converted Encoder Ticks: " + this.distance);
-    }
 
-    public void initialize() {
         System.out.println("Initializing DriveDistance...");
         driveTrain.enabled = false;
         driveTrain.leftDriveFalconFront.resetEncoder();
