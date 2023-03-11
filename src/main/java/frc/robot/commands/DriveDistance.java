@@ -16,7 +16,9 @@ public class DriveDistance extends CommandBase {
 
     public DriveDistance(Double distance,DriveTrainSubsystem driveTrain){
         System.out.println("Constructing DriveDistance...");
+    }
 
+    public void initialize() {
         driveTrain.resetEncoders();
 
         this.startTics = driveTrain.leftDriveFalconFront.getCurrentEncoderValue();
@@ -25,9 +27,7 @@ public class DriveDistance extends CommandBase {
         this.distance = -50000;
         this.driveTrain = driveTrain;
         System.out.println("Inputted Distance: " + distance + ", Converted Encoder Ticks: " + this.distance);
-    }
 
-    public void initialize() {
         System.out.println("Initializing DriveDistance...");
         driveTrain.enabled = false;
         setPower();
