@@ -120,7 +120,8 @@ public class RobotContainer {
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
     // triggerRight.onTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
-    // bumperLeft.whileTrue(new DriveStraightCommand(drivetrain));
+    // bumperLeft.onTrue(new DriveStraightCommand(true, drivetrain));
+    // bumperLeft.onFalse(new DriveStraightCommand(false, drivetrain));
 
     // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }

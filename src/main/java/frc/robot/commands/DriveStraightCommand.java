@@ -10,35 +10,29 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class DriveStraightCommand extends CommandBase {
 
     public DriveTrainSubsystem drivetrain;
+    public boolean enable;
 
-    public DriveStraightCommand(DriveTrainSubsystem drivetrain) {
+    public DriveStraightCommand(boolean enable, DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
+
+        this.enable = enable;
     }
 
     public void initialize() {
-        drivetrain.driveStraight = true;
-        drivetrain.leftDriveFalconFront.resetEncoder();
-        drivetrain.rightDriveFalconFront.resetEncoder();
-    }
-    
-    public void execute() {
-        double left = drivetrain.leftDriveFalconFront.getCurrentEncoderValue(), 
-            right = drivetrain.rightDriveFalconFront.getCurrentEncoderValue();
-
-        if(left < right) drivetrain.driveStraightLeftScaler = 1f + (float)(right-left)/2000f;
-        else drivetrain.driveStraightLeftScaler = 1;
-            
-        if(right < left) drivetrain.driveStraightRightScaler = 1f + (float)(left-right)/2000f;
-        else drivetrain.driveStraightRightScaler = 1;
-
-        System.out.println("Straight Diff: " + (left-right));
+        if(enable) {
+            drivetrain.driveStraight = true;
+            drivetrain.leftDriveFalconFront.resetEncoder();
+            drivetrain.rightDriveFalconFront.resetEncoder();
+        } else {
+            drivetrain.driveStraightLeftScaler = 1;
+            drivetrain.driveStraightRightScaler = 1;
+            drivetrain.driveStraight = false;
+        }
     }
 
-    public void end() {
-        drivetrain.driveStraightLeftScaler = 1;
-        drivetrain.driveStraightRightScaler = 1;
-        drivetrain.driveStraight = false;
+    public boolean isFinish() {
+        return true;
     }
 
 }

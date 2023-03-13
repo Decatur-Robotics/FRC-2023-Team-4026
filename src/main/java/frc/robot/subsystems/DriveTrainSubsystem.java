@@ -77,6 +77,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     tab.addDouble("Right Drive Straight", ()->driveStraightRightScaler);
     tab.addDouble("Left Ticks", ()->leftDriveFalconFront.getCurrentEncoderValue());
     tab.addDouble("Right Ticks", ()->rightDriveFalconFront.getCurrentEncoderValue());
+    tab.addDouble("Straight Diff", ()->leftDriveFalconFront.getCurrentEncoderValue()-rightDriveFalconFront.getCurrentEncoderValue());
     tab.addBoolean("Drive Straight", ()->driveStraight);
   }
   
@@ -122,6 +123,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     if (driveStraight) {
       rightPowerDesired = leftPowerDesired;
+      
+      double left = leftDriveFalconFront.getCurrentEncoderValue(), 
+      right = rightDriveFalconFront.getCurrentEncoderValue();
+
+      if(left < right) driveStraightLeftScaler = 1f + (float)(right-left)/2000f;
+      else driveStraightLeftScaler = 1;
+          
+      if(right < left) driveStraightRightScaler = 1f + (float)(left-right)/2000f;
+      else driveStraightRightScaler = 1;
     }
     
     leftPowerDesired = getCappedPower(leftPowerDesired * driveStraightLeftScaler);
