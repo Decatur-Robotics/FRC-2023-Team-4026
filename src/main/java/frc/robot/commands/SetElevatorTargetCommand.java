@@ -9,26 +9,18 @@ public class SetElevatorTargetCommand extends CommandBase {
     ElevatorSubsystem elevator;
 
     public double targetPosition;
-    boolean initialized;
-
-    LocalTime startTime;
-    long timeToWait = 2000000000;
 
     public SetElevatorTargetCommand( double targetPosition,ElevatorSubsystem elevator) {
         this.elevator = elevator;
         this.targetPosition = targetPosition;
         addRequirements(elevator);
-        
-        startTime = LocalTime.now();
     }
 
     public void initialize() {
         elevator.setTargetPosition(targetPosition, "Button said so");
-        initialized = true;
     }
 
     public boolean isFinished() {
-        return initialized && 
-            LocalTime.now().minusNanos(timeToWait).compareTo(startTime) > 0;
+        return true;
     }
 }

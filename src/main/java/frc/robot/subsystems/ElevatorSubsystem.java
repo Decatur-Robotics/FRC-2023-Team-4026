@@ -53,12 +53,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         // System.out.println("Elevator Power: " + elevatorMotorMain.get());
         // System.out.println("Current Potentiometer Value: " + potentiometer.get());
         
-        // double delta = targetPosition - potentiometer.get();
-        // if (Math.abs(delta) > DEADBAND_VALUE) {
-        //    elevatorMotorMain.set(Math.signum(delta)*motorSpeed, "moving elevator to position");
-        // } else {
-        //    elevatorMotorMain.set(0, "elevator inside deadband");
-        // }
+        double delta = targetPosition - potentiometer.get();
+        if (Math.abs(delta) > DEADBAND_VALUE) {
+           elevatorMotorMain.set(Math.signum(delta)*motorSpeed, "moving elevator to position");
+        } else {
+           elevatorMotorMain.set(0, "elevator inside deadband");
+        }
     }
 
 }
