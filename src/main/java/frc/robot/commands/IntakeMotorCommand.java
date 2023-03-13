@@ -15,18 +15,18 @@ public class IntakeMotorCommand extends CommandBase {
 
     BooleanSupplier input;
 
-    public IntakeMotorCommand( BooleanSupplier in,ClawIntakeSubsystem intake) {
-        this.intake = intake;
-        input = in;
-        addRequirements(intake);
-    }
+//     public IntakeMotorCommand( BooleanSupplier in,ClawIntakeSubsystem intake) {
+//         this.intake = intake;
+//         input = in;
+//         addRequirements(intake);
+//     }
 
-    public void execute() {
-        intake.intakeMotor.set(input.getAsBoolean() ? motorSpeed : 0, "running intake motor");
-    }
+//     public void execute() {
+//         intake.intakeMotor.set(input.getAsBoolean() ? motorSpeed : 0, "running intake motor");
+//     }
 
-    public void end() {
-        intake.intakeMotor.set(Constants.stopSpeed, "stopping intake motor");
-    }
+//     public void end() {
+//         intake.intakeMotor.set(Constants.stopSpeed, "stopping intake motor");
+//     }
 
 }

@@ -29,7 +29,7 @@ public class ClawGrabberCommand extends CommandBase {
 
     public void execute() {
         System.out.println("Executing ClawGrabberCommand...");
-        if (clawIntake.clawGrabber.get() == Value.kOff && startTime == null) {
+        if (clawIntake.clawGrabberLeft.get() == Value.kOff && startTime == null) {
             clawIntake.setSolenoid(clawMode);
             startTime = LocalTime.now();
         }
@@ -41,7 +41,7 @@ public class ClawGrabberCommand extends CommandBase {
 
     public void end() {
         System.out.println("Ending ClawGrabberCommand...");
-        clawIntake.clawGrabber.set(Value.kOff);
+        clawIntake.clawGrabberLeft.set(Value.kOff);
     }
 }
 

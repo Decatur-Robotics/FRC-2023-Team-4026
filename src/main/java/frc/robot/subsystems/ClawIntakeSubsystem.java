@@ -14,19 +14,21 @@ public class ClawIntakeSubsystem extends SubsystemBase {
     
     public Compressor mainCompressor;
     
-    public DoubleSolenoid clawGrabber;
+    public DoubleSolenoid clawGrabberLeft, clawGrabberRight;
 
     public TeamSparkMAX intakeMotor;
 
     public ClawIntakeSubsystem() {
         mainCompressor = new Compressor(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH);
-        clawGrabber = new DoubleSolenoid(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH, Ports.CLAW_CLOSE, Ports.CLAW_OPEN);
+        clawGrabberLeft = new DoubleSolenoid(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH, Ports.CLAW_LEFT_CLOSE, Ports.CLAW_LEFT_OPEN);
+        clawGrabberRight = new DoubleSolenoid(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH, Ports.CLAW_RIGHT_CLOSE, Ports.CLAW_RIGHT_OPEN);
 
-        clawGrabber.set(Value.kOff);
+        clawGrabberLeft.set(Value.kOff);
+        clawGrabberRight.set(Value.kOff);
 
-        intakeMotor = new TeamSparkMAX("Subsystems.ClawIntake.IntakeMotor", Ports.INTAKE_MOTOR);
+        // intakeMotor = new TeamSparkMAX("Subsystems.ClawIntake.IntakeMotor", Ports.INTAKE_MOTOR);
 
-        intakeMotor.enableVoltageCompensation(12);
+        // intakeMotor.enableVoltageCompensation(12);
 
         mainCompressor.enableDigital();
         // mainCompressor.enableAnalog(100, 115);
@@ -39,7 +41,8 @@ public class ClawIntakeSubsystem extends SubsystemBase {
     }
 
     public void setSolenoid(Value mode) {
-        clawGrabber.set(mode);
-        System.out.println("Setting solenoid to " + mode);
+        clawGrabberLeft.set(mode);
+        clawGrabberRight.set(mode);
+        System.out.println("Setting solenoids to " + mode);
     }
 }

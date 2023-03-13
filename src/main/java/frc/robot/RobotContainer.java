@@ -144,7 +144,7 @@ public class RobotContainer {
 
     a.whileTrue(new ClawGrabberCommand(Value.kForward,clawIntake));
     b.whileTrue(new ClawGrabberCommand(Value.kReverse,clawIntake));
-    new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
+    // new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
 
     // up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
     // left.onTrue(new SetElevatorTargetCommand(elevator, Constants.middleElevatorTargetPosition));
