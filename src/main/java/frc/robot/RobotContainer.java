@@ -51,7 +51,8 @@ public class RobotContainer {
   public  ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
   public  ElevatorSubsystem elevator = new ElevatorSubsystem();;
 
-  public static final double drivebackDistance = -50000.0 * 2.04;
+  public static final double balanceDistance = -50000.0 * 1.53;
+  public static final double overChargeStationDistance = -50000.0 * 2.5;
   public static AnalogGyro gyro;
 
   public Joystick primaryController;
@@ -163,18 +164,22 @@ public class RobotContainer {
   private final Command normalAuto = new ClawGrabberCommand(Value.kForward, clawIntake)
     .andThen(new SetElevatorTargetCommand( Constants.middleElevatorTargetPosition,elevator))
     .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
-   .andThen(new DriveDistance(drivebackDistance, drivetrain));
+   .andThen(new DriveDistance(balanceDistance, drivetrain));
 
   private final Command chargeStationAuto = new SetElevatorTargetCommand( Constants.topElevatorTargetPosition,elevator)
             .andThen(new ClawGrabberCommand( Value.kForward,clawIntake))
             .andThen(new SetElevatorTargetCommand( Constants.restElevatorTargetPosition,elevator))
             .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
-            .andThen(new DriveDistance(drivebackDistance, drivetrain))
-            .andThen(new DriveDistance(-drivebackDistance, drivetrain));
-  private final Command driveBackAuto = new DriveDistance(drivebackDistance, drivetrain);
+            .andThen(new DriveDistance(balanceDistance, drivetrain))
+            .andThen(new DriveDistance(-balanceDistance, drivetrain));
+  private final Command driveBackAuto = new DriveDistance(balanceDistance, drivetrain);
 
   private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
-    .andThen(new DriveDistance(drivebackDistance, drivetrain));
+    .andThen(new DriveDistance(balanceDistance, drivetrain));
+    
+  private final Command overThenBalanceAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
+    .andThen(new DriveDistance(overChargeStationDistance, drivetrain))
+    .andThen(new DriveDistance(-(balanceDistance+overChargeStationDistance), drivetrain));
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -188,9 +193,10 @@ public class RobotContainer {
     autoChooser.addOption("Charge Station", chargeStationAuto);
     autoChooser.addOption("Drive Back", driveBackAuto);
     autoChooser.addOption("Open, then Drive Back", openThenDriveAuto);
+    autoChooser.addOption("Over, then Balance", overThenBalanceAuto);
     // shuffleboard.add(autoChooser);
 
-    SmartDashboard.putData(autoChooser);
+    shuffleboard.add(autoChooser);
   }
   
   /**

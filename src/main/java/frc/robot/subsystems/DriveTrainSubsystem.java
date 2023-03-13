@@ -55,6 +55,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftDriveFalconFront.setNeutralMode(NeutralMode.Brake);
     leftDriveFalconBack.setNeutralMode(NeutralMode.Brake);
 
+    SupplyCurrentLimitConfiguration config = new SupplyCurrentLimitConfiguration();
+    config.currentLimit = 55;
+    leftDriveFalconFront.configSupplyCurrentLimit(config, 250);
+    leftDriveFalconBack.configSupplyCurrentLimit(config, 250);
+    rightDriveFalconFront.configSupplyCurrentLimit(config, 250);
+    rightDriveFalconBack.configSupplyCurrentLimit(config, 250);
+
     rightDriveFalconFront.resetEncoder();
     leftDriveFalconFront.resetEncoder();
     rightDriveFalconBack.resetEncoder();
