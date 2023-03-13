@@ -20,6 +20,10 @@ public final class Constants {
     public static double chargeStationAutoDriveForwardDistance = 1.93;
     public static double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
 
+    public static final double BALANCE_DISTANCE = -50000.0 * 1.53;
+    public static final double OVER_CHARGESTATION_DISTANCE = -50000.0 * 2.5;
+    public static final double RETURN_TO_CHARGESTATION_DISTANCE = -50000 * 1;
+
     public static double encoderTicksPerRevolution = 2048;
     public static double andyMarkHiGripWheelCircumference = 0.1524*Math.PI;
     public static double motorRotationsPerWheelRotationGearRatio = 10.71;

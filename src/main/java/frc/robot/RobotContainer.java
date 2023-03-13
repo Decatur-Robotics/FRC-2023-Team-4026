@@ -51,8 +51,7 @@ public class RobotContainer {
   public  ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
   public  ElevatorSubsystem elevator = new ElevatorSubsystem();;
 
-  public static final double balanceDistance = -50000.0 * 1.53;
-  public static final double overChargeStationDistance = -50000.0 * 2.5;
+
   public static AnalogGyro gyro;
 
   public Joystick primaryController;
@@ -165,22 +164,22 @@ public class RobotContainer {
   private final Command normalAuto = new ClawGrabberCommand(Value.kForward, clawIntake)
     .andThen(new SetElevatorTargetCommand( Constants.middleElevatorTargetPosition,elevator))
     .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
-   .andThen(new DriveDistance(balanceDistance, drivetrain));
+   .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain));
 
   private final Command chargeStationAuto = new SetElevatorTargetCommand( Constants.topElevatorTargetPosition,elevator)
             .andThen(new ClawGrabberCommand( Value.kForward,clawIntake))
             .andThen(new SetElevatorTargetCommand( Constants.restElevatorTargetPosition,elevator))
             .andThen(new ClawGrabberCommand( Value.kReverse,clawIntake))
-            .andThen(new DriveDistance(balanceDistance, drivetrain))
-            .andThen(new DriveDistance(-balanceDistance, drivetrain));
-  private final Command driveBackAuto = new DriveDistance(balanceDistance, drivetrain);
+            .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+            .andThen(new DriveDistance(-Constants.BALANCE_DISTANCE, drivetrain));
+  private final Command driveBackAuto = new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain);
 
   private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
-    .andThen(new DriveDistance(balanceDistance, drivetrain));
+    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain));
     
   private final Command overThenBalanceAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
-    .andThen(new DriveDistance(overChargeStationDistance, drivetrain))
-    .andThen(new DriveDistance(-(balanceDistance+overChargeStationDistance), drivetrain));
+    .andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
+    .andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain));
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
