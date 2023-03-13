@@ -14,7 +14,7 @@ import frc.robot.commands.MoveElevatorCommand;
 
 public class ElevatorSubsystem extends SubsystemBase {
     
-    public ITeamTalon elevatorMotorMain;
+    public ITeamTalon elevatorMotorMain, elevatorMotorSub;
     public double motorSpeed = Constants.elevatorMotorSpeed;
     public double targetPosition;
     public final double DEADBAND_VALUE = Constants.ELEVATOR_DEADBAND_VALUE;
@@ -24,11 +24,18 @@ public class ElevatorSubsystem extends SubsystemBase {
     public ElevatorSubsystem()
     {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
+        elevatorMotorSub = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorSub", Ports.ELEVATOR_MOTOR_SUB);
 
         elevatorMotorMain.resetEncoder();
         elevatorMotorMain.enableVoltageCompensation(true);       
         elevatorMotorMain.setInverted(true);
         elevatorMotorMain.setNeutralMode(NeutralMode.Brake);
+
+        elevatorMotorSub.resetEncoder();
+        elevatorMotorSub.enableVoltageCompensation(true);       
+        elevatorMotorSub.setInverted(true);
+        elevatorMotorSub.setNeutralMode(NeutralMode.Brake);
+        elevatorMotorSub.follow(elevatorMotorMain);
 
         potentiometer = new AnalogPotentiometer(Ports.ELEVATOR_POTENTIOMETER, 100);
         RobotContainer.shuffleboard.addDouble("Elevator", () -> potentiometer.get());
