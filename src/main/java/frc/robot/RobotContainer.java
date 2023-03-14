@@ -36,6 +36,7 @@ import frc.robot.subsystems.ClawIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 
 /**
@@ -46,10 +47,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
 
+  public static RobotContainer instance;
+
   // public  FindingGillSubsystem findingGill =  new FindingGillSubsystem();
-  public  DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();;
-  public  ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
-  public  ElevatorSubsystem elevator = new ElevatorSubsystem();;
+  public DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();;
+  public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
+  public ElevatorSubsystem elevator = new ElevatorSubsystem();;
 
 
   public static AnalogGyro gyro;
@@ -79,6 +82,8 @@ public class RobotContainer {
     configureSecondaryBindings();
 
     addAutoChoicesToGui();
+
+    instance = this;
   }
 
   /**
@@ -119,8 +124,8 @@ public class RobotContainer {
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
     // triggerRight.onTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
-    // bumperLeft.onTrue(new DriveStraightCommand(true, drivetrain));
-    // bumperLeft.onFalse(new DriveStraightCommand(false, drivetrain));
+    bumperLeft.onTrue(new DriveStraightCommand(true, drivetrain));
+    bumperLeft.onFalse(new DriveStraightCommand(false, drivetrain));
 
     // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
   }
@@ -136,22 +141,22 @@ public class RobotContainer {
     JoystickButton bumperRight = new JoystickButton(secondaryController,LogitechControllerButtons.bumperRight);
     JoystickButton triggerLeft = new JoystickButton(secondaryController,LogitechControllerButtons.triggerLeft);
     JoystickButton triggerRight = new JoystickButton(secondaryController,LogitechControllerButtons.triggerRight);
-    JoystickButton up = new JoystickButton(secondaryController,LogitechControllerButtons.up);
-    JoystickButton down = new JoystickButton(secondaryController,LogitechControllerButtons.down);
-    JoystickButton left = new JoystickButton(secondaryController,LogitechControllerButtons.left);
-    JoystickButton right = new JoystickButton(secondaryController,LogitechControllerButtons.right);
+    POVButton up = new POVButton(secondaryController,LogitechControllerButtons.up);
+    POVButton down = new POVButton(secondaryController,LogitechControllerButtons.down);
+    POVButton left = new POVButton(secondaryController,LogitechControllerButtons.left);
+    POVButton right = new POVButton(secondaryController,LogitechControllerButtons.right);
 
     a.whileTrue(new ClawGrabberCommand(Value.kForward,clawIntake));
     b.whileTrue(new ClawGrabberCommand(Value.kReverse,clawIntake));
     // new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
 
-    // up.onTrue(new SetElevatorTargetCommand(elevator, Constants.topElevatorTargetPosition));
-    // left.onTrue(new SetElevatorTargetCommand(elevator, Constants.middleElevatorTargetPosition));
-    // right.onTrue(new SetElevatorTargetCommand(elevator, Constants.bottomElevatorTargetPosition));
-    // down.onTrue(new SetElevatorTargetCommand(elevator, Constants.restElevatorTargetPosition));
-    // bumperLeft.onTrue(new SetElevatorTargetCommand(elevator, Constants.substationPickupElevatorTargetPosition));
+    up.onTrue(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, elevator));
+    left.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, elevator));
+    right.onTrue(new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
+    down.onTrue(new SetElevatorTargetCommand(Constants.restElevatorTargetPosition, elevator));
+    bumperLeft.onTrue(new SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition, elevator));
 
-    elevator.setDefaultCommand(new MoveElevatorCommand(() -> secondaryController.getY(), elevator));
+    elevator.setDefaultCommand(new MoveElevatorCommand(() -> -secondaryController.getY(), elevator));
 
   }
 

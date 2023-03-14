@@ -17,6 +17,7 @@ public class DriveStraightCommand extends CommandBase {
         addRequirements(drivetrain);
 
         this.enable = enable;
+        drivetrain.driveStraight = false;
     }
 
     public void initialize() {
@@ -31,7 +32,7 @@ public class DriveStraightCommand extends CommandBase {
         }
     }
 
-    public boolean isFinish() {
+    public boolean isFinished() {
         return true;
     }
 

@@ -9,6 +9,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.NormalAutoCommand;
 
 /**
@@ -52,7 +53,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if(RobotContainer.instance != null)
+      RobotContainer.instance.drivetrain.driveStraight = false;
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -63,7 +67,7 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("Auto Command: " + m_autonomousCommand);
     // if(m_autonomousCommand == null) m_autonomousCommand = new NormalAutoCommand();
-
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();

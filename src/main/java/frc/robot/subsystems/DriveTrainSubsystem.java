@@ -32,6 +32,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public float driveStraightRightScaler = 1;
   public boolean driveStraight = false;
 
+  public double lastInput;
+
   public DriveTrainSubsystem() 
   {
     rightDriveFalconFront = new TeamTalonFX("Subsystems.DriveTrain.RightMain", Ports.RIGHT_DRIVE_FALCON_FRONT);
@@ -80,6 +82,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     tab.addDouble("Straight Diff", ()->leftDriveFalconFront.getCurrentEncoderValue()-rightDriveFalconFront.getCurrentEncoderValue());
     tab.addBoolean("Drive Straight", ()->driveStraight);
   }
+
+  public void initialize() {
+    driveStraight = false;
+  }
   
   private double getCappedPower(double desired) 
   {
@@ -117,6 +123,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   {
     // leftPowerDesired += findingGillMod;
     // rightPowerDesired -= findingGillMod;
+    
+    if(Math.signum(leftPowerDesired) != Math.signum(lastInput))
+      resetEncoders();
+    lastInput = leftPowerDesired;
 
     leftPowerDesired *= speedMod;
     rightPowerDesired *= speedMod;
@@ -124,14 +134,19 @@ public class DriveTrainSubsystem extends SubsystemBase {
     if (driveStraight) {
       rightPowerDesired = leftPowerDesired;
       
-      double left = leftDriveFalconFront.getCurrentEncoderValue(), 
-      right = rightDriveFalconFront.getCurrentEncoderValue();
+      double left = Math.abs(leftDriveFalconFront.getCurrentEncoderValue()), 
+      right = Math.abs(rightDriveFalconFront.getCurrentEncoderValue());
 
-      if(left < right) driveStraightLeftScaler = 1f + (float)(right-left)/2000f;
+      float divisor = 10000;
+
+      if(left < right) driveStraightLeftScaler = 1f + (float)(right-left)/divisor;
       else driveStraightLeftScaler = 1;
           
-      if(right < left) driveStraightRightScaler = 1f + (float)(left-right)/2000f;
+      if(right < left) driveStraightRightScaler = 1f + (float)(left-right)/divisor;
       else driveStraightRightScaler = 1;
+
+      driveStraightLeftScaler = (float) Math.min(driveStraightLeftScaler, 1.2);
+      driveStraightRightScaler = (float) Math.min(driveStraightRightScaler, 1.2);
     }
     
     leftPowerDesired = getCappedPower(leftPowerDesired * driveStraightLeftScaler);

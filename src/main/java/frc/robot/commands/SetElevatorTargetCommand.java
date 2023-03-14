@@ -9,18 +9,28 @@ public class SetElevatorTargetCommand extends CommandBase {
     ElevatorSubsystem elevator;
 
     public double targetPosition;
+    public boolean wait;
 
-    public SetElevatorTargetCommand( double targetPosition,ElevatorSubsystem elevator) {
+    public SetElevatorTargetCommand(double targetPosition, ElevatorSubsystem elevator) {
         this.elevator = elevator;
         this.targetPosition = targetPosition;
+        this.wait = false;
+        addRequirements(elevator);
+    }
+
+    public SetElevatorTargetCommand(double targetPosition, boolean wait, ElevatorSubsystem elevator) {
+        this.elevator = elevator;
+        this.targetPosition = targetPosition;
+        this.wait = wait;
         addRequirements(elevator);
     }
 
     public void initialize() {
+        System.out.println("Setting elevator target to " + targetPosition + "...");
         elevator.setTargetPosition(targetPosition, "Button said so");
     }
 
     public boolean isFinished() {
-        return true;
+        return !wait || elevator.isInTarget();
     }
 }

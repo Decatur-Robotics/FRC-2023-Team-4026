@@ -16,7 +16,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     
     public ITeamTalon elevatorMotorMain, elevatorMotorSub;
     public double motorSpeed = Constants.elevatorMotorSpeed;
-    public double targetPosition;
+    public double targetPosition = Constants.restElevatorTargetPosition;
     public final double DEADBAND_VALUE = Constants.ELEVATOR_DEADBAND_VALUE;
     
     public AnalogPotentiometer potentiometer;
@@ -28,7 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         elevatorMotorMain.resetEncoder();
         elevatorMotorMain.enableVoltageCompensation(true);       
-        elevatorMotorMain.setInverted(true);
+        elevatorMotorMain.setInverted(false);
         elevatorMotorMain.setNeutralMode(NeutralMode.Brake);
 
         elevatorMotorSub.resetEncoder();
@@ -42,7 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         RobotContainer.shuffleboard.addDouble("Elevator Target", () -> targetPosition);
     }
 
-    public void  setTargetPosition(double newTargetPosition, String reason) {
+    public void setTargetPosition(double newTargetPosition, String reason) {
         targetPosition = newTargetPosition;
     }
 
@@ -60,12 +60,18 @@ public class ElevatorSubsystem extends SubsystemBase {
         // System.out.println("Elevator Power: " + elevatorMotorMain.get());
         // System.out.println("Current Potentiometer Value: " + potentiometer.get());
         
-        // double delta = targetPosition - potentiometer.get();
-        // if (Math.abs(delta) > DEADBAND_VALUE) {
-        //    elevatorMotorMain.set(Math.signum(delta)*motorSpeed, "moving elevator to position");
+        // if (isInTarget()) {
+        //    elevatorMotorMain.set(
+        //     Math.signum(targetPosition - potentiometer.get())*motorSpeed,
+        //     "moving elevator to position");
         // } else {
         //    elevatorMotorMain.set(0, "elevator inside deadband");
         // }
+    }
+
+    public boolean isInTarget() {
+        double delta = targetPosition - potentiometer.get();
+        return Math.abs(delta) > DEADBAND_VALUE;
     }
 
 }
