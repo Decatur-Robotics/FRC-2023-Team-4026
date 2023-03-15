@@ -2,10 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.FindingGillSubsystem;
+import frc.robot.subsystems.Vision;
 
 public class FindingGillCommand extends CommandBase {
-    FindingGillSubsystem findingGill;
+    Vision findingGill;
     DriveTrainSubsystem drivetrain;
 
     public double[] tag1Coordinates = new double[2];
@@ -31,7 +31,7 @@ public class FindingGillCommand extends CommandBase {
 
     public double findingGillMod;
 
-    public FindingGillCommand(FindingGillSubsystem findingGill, DriveTrainSubsystem drivetrain, double targetTag) {
+    public FindingGillCommand(Vision findingGill, DriveTrainSubsystem drivetrain, double targetTag) {
         this.findingGill = findingGill;
         this.drivetrain = drivetrain;
         this.targetTag = targetTag;

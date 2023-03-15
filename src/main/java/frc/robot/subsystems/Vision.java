@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TeamUtils;
 
-public class FindingGillSubsystem extends SubsystemBase {
+public class Vision extends SubsystemBase {
     public double numberOfApriltags;
 
     public double tag1Visible;
