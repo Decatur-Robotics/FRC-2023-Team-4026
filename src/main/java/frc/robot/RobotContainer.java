@@ -53,7 +53,6 @@ public class RobotContainer {
   public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
   public ElevatorSubsystem elevator = new ElevatorSubsystem();;
 
-
   public static AnalogGyro gyro;
 
   public Joystick primaryController;
@@ -148,7 +147,6 @@ public class RobotContainer {
     bumperLeft.onTrue(new SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition, elevator));
 
     elevator.setDefaultCommand(new MoveElevatorCommand(() -> -secondaryController.getY(), elevator));
-
   }
 
   enum PossibleAutos {
@@ -173,9 +171,43 @@ public class RobotContainer {
   private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
     .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain));
     
+  private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake);
+
   private final Command overThenBalanceAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
     .andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
     .andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain));
+
+  private final Command highBalance = 
+    new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
+    .andThen(openClaw)
+    .andThen(overThenBalanceAuto);
+
+  private final Command midBalance = 
+    new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+    .andThen(openClaw)
+    .andThen(overThenBalanceAuto);
+
+  private final Command backOut = new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain);
+
+  private final Command lowBalance = 
+    new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+    .andThen(openClaw)
+    .andThen(overThenBalanceAuto);
+
+  private final Command highBack = 
+    new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
+    .andThen(openClaw)
+    .andThen(backOut);
+
+  private final Command midBack = 
+    new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+    .andThen(openClaw)
+    .andThen(backOut);
+
+  private final Command lowBack = 
+    new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+    .andThen(openClaw)
+    .andThen(backOut);
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -190,6 +222,12 @@ public class RobotContainer {
     autoChooser.addOption("Drive Back", driveBackAuto);
     autoChooser.addOption("Open, then Drive Back", openThenDriveAuto);
     autoChooser.addOption("Over, then Balance", overThenBalanceAuto);
+    autoChooser.addOption("High Balance", highBalance);
+    autoChooser.addOption("High Back Out", highBack);
+    autoChooser.addOption("Mid Balance", midBalance);
+    autoChooser.addOption("Mid Back Out", midBack);
+    autoChooser.addOption("Low Balance", lowBalance);
+    autoChooser.addOption("Low Back Out", lowBack);
     // shuffleboard.add(autoChooser);
 
     shuffleboard.add(autoChooser);
