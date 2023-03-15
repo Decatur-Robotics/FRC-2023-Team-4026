@@ -24,7 +24,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public float rightScaler = Constants.drivetrainRightScaler;
 
   public double tagWidth;
-  public double findingGillMod;
+  public double visionMod = 0;
   public double findingGillSide;
   public double speedMod = Constants.NORMAL_SPEED;
 
@@ -103,26 +103,18 @@ public class DriveTrainSubsystem extends SubsystemBase {
     speedMod = newSpeedMod;
   }
 
-  public void setFindingGillSide(double newFindingGillSide) {
-    findingGillSide = newFindingGillSide;
-  }
+  // public void setFindingGillSide(double newFindingGillSide) {
+  //   findingGillSide = newFindingGillSide;
+  // }
 
-  public void setFindingGillMod(double newFindingGillMod, double newTagWidth) {
-    findingGillMod = newFindingGillMod / 320;
-    tagWidth = newTagWidth;
-
-    if (findingGillSide == 0) {
-      findingGillMod = findingGillMod - (tagWidth / Constants.FINDING_GILL_TAG_WIDTH_DIVISOR);
-    }
-    else if (findingGillSide == 2) {
-      findingGillMod = findingGillMod + (tagWidth / Constants.FINDING_GILL_TAG_WIDTH_DIVISOR);
-    }
+  public void setVisionMod(double newVisionMod) {
+    visionMod = newVisionMod / 320;
   }
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
   {
-    // leftPowerDesired += findingGillMod;
-    // rightPowerDesired -= findingGillMod;
+    leftPowerDesired += visionMod;
+    rightPowerDesired -= visionMod;
     
     if(Math.signum(leftPowerDesired) != Math.signum(lastInput))
       resetEncoders();

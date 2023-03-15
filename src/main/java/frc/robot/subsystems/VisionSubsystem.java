@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TeamUtils;
 
-public class FindingGillSubsystem extends SubsystemBase {
+public class VisionSubsystem extends SubsystemBase {
     public double numberOfApriltags;
 
     public double tag1Visible;
@@ -40,6 +40,11 @@ public class FindingGillSubsystem extends SubsystemBase {
     public double tag6Width;
     public double tag7Width;
     public double tag8Width;
+
+    public double coneX;
+    public double coneY;
+
+    public int coneVisible;
 
     public void Periodic() {
         numberOfApriltags = (double) TeamUtils.getFromNetworkTable("apriltags", "Tags");
@@ -79,5 +84,8 @@ public class FindingGillSubsystem extends SubsystemBase {
         tag7Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 Width");
         tag8Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 Width");
 
+        coneX = (double) TeamUtils.getFromNetworkTable("cones", "Cone X");
+        coneY = (double) TeamUtils.getFromNetworkTable("cones", "Cone Y");
+        coneVisible = (int) TeamUtils.getFromNetworkTable("cones", "Cone Visible");
     }
 }

@@ -21,17 +21,16 @@ import frc.robot.commands.DriveBackAutoCommand;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.FindingGillCommand;
+import frc.robot.commands.VisionCommand;
 import frc.robot.commands.IntakeMotorCommand;
 import frc.robot.commands.NormalAutoCommand;
-import frc.robot.commands.SetFindingGillSideCommand;
 import frc.robot.commands.SpeedModeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.MoveElevatorCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.FindingGillSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -109,15 +108,7 @@ public class RobotContainer {
     // JoystickButton down = new JoystickButton(primaryController,LogitechControllerButtons.down);
     // JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
     // JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
-
-    // x.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_LEFT));
-    // y.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_CENTER));
-    // a.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_RIGHT));
-    // b.whileTrue(new FindingGillCommand(findingGill, drivetrain, Constants.FINDING_GILL_TARGET_SUBSTATION));
-
-    // bumperLeft.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_LEFT));
-    // bumperRight.whileTrue(new SetFindingGillSideCommand(drivetrain, Constants.FINDING_GILL_SIDE_RIGHT));
-
+    
     bumperRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain))
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
     triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,drivetrain))
