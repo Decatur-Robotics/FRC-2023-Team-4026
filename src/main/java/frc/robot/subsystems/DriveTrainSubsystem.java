@@ -108,7 +108,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   // }
 
   public void setVisionMod(double newVisionMod) {
-    visionMod = newVisionMod / 320;
+    visionMod = newVisionMod;
   }
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 

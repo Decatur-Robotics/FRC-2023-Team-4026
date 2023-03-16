@@ -26,7 +26,7 @@ public class VisionCommand extends CommandBase {
         coneVisible = vision.coneVisible;
 
         if (coneVisible == 1) {
-            visionMod = coneVisible;
+            visionMod = coneX / 100;
         }
         else {
             visionMod = 0;
