@@ -45,6 +45,7 @@ public final class Constants {
     public static double middleElevatorTargetPosition = 30.3;
     public static double topElevatorTargetPosition = 46.7; //Untested 
     public static double substationPickupElevatorTargetPosition = 34.3;
+    public static double clawCloseThreshold = 18;
 
     public static double turnDegreesMotorSpeed = 0.1;
 

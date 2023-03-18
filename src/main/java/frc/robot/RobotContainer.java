@@ -51,7 +51,7 @@ public class RobotContainer {
   // public  FindingGillSubsystem findingGill =  new FindingGillSubsystem();
   public DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();
   public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();
-  public ElevatorSubsystem elevator = new ElevatorSubsystem();
+  public ElevatorSubsystem elevator = new ElevatorSubsystem(clawIntake);
   public VisionSubsystem vision = new VisionSubsystem();
 
   public static AnalogGyro gyro;
@@ -225,7 +225,7 @@ public class RobotContainer {
     // for (int i = 0; i < enumValues.length; i++) {
     //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
     // }
-    
+
     autoChooser.setDefaultOption("Open, then Drive Back", openThenDriveAuto);
     autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.ITeamTalon;
@@ -21,7 +22,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     
     public AnalogPotentiometer potentiometer;
 
-    public ElevatorSubsystem()
+    public ClawIntakeSubsystem intake;
+
+    public ElevatorSubsystem(ClawIntakeSubsystem intake)
     {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
         elevatorMotorSub = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorSub", Ports.ELEVATOR_MOTOR_SUB);
@@ -42,6 +45,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         RobotContainer.shuffleboard.addDouble("Elevator Target", () -> targetPosition);
         RobotContainer.shuffleboard.addDouble("Main Elevator", () -> elevatorMotorMain.get());
         RobotContainer.shuffleboard.addDouble("Sub Elevator", () -> elevatorMotorSub.get());
+
+        this.intake = intake;
     }
 
     public void setTargetPosition(double newTargetPosition, String reason) {
@@ -73,6 +78,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         // } else {
         //    elevatorMotorMain.set(0, "elevator inside deadband");
         // }
+
+        if(potentiometer.get() < Constants.clawCloseThreshold)
+            intake.setSolenoid(Value.kForward);
+            
     }
 
     public boolean isInTarget() {
