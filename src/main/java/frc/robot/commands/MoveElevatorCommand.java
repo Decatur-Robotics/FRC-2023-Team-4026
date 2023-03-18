@@ -14,10 +14,11 @@ public class MoveElevatorCommand extends CommandBase {
         elevator = elev;
         input = in;
 
-        addRequirements(elev);
+        addRequirements(elevator);
     }
 
     public void execute() {
+        System.out.println("Executing move elevator... Input: " + input.getAsDouble());
         elevator.setSpeed(Math.abs(input.getAsDouble()) > .05 ? input.getAsDouble() : 0);
     }
 

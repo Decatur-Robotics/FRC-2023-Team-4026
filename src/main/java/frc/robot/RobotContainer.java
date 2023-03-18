@@ -49,9 +49,10 @@ public class RobotContainer {
   public static RobotContainer instance;
 
   // public  FindingGillSubsystem findingGill =  new FindingGillSubsystem();
-  public DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();;
-  public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();;
-  public ElevatorSubsystem elevator = new ElevatorSubsystem();;
+  public DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();
+  public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();
+  public ElevatorSubsystem elevator = new ElevatorSubsystem();
+  public VisionSubsystem vision = new VisionSubsystem();
 
   public static AnalogGyro gyro;
 
@@ -122,6 +123,8 @@ public class RobotContainer {
 
   private void configureSecondaryBindings() {
     // secondaryController = new Joystick(2);
+
+    elevator.setDefaultCommand(new MoveElevatorCommand(() -> -secondaryController.getY(), elevator));
     
     JoystickButton a = new JoystickButton(secondaryController,LogitechControllerButtons.a);
     JoystickButton b = new JoystickButton(secondaryController,LogitechControllerButtons.b);
@@ -145,8 +148,6 @@ public class RobotContainer {
     right.onTrue(new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
     down.onTrue(new SetElevatorTargetCommand(Constants.restElevatorTargetPosition, elevator));
     bumperLeft.onTrue(new SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition, elevator));
-
-    elevator.setDefaultCommand(new MoveElevatorCommand(() -> -secondaryController.getY(), elevator));
   }
 
   enum PossibleAutos {
@@ -220,10 +221,10 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private void addAutoChoicesToGui() {
-    // PossibleAutos[] enumValues = PossibleAutos.values();
-    // for (int i = 0; i < enumValues.length; i++) {
-    //   autoChooser.addOption(enumValues[i].toString(), enumValues[i);
-    // }
+    PossibleAutos[] enumValues = PossibleAutos.values();
+    for (int i = 0; i < enumValues.length; i++) {
+      autoChooser.addOption(enumValues[i].toString(), enumValues[i);
+    }
     autoChooser.setDefaultOption("Open, then Drive Back", openThenDriveAuto);
     autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
@@ -235,7 +236,7 @@ public class RobotContainer {
     autoChooser.addOption("Mid Back Out", midBack);
     autoChooser.addOption("Low Balance", lowBalance);
     autoChooser.addOption("Low Back Out", lowBack);
-    // shuffleboard.add(autoChooser);
+    shuffleboard.add(autoChooser);
 
     shuffleboard.add(autoChooser);
   }

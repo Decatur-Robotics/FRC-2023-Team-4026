@@ -35,11 +35,13 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotorSub.enableVoltageCompensation(true);       
         elevatorMotorSub.setInverted(true);
         elevatorMotorSub.setNeutralMode(NeutralMode.Brake);
-        elevatorMotorSub.follow(elevatorMotorMain);
+        // elevatorMotorSub.follow(elevatorMotorMain);
 
         potentiometer = new AnalogPotentiometer(Ports.ELEVATOR_POTENTIOMETER, 100);
         RobotContainer.shuffleboard.addDouble("Elevator", () -> potentiometer.get());
         RobotContainer.shuffleboard.addDouble("Elevator Target", () -> targetPosition);
+        RobotContainer.shuffleboard.addDouble("Main Elevator", () -> elevatorMotorMain.get());
+        RobotContainer.shuffleboard.addDouble("Sub Elevator", () -> elevatorMotorSub.get());
     }
 
     public void setTargetPosition(double newTargetPosition, String reason) {
@@ -47,10 +49,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void setSpeed(double speed) {
-        if(Math.abs(speed) > 0.5)
+        // speed = .5;
+        System.out.println("Elevator Speed: " + speed);
+        if(Math.abs(speed) > 0.5) {
             elevatorMotorMain.set(Constants.elevatorMotorSpeed * Math.signum(speed), "Joystick said so");
-        else {
+            elevatorMotorSub.set(Constants.elevatorMotorSpeed * Math.signum(speed), "Joystick said so");
+        } else {
             elevatorMotorMain.set(0, "Stopping elevator");
+            elevatorMotorSub.set(0, "Stopping elevator");
         }
         
     }
