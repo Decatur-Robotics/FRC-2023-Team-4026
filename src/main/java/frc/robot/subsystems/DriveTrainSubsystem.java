@@ -24,13 +24,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public float rightScaler = Constants.drivetrainRightScaler;
 
   public double tagWidth;
-  public double visionMod = 0;
+  public double visionX = 0;
   public double findingGillSide;
   public double speedMod = Constants.NORMAL_SPEED;
 
   public float driveStraightLeftScaler = 1;
   public float driveStraightRightScaler = 1;
   public boolean driveStraight = false;
+  public boolean autoAlign = false;
 
   public double lastInput;
 
@@ -107,15 +108,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
   //   findingGillSide = newFindingGillSide;
   // }
 
-  public void setVisionMod(double newVisionMod) {
-    visionMod = newVisionMod;
+  public void setVisionMod(double newVisionX) {
+    visionX = newVisionX;
   }
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
   {
-    leftPowerDesired += visionMod;
-    rightPowerDesired -= visionMod;
-    
     if(Math.signum(leftPowerDesired) != Math.signum(lastInput))
       resetEncoders();
     lastInput = leftPowerDesired;
@@ -140,6 +138,17 @@ public class DriveTrainSubsystem extends SubsystemBase {
       driveStraightLeftScaler = (float) Math.min(driveStraightLeftScaler, 1.2);
       driveStraightRightScaler = (float) Math.min(driveStraightRightScaler, 1.2);
     }
+
+    if (autoAlign) {
+      rightPowerDesired = leftPowerDesired;
+
+      if (visionX > 0) {
+        leftPowerDesired += visionX/100;
+      }
+      else if (visionX < 0) {
+        rightPowerDesired += visionX/100;
+      }
+    }
     
     leftPowerDesired = getCappedPower(leftPowerDesired * driveStraightLeftScaler);
     rightPowerDesired = getCappedPower(rightPowerDesired * driveStraightRightScaler);
@@ -149,32 +158,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     double currentRightPower = rightDriveFalconFront.get();
     double currentLeftPower = leftDriveFalconFront.get();
-
-    // if ((rightPowerDesired < currentRightPower) && (currentRightPower < 0))
-    // {
-    //   newPowerRight = Math.max(rightPowerDesired, currentRightPower - MAXPOWERCHANGE);
-    // } 
-    // else if ((rightPowerDesired > currentRightPower) && (currentRightPower > 0))
-    // {
-    //   newPowerRight = Math.min(rightPowerDesired, currentRightPower + MAXPOWERCHANGE);
-    // } 
-    // else 
-    // {
-    //   newPowerRight = rightPowerDesired;
-    // }
-
-    // if ((leftPowerDesired < currentLeftPower) && (currentLeftPower < 0))
-    // {
-    //   newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
-    // } 
-    // else if ((leftPowerDesired > currentLeftPower) && (currentLeftPower > 0))
-    // {
-    //   newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
-    // } 
-    // else 
-    // {
-    //   newPowerLeft = leftPowerDesired;
-    // }
 
     if (speedMod == Constants.SLOW_SPEED) {
       newPowerLeft *= 1 / Constants.SLOW_SPEED;
@@ -205,6 +188,32 @@ public class DriveTrainSubsystem extends SubsystemBase {
     if(speedMod == Constants.NORMAL_SPEED) {
       newPowerLeft /= 1 / Constants.NORMAL_SPEED;;
       newPowerRight /= 1 / Constants.NORMAL_SPEED;;
+    }
+
+    if ((rightPowerDesired < currentRightPower))
+    {
+      newPowerRight = Math.max(rightPowerDesired, currentRightPower - MAXPOWERCHANGE);
+    } 
+    else if ((rightPowerDesired > currentRightPower))
+    {
+      newPowerRight = Math.min(rightPowerDesired, currentRightPower + MAXPOWERCHANGE);
+    } 
+    else 
+    {
+      newPowerRight = rightPowerDesired;
+    }
+
+    if ((leftPowerDesired < currentLeftPower))
+    {
+      newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
+    } 
+    else if ((leftPowerDesired > currentLeftPower))
+    {
+      newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
+    } 
+    else 
+    {
+      newPowerLeft = leftPowerDesired;
     }
 
     // System.out.println("Calculated Powers: L: " + newPowerLeft

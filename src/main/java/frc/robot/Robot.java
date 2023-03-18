@@ -7,8 +7,10 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.NormalAutoCommand;
 
@@ -22,6 +24,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  public static boolean isEnabled;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -56,6 +60,8 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     if(RobotContainer.instance != null)
       RobotContainer.instance.drivetrain.driveStraight = false;
+    
+      isEnabled = false;
   }
 
   @Override
@@ -67,6 +73,10 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("Auto Command: " + m_autonomousCommand);
     // if(m_autonomousCommand == null) m_autonomousCommand = new NormalAutoCommand();
+
+    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake);
+    isEnabled = true;
+    RobotContainer.instance.elevator.resetTarget();
     
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -88,6 +98,13 @@ public class Robot extends TimedRobot {
     //   m_autonomousCommand.cancel();
     // }
     CommandScheduler.getInstance().cancelAll();
+
+    RobotContainer.instance.elevator.setSpeed(0);
+    RobotContainer.instance.drivetrain.setMotorPowers(0, 0, "teleop initialized");
+    RobotContainer.instance.elevator.resetTarget();
+
+    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake);
+    isEnabled = true;
   }
 
   /** This function is called periodically during operator control. */

@@ -4,11 +4,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RuntimeType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.ITeamTalon;
 import frc.robot.Ports;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.TeamTalonFX;
 import frc.robot.commands.MoveElevatorCommand;
@@ -23,6 +25,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     public AnalogPotentiometer potentiometer;
 
     public ClawIntakeSubsystem intake;
+    public boolean clawThresholdOverridden;
+
+    public boolean targetOverridden;
+
+    public double speed;
 
     public ElevatorSubsystem(ClawIntakeSubsystem intake)
     {
@@ -43,8 +50,13 @@ public class ElevatorSubsystem extends SubsystemBase {
         potentiometer = new AnalogPotentiometer(Ports.ELEVATOR_POTENTIOMETER, 100);
         RobotContainer.shuffleboard.addDouble("Elevator", () -> potentiometer.get());
         RobotContainer.shuffleboard.addDouble("Elevator Target", () -> targetPosition);
-        RobotContainer.shuffleboard.addDouble("Main Elevator", () -> elevatorMotorMain.get());
-        RobotContainer.shuffleboard.addDouble("Sub Elevator", () -> elevatorMotorSub.get());
+        RobotContainer.shuffleboard.addDouble("Main Elevator Encoder", () -> elevatorMotorMain.getCurrentEncoderValue());
+        RobotContainer.shuffleboard.addDouble("Sub Elevator Encoder", () -> elevatorMotorSub.getCurrentEncoderValue());
+        RobotContainer.shuffleboard.addDouble("Main Elevator Power", () -> elevatorMotorMain.get());
+        RobotContainer.shuffleboard.addDouble("Sub Elevator Power", () -> elevatorMotorSub.get());
+        RobotContainer.shuffleboard.addBoolean("Elevator Override", () -> targetOverridden);
+        RobotContainer.shuffleboard.addBoolean("Claw Threshold Override", () -> clawThresholdOverridden);
+        RobotContainer.shuffleboard.addBoolean("Elevator in Target", () -> isInTarget());
 
         this.intake = intake;
     }
@@ -54,39 +66,51 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void setSpeed(double speed) {
+        this.speed = speed;
+
+        if((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0) ||
+            (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
+            speed = 0;
+        }
+
         // speed = .5;
-        System.out.println("Elevator Speed: " + speed);
+        // System.out.println("Elevator Speed: " + speed);
         if(Math.abs(speed) > 0.5) {
             elevatorMotorMain.set(Constants.elevatorMotorSpeed * Math.signum(speed), "Joystick said so");
             elevatorMotorSub.set(Constants.elevatorMotorSpeed * Math.signum(speed), "Joystick said so");
-        } else {
+        } 
+        else {
             elevatorMotorMain.set(0, "Stopping elevator");
             elevatorMotorSub.set(0, "Stopping elevator");
         }
         
     }
-        
 
     public void periodic() {
         // System.out.println("Elevator Power: " + elevatorMotorMain.get());
         // System.out.println("Current Potentiometer Value: " + potentiometer.get());
         
-        // if (isInTarget()) {
-        //    elevatorMotorMain.set(
-        //     Math.signum(targetPosition - potentiometer.get())*motorSpeed,
-        //     "moving elevator to position");
-        // } else {
-        //    elevatorMotorMain.set(0, "elevator inside deadband");
-        // }
+        if(!targetOverridden) {
+            if (!isInTarget()) {
+                setSpeed(Math.signum(targetPosition - potentiometer.get()));
+            } else {
+                setSpeed(0);
+            }
+        }
 
-        if(potentiometer.get() < Constants.clawCloseThreshold)
-            intake.setSolenoid(Value.kForward);
+        if(potentiometer.get() < Constants.clawCloseThreshold && !clawThresholdOverridden
+            && intake.clawGrabberLeft.get() != Value.kReverse && Robot.isEnabled)
+            intake.setSolenoid(Value.kReverse);
             
     }
 
     public boolean isInTarget() {
         double delta = targetPosition - potentiometer.get();
-        return Math.abs(delta) > DEADBAND_VALUE;
+        return Math.abs(delta) < DEADBAND_VALUE;
+    }
+
+    public void resetTarget() {
+        targetPosition = potentiometer.get();
     }
 
 }

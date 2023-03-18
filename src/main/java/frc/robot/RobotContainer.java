@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.SetElevatorTargetCommand;
+import frc.robot.commands.SetElevatorTargetOverrideCommand;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
@@ -24,6 +25,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.VisionCommand;
 import frc.robot.commands.IntakeMotorCommand;
 import frc.robot.commands.NormalAutoCommand;
+import frc.robot.commands.SetClawThresholdOverrideCommand;
 import frc.robot.commands.SpeedModeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.MoveElevatorCommand;
@@ -115,10 +117,10 @@ public class RobotContainer {
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
     // triggerRight.onTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
-    bumperLeft.onTrue(new DriveStraightCommand(true, drivetrain));
-    bumperLeft.onFalse(new DriveStraightCommand(false, drivetrain));
+    bumperRight.onTrue(new DriveStraightCommand(true, drivetrain));
+    bumperRight.onFalse(new DriveStraightCommand(false, drivetrain));
 
-    // triggerLeft.whileTrue(new AutoBalanceCommand(drivetrain));
+    bumperLeft.whileTrue(new VisionCommand(vision, drivetrain));
   }
 
   private void configureSecondaryBindings() {
@@ -144,10 +146,16 @@ public class RobotContainer {
     // new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
 
     up.onTrue(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, elevator));
-    left.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, elevator));
-    right.onTrue(new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
-    down.onTrue(new SetElevatorTargetCommand(Constants.restElevatorTargetPosition, elevator));
+    left.onTrue(new SetElevatorTargetCommand(Constants.carryElevatorPos, elevator));
+    right.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, elevator));
+    down.onTrue(new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
     bumperLeft.onTrue(new SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition, elevator));
+  
+    bumperRight.onTrue(new SetClawThresholdOverrideCommand(true, elevator));
+    bumperRight.onFalse(new SetClawThresholdOverrideCommand(false, elevator));
+
+    triggerLeft.onTrue(new SetElevatorTargetOverrideCommand(true, elevator));
+    triggerLeft.onFalse(new SetElevatorTargetOverrideCommand(false, elevator));
   }
 
   enum PossibleAutos {
@@ -170,7 +178,9 @@ public class RobotContainer {
   private final Command driveBackAuto = new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain);
 
   private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kReverse, clawIntake)
-    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain));
+    .andThen(new DriveStraightCommand(true, drivetrain))
+    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+    .andThen(new DriveStraightCommand(false, drivetrain));
     
   private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake);
 
@@ -203,12 +213,14 @@ public class RobotContainer {
 
   private final Command highBack = 
     new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kReverse, clawIntake))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
+    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, elevator))
     .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain));
 
   private final Command midBack = 
     new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kReverse, clawIntake))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
+    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, elevator))
     .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain));
 
 
@@ -236,8 +248,7 @@ public class RobotContainer {
     autoChooser.addOption("Mid Balance", midBalance);
     autoChooser.addOption("Mid Back Out", midBack);
     autoChooser.addOption("Low Balance", lowBalance);
-    autoChooser.addOption("Low Back Out", lowBack);
-    shuffleboard.add(autoChooser);
+    autoChooser.addOption("Low Back Out", lowBack); 
 
     shuffleboard.add(autoChooser);
   }

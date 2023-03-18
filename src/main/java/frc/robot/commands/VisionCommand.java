@@ -14,6 +14,8 @@ public class VisionCommand extends CommandBase {
 
     public double visionMod;
 
+    public boolean enable;
+
     public VisionCommand(VisionSubsystem vision, DriveTrainSubsystem drivetrain ) {
         this.vision = vision;
         this.drivetrain = drivetrain;
@@ -24,12 +26,14 @@ public class VisionCommand extends CommandBase {
         coneX = vision.coneX;
         coneY = vision.coneY;
         coneVisible = vision.coneVisible;
-
+            
         if (coneVisible == 1) {
-            visionMod = coneX / 100;
+            visionMod = coneX;
+            drivetrain.autoAlign = true;
         }
         else {
             visionMod = 0;
+            drivetrain.autoAlign = false;
         }
 
         drivetrain.setVisionMod(visionMod);
@@ -37,5 +41,6 @@ public class VisionCommand extends CommandBase {
 
     public void end() {
         drivetrain.setVisionMod(0);
+        drivetrain.autoAlign = false;
     }
 }
