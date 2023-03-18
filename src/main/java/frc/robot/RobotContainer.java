@@ -221,10 +221,11 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private void addAutoChoicesToGui() {
-    PossibleAutos[] enumValues = PossibleAutos.values();
-    for (int i = 0; i < enumValues.length; i++) {
-      autoChooser.addOption(enumValues[i].toString(), enumValues[i);
-    }
+    // PossibleAutos[] enumValues = PossibleAutos.values();
+    // for (int i = 0; i < enumValues.length; i++) {
+    //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
+    // }
+    
     autoChooser.setDefaultOption("Open, then Drive Back", openThenDriveAuto);
     autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
