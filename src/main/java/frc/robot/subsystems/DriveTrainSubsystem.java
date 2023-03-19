@@ -14,8 +14,7 @@ import frc.robot.TeamTalonFX;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
- 
-  static final double MAXPOWERCHANGE = Constants.DRIVETRAIN_MAXPOWERCHANGE;
+
   public ITeamTalon rightDriveFalconFront;
   public ITeamTalon leftDriveFalconFront;
   ITeamTalon rightDriveFalconBack;
@@ -195,11 +194,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     if ((rightPowerDesired < currentRightPower))
     {
-      newPowerRight = Math.max(rightPowerDesired, currentRightPower - MAXPOWERCHANGE);
+      newPowerRight = Math.max(rightPowerDesired, currentRightPower - Constants.DRIVETRAIN_MAX_POWER_CHANGE);
     } 
     else if ((rightPowerDesired > currentRightPower))
     {
-      newPowerRight = Math.min(rightPowerDesired, currentRightPower + MAXPOWERCHANGE);
+      newPowerRight = Math.min(rightPowerDesired, currentRightPower + Constants.DRIVETRAIN_MAX_POWER_CHANGE);
     } 
     else 
     {
@@ -208,11 +207,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     if ((leftPowerDesired < currentLeftPower))
     {
-      newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - MAXPOWERCHANGE);
+      newPowerLeft = Math.max(leftPowerDesired, currentLeftPower - Constants.DRIVETRAIN_MAX_POWER_CHANGE);
     } 
     else if ((leftPowerDesired > currentLeftPower))
     {
-      newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + MAXPOWERCHANGE);
+      newPowerLeft = Math.min(leftPowerDesired, currentLeftPower + Constants.DRIVETRAIN_MAX_POWER_CHANGE);
     } 
     else 
     {

@@ -18,7 +18,6 @@ import frc.robot.commands.MoveElevatorCommand;
 public class ElevatorSubsystem extends SubsystemBase {
     
     public ITeamTalon elevatorMotorMain, elevatorMotorSub;
-    public double motorSpeed = Constants.elevatorMotorSpeed;
     public double targetPosition = Constants.restElevatorTargetPosition;
     public final double DEADBAND_VALUE = Constants.ELEVATOR_DEADBAND_VALUE;
     
@@ -30,6 +29,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public boolean targetOverridden;
 
     public double speed;
+
+    public double newPower;
 
     public ElevatorSubsystem(ClawIntakeSubsystem intake)
     {
@@ -65,24 +66,44 @@ public class ElevatorSubsystem extends SubsystemBase {
         targetPosition = newTargetPosition;
     }
 
+    private double getCappedPower(double desired) 
+    {
+        return Math.min(Constants.maxElevatorMotorSpeed, Math.max(-Constants.maxElevatorMotorSpeed, desired));
+    }
+
     public void setSpeed(double speed) {
         this.speed = speed;
 
-        if((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0) ||
-            (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
-            speed = 0;
+        double currentPower = elevatorMotorMain.get();
+
+        speed = Math.signum(speed) * Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
+        
+        speed *= Constants.maxElevatorMotorSpeed;
+
+        speed = getCappedPower(speed);
+
+        if ((speed < currentPower))
+        {
+            newPower = Math.max(speed, currentPower - Constants.ELEVATOR_MAX_POWER_CHANGE);
+        } 
+        else if ((speed > currentPower))
+        {
+            newPower = Math.min(speed, currentPower + Constants.ELEVATOR_MAX_POWER_CHANGE);
+        } 
+        else 
+        {
+            newPower = speed;
         }
 
-        // speed = .5;
-        // System.out.println("Elevator Speed: " + speed);
-        if(Math.abs(speed) > 0.5) {
-            elevatorMotorMain.set(Constants.elevatorMotorSpeed * Math.signum(speed), "Joystick said so");
-            elevatorMotorSub.set(Constants.elevatorMotorSpeed * Math.signum(speed), "Joystick said so");
-        } 
-        else {
-            elevatorMotorMain.set(0, "Stopping elevator");
-            elevatorMotorSub.set(0, "Stopping elevator");
+        if((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0) ||
+            (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
+            newPower = 0;
         }
+
+        // System.out.println("Elevator Speed: " + speed);
+        elevatorMotorMain.set(newPower * Math.signum(speed), "Joystick said so");
+        elevatorMotorSub.set(newPower * Math.signum(speed), "Joystick said so");
+        
         
     }
 
@@ -93,7 +114,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         if(!targetOverridden) {
             if (!isInTarget()) {
                 setSpeed(Math.signum(targetPosition - potentiometer.get()));
-            } else {
+            } 
+            else {
                 setSpeed(0);
             }
         }

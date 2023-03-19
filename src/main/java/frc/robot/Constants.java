@@ -31,14 +31,16 @@ public final class Constants {
     public static final double DRIVEDISTANCE_DEADBANDVALUE = 200;
 
 
-    public static final double DRIVETRAIN_MAXPOWERCHANGE = 0.15;
+    public static final double DRIVETRAIN_MAX_POWER_CHANGE = 0.15;
+    public static final double ELEVATOR_MAX_POWER_CHANGE = 0.15;
+
     public static float drivetrainLeftScaler = 1f;
     public static float drivetrainRightScaler = 1.16f;
     public static double stopSpeed = 0;
 
 
     public static final double ELEVATOR_DEADBAND_VALUE = .4;
-    public static final double elevatorMotorSpeed = 0.2; //Normally .2
+    public static final double maxElevatorMotorSpeed = 0.25; //Normally .2
 
     public static final double MINIMUM_ELEVATOR_POSITION = 2.5;
     public static final double restElevatorTargetPosition = 17;
@@ -68,6 +70,7 @@ public final class Constants {
     public static final double intakeMotorSpeed = 0.25;
 
     public static final double DRIVE_TRAIN_POWER_EXPONENT = 2;
+    public static final double ELEVATOR_POWER_EXPONENT = 2;
 
     public static final double SLOW_SPEED = 0.25; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
     public static final double NORMAL_SPEED = 0.5; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
