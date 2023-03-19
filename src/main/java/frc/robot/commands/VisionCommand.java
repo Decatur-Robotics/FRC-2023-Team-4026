@@ -27,18 +27,15 @@ public class VisionCommand extends CommandBase {
             
         if (coneVisible == 1) {
             visionMod = coneX;
-            drivetrain.autoAlign = true;
+            drivetrain.setVisionMod(true, visionMod);
         }
         else {
             visionMod = 0;
-            drivetrain.autoAlign = false;
+            drivetrain.setVisionMod(false, visionMod);
         }
-
-        drivetrain.setVisionMod(visionMod);
     }
 
     public void end() {
-        drivetrain.setVisionMod(0);
-        drivetrain.autoAlign = false;
+        drivetrain.setVisionMod(false, 0);
     }
 }

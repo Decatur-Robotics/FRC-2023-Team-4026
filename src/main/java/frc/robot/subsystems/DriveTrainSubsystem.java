@@ -82,6 +82,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     tab.addDouble("Right Ticks", ()->rightDriveFalconFront.getCurrentEncoderValue());
     tab.addDouble("Straight Diff", ()->leftDriveFalconFront.getCurrentEncoderValue()-rightDriveFalconFront.getCurrentEncoderValue());
     tab.addBoolean("Drive Straight", ()->driveStraight);
+    tab.addDouble("Vision X", ()->visionX);
+    tab.addBoolean("Auto Align", ()->autoAlign);
   }
 
   public void initialize() {
@@ -108,8 +110,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   //   findingGillSide = newFindingGillSide;
   // }
 
-  public void setVisionMod(double newVisionX) {
+  public void setVisionMod(boolean newAutoAlign, double newVisionX) {
     visionX = newVisionX;
+    autoAlign = newAutoAlign;
   }
 
   public void setMotorPowers(double leftPowerDesired, double rightPowerDesired, String reason) 
