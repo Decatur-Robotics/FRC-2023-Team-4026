@@ -46,6 +46,11 @@ public class VisionSubsystem extends SubsystemBase {
 
     public int coneVisible;
 
+    public double cubeX;
+    public double cubeY;
+
+    public int cubeVisible;
+
     public void Periodic() {
         // numberOfApriltags = (double) TeamUtils.getFromNetworkTable("apriltags", "Tags");
         
@@ -87,5 +92,9 @@ public class VisionSubsystem extends SubsystemBase {
         coneX = (double) TeamUtils.getFromNetworkTable("cones", "Cone X");
         coneY = (double) TeamUtils.getFromNetworkTable("cones", "Cone Y");
         coneVisible = (int) TeamUtils.getFromNetworkTable("cones", "Cone Visible");
+
+        cubeX = (double) TeamUtils.getFromNetworkTable("cubes", "Cube X");
+        cubeY = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Y");
+        cubeVisible = (int) TeamUtils.getFromNetworkTable("cubes", "Cube Visible");
     }
 }
