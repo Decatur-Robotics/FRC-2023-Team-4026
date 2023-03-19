@@ -69,9 +69,9 @@ public final class Constants {
 
     public static final double DRIVE_TRAIN_POWER_EXPONENT = 2;
 
-    public static final double SLOW_SPEED = 0.2;
-    public static final double NORMAL_SPEED = 0.6;
-    public static final double FAST_SPEED = 0.9;
+    public static final double SLOW_SPEED = 0.25; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
+    public static final double NORMAL_SPEED = 0.5; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
+    public static final double FAST_SPEED = 0.8; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
 
     public static final double AUTO_SPEED_MOD = .8;
 

@@ -14,8 +14,6 @@ public class VisionCommand extends CommandBase {
 
     public double visionMod;
 
-    public boolean enable;
-
     public VisionCommand(VisionSubsystem vision, DriveTrainSubsystem drivetrain ) {
         this.vision = vision;
         this.drivetrain = drivetrain;
