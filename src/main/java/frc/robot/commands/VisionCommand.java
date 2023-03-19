@@ -9,8 +9,10 @@ public class VisionCommand extends CommandBase {
     DriveTrainSubsystem drivetrain;
 
     public double coneX;
-    public double coneY;
-    public double coneVisible;
+    public int coneVisible;
+
+    public double cubeX;
+    public int cubeVisible;
 
     public double visionMod;
 
@@ -22,11 +24,17 @@ public class VisionCommand extends CommandBase {
 
     public void execute() {
         coneX = vision.coneX;
-        coneY = vision.coneY;
         coneVisible = vision.coneVisible;
+
+        cubeX = vision.cubeX;
+        cubeVisible = vision.cubeVisible;
             
         if (coneVisible == 1) {
             visionMod = coneX;
+            drivetrain.setVisionMod(true, visionMod);
+        }
+        else if (cubeVisible == 1) {
+            visionMod = cubeX;
             drivetrain.setVisionMod(true, visionMod);
         }
         else {
