@@ -77,4 +77,6 @@ public final class Constants {
 
     public static final double AUTO_SPEED_MOD = .8;
 
+    public static final double DRIVE_STRAIGHT_DIVISOR = 250;
+
 }
