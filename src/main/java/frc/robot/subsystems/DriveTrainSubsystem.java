@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
+import edu.wpi.first.hal.simulation.AnalogGyroDataJNI;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,6 +35,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public boolean autoAlign = false;
 
   public double lastInput;
+
+  public AnalogGyro gyro;
 
   public DriveTrainSubsystem() 
   {
@@ -70,6 +74,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftDriveFalconBack.resetEncoder();
 
     // leftDriveFalconFront.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(), 0);
+
+    gyro = RobotContainer.gyro;
 
     ShuffleboardTab tab = RobotContainer.shuffleboard;
     tab.addDouble("Speed Mod", ()->speedMod);
@@ -125,16 +131,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     if (driveStraight) {
       rightPowerDesired = leftPowerDesired;
-      
-      double left = Math.abs(leftDriveFalconFront.getCurrentEncoderValue()), 
-      right = Math.abs(rightDriveFalconFront.getCurrentEncoderValue());
 
       float divisor = 10000;
 
-      if(left < right) driveStraightLeftScaler = 1f + (float)(right-left)/divisor;
+      if(gyro.getAngle() < 0) driveStraightLeftScaler = 1f + (float)gyro.getAngle()/divisor;
       else driveStraightLeftScaler = 1;
           
-      if(right < left) driveStraightRightScaler = 1f + (float)(left-right)/divisor;
+      if(gyro.getAngle() > 0) driveStraightRightScaler = 1f + (float)gyro.getAngle()/divisor;
       else driveStraightRightScaler = 1;
 
       driveStraightLeftScaler = (float) Math.min(driveStraightLeftScaler, 1.2);

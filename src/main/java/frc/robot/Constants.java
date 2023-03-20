@@ -38,7 +38,6 @@ public final class Constants {
     public static float drivetrainRightScaler = 1.16f;
     public static double stopSpeed = 0;
 
-
     public static final double ELEVATOR_DEADBAND_VALUE = .4;
     public static final double maxElevatorMotorSpeed = 0.25; //Normally .2
 
