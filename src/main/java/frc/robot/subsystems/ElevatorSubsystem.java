@@ -66,22 +66,21 @@ public class ElevatorSubsystem extends SubsystemBase {
         targetPosition = newTargetPosition;
     }
 
-    private double getCappedPower(double desired) 
+    private double getPower(double desired)
     {
-        return Math.min(Constants.maxElevatorMotorSpeed, Math.max(-Constants.maxElevatorMotorSpeed, desired));
+        return Math.min(1, Math.max(desired, -1)) * Constants.maxElevatorMotorSpeed;
     }
 
     public void setSpeed(double speed) {
+        double sign = Math.signum(speed);
+        System.out.println("Passed Speed: " + speed);
         this.speed = speed;
 
+        speed = Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
+
+        speed = getPower(speed);
+
         double currentPower = elevatorMotorMain.get();
-
-        speed = Math.signum(speed) * Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
-        
-        speed *= Constants.maxElevatorMotorSpeed;
-
-        speed = getCappedPower(speed);
-
         if ((speed < currentPower))
         {
             newPower = Math.max(speed, currentPower - Constants.ELEVATOR_MAX_POWER_CHANGE);
@@ -100,11 +99,11 @@ public class ElevatorSubsystem extends SubsystemBase {
             newPower = 0;
         }
 
-        // System.out.println("Elevator Speed: " + speed);
+        speed = Math.abs(speed) * sign;
+
+        System.out.println("Elevator Speed: " + speed + ", Sign: " + sign);
         elevatorMotorMain.set(newPower * Math.signum(speed), "Joystick said so");
         elevatorMotorSub.set(newPower * Math.signum(speed), "Joystick said so");
-        
-        
     }
 
     public void periodic() {
