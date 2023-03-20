@@ -132,12 +132,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     if (driveStraight) {
       rightPowerDesired = leftPowerDesired;
 
-      float divisor = 250;
-
-      if(gyro.getAngle() < 0) driveStraightLeftScaler = 1f + (float)gyro.getAngle()/divisor;
+      if(gyro.getAngle() < 0) driveStraightLeftScaler = (float) (1f + (float)gyro.getAngle()/Constants.DRIVE_STRAIGHT_DIVISOR);
       else driveStraightLeftScaler = 1;
           
-      if(gyro.getAngle() > 0) driveStraightRightScaler = 1f + (float)gyro.getAngle()/divisor;
+      if(gyro.getAngle() > 0) driveStraightRightScaler = (float) (1f + (float)gyro.getAngle()/Constants.DRIVE_STRAIGHT_DIVISOR);
       else driveStraightRightScaler = 1;
 
       driveStraightLeftScaler = (float) Math.min(driveStraightLeftScaler, 1.2);
