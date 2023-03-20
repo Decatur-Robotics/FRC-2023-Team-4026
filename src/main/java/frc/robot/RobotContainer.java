@@ -156,6 +156,8 @@ public class RobotContainer {
 
     triggerLeft.onTrue(new SetElevatorTargetOverrideCommand(true, elevator));
     triggerLeft.onFalse(new SetElevatorTargetOverrideCommand(false, elevator));
+
+    triggerRight.onTrue(new SetElevatorTargetCommand(Constants.restElevatorTargetPosition, elevator));
   }
 
   enum PossibleAutos {
