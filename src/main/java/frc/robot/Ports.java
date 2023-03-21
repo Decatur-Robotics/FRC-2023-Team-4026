@@ -15,5 +15,6 @@ public class Ports {
    public final static int CLAW_RIGHT_OPEN = 0;
    public final static int ELEVATOR_POTENTIOMETER = 1;
    public final static int GYRO = 0;
+   public final static int ELEVATOR_LIMIT_SWITCH = 9;
 }
 

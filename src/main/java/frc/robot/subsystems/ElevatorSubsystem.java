@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RuntimeType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -32,6 +33,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public double newPower;
 
+    public DigitalInput elevatorLimitSwitch;
+
     public ElevatorSubsystem(ClawIntakeSubsystem intake)
     {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
@@ -48,6 +51,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotorSub.setNeutralMode(NeutralMode.Brake);
         // elevatorMotorSub.follow(elevatorMotorMain);
 
+        elevatorLimitSwitch = new DigitalInput(Ports.ELEVATOR_LIMIT_SWITCH);
+
         potentiometer = new AnalogPotentiometer(Ports.ELEVATOR_POTENTIOMETER, 100);
         RobotContainer.shuffleboard.addDouble("Elevator", () -> potentiometer.get());
         RobotContainer.shuffleboard.addDouble("Elevator Target", () -> targetPosition);
@@ -58,6 +63,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         RobotContainer.shuffleboard.addBoolean("Elevator Override", () -> targetOverridden);
         RobotContainer.shuffleboard.addBoolean("Claw Threshold Override", () -> clawThresholdOverridden);
         RobotContainer.shuffleboard.addBoolean("Elevator in Target", () -> isInTarget());
+        RobotContainer.shuffleboard.addBoolean("Elevator Limit Switch", () -> elevatorLimitSwitch.get());
 
         this.intake = intake;
     }
@@ -100,6 +106,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         if((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0) ||
             (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
             newPower = 0;
+        }
+
+        if (elevatorLimitSwitch.get()) {
+            if (newPower < 0) {
+                newPower = 0;
+            }
         }
 
         speed = Math.abs(speed) * sign;
