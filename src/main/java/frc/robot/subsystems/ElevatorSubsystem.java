@@ -79,7 +79,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void setSpeed(double newSpeed) {
         double sign = Math.signum(newSpeed);
-        System.out.println("Passed Speed: " + newSpeed);
+        // System.out.println("Passed Speed: " + newSpeed);
         this.speed = newSpeed;
 
         speed = Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
@@ -116,7 +116,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         speed = Math.abs(speed) * sign;
 
-        System.out.println("Elevator Speed: " + speed + ", Sign: " + sign);
+        // System.out.println("Elevator Speed: " + speed + ", Sign: " + sign);
         elevatorMotorMain.set(newPower, "Joystick said so");
         elevatorMotorSub.set(newPower, "Joystick said so");
     }

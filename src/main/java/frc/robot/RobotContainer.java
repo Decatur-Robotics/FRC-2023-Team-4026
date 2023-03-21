@@ -53,10 +53,10 @@ public class RobotContainer {
   // public  FindingGillSubsystem findingGill =  new FindingGillSubsystem();
   public DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();
   public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();
-  public ElevatorSubsystem elevator = new ElevatorSubsystem(clawIntake);
+  public ElevatorSubsystem elevator = new ElevatorSubsystem(clawIntake);;
   public VisionSubsystem vision = new VisionSubsystem();
 
-  public static AnalogGyro gyro;
+  public static AnalogGyro gyro = new AnalogGyro(Ports.GYRO);
 
   public Joystick primaryController;
   public Joystick secondaryController;
@@ -72,7 +72,7 @@ public class RobotContainer {
   public RobotContainer() {
     // shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
-    gyro = new AnalogGyro(Ports.GYRO);
+    gyro.reset();
     shuffleboard.addDouble("Gyro", ()->gyro.getAngle());
 
     // findingGill =;
@@ -138,8 +138,9 @@ public class RobotContainer {
     JoystickButton triggerRight = new JoystickButton(secondaryController,LogitechControllerButtons.triggerRight);
     POVButton up = new POVButton(secondaryController,LogitechControllerButtons.up);
     POVButton down = new POVButton(secondaryController,LogitechControllerButtons.down);
-    POVButton left = new POVButton(secondaryController,LogitechControllerButtons.left);
+    POVButton left = new POVButton(secondaryController,LogitechControllerButtons.left);;
     POVButton right = new POVButton(secondaryController,LogitechControllerButtons.right);
+    JoystickButton start = new JoystickButton(secondaryController, LogitechControllerButtons.start);
 
     a.whileTrue(new ClawGrabberCommand(Value.kForward,clawIntake));
     b.whileTrue(new ClawGrabberCommand(Value.kReverse,clawIntake));
@@ -157,7 +158,20 @@ public class RobotContainer {
     triggerLeft.onTrue(new SetElevatorTargetOverrideCommand(true, elevator));
     triggerLeft.onFalse(new SetElevatorTargetOverrideCommand(false, elevator));
 
-    triggerRight.onTrue(new SetElevatorTargetCommand(Constants.restElevatorTargetPosition, elevator));
+    start.onTrue(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, elevator));
+
+    shuffleboard.addBoolean("Test", () -> Robot.isTest);
+    if(Robot.isTest) {
+      x.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+        .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+        .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
+        .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+        .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
+        .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+        .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
+        .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+        .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)));
+    }
   }
 
   enum PossibleAutos {

@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   public static boolean isEnabled;
+  public static boolean isTest;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
       RobotContainer.instance.drivetrain.driveStraight = false;
     
       isEnabled = false;
+      isTest = false;
   }
 
   @Override
@@ -115,6 +117,9 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+
+    isEnabled = true;
+    isTest = true;
   }
 
   /** This function is called periodically during test mode. */

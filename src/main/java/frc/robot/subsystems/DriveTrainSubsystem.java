@@ -89,6 +89,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     tab.addBoolean("Drive Straight", ()->driveStraight);
     tab.addDouble("Vision X", ()->visionX);
     tab.addBoolean("Auto Align", ()->autoAlign);
+    tab.addBoolean("Straight Deadband", ()-> -3 < gyro.getAngle() && gyro.getAngle() < 3);
   }
 
   public void initialize() {
@@ -97,7 +98,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   
   private double getCappedPower(double desired) 
   {
-    return Math.min(1, Math.max(-1, desired));
+    return Math.min(speedMod, Math.max(-speedMod, desired));
   }
 
   public void resetEncoders() {
@@ -126,20 +127,34 @@ public class DriveTrainSubsystem extends SubsystemBase {
       resetEncoders();
     lastInput = leftPowerDesired;
 
-    leftPowerDesired *= speedMod;
-    rightPowerDesired *= speedMod;
+    // leftPowerDesired *= speedMod;
+    // rightPowerDesired *= speedMod;
 
+    
     if (driveStraight) {
       rightPowerDesired = leftPowerDesired;
 
-      if(gyro.getAngle() < 0) driveStraightLeftScaler = (float) (1f + (float)gyro.getAngle()/Constants.DRIVE_STRAIGHT_DIVISOR);
-      else driveStraightLeftScaler = 1;
-          
-      if(gyro.getAngle() > 0) driveStraightRightScaler = (float) (1f + (float)gyro.getAngle()/Constants.DRIVE_STRAIGHT_DIVISOR);
-      else driveStraightRightScaler = 1;
+      double minAngle = 3, maxAngle = 90;
 
-      driveStraightLeftScaler = (float) Math.min(driveStraightLeftScaler, 1.2);
-      driveStraightRightScaler = (float) Math.min(driveStraightRightScaler, 1.2);
+      if (Math.abs(gyro.getAngle()) > minAngle) {
+        double pct = (gyro.getAngle())/maxAngle * -Math.signum(leftPowerDesired);
+        driveStraightRightScaler = (float) (1+pct);
+        driveStraightLeftScaler = (float) (1-pct);
+      } else {
+        driveStraightLeftScaler=1;
+        driveStraightRightScaler=1;
+      }
+
+      // if(gyro.getAngle() < -3)
+      //    driveStraightLeftScaler = (float) (1f + (float)Math.abs(gyro.getAngle())/Constants.DRIVE_STRAIGHT_DIVISOR);
+      // else 
+      //   driveStraightLeftScaler = 1;
+          
+      // if(gyro.getAngle() > 3) driveStraightRightScaler = (float) (1f + (float)Math.abs(gyro.getAngle())/Constants.DRIVE_STRAIGHT_DIVISOR);
+      // else driveStraightRightScaler = 1;
+
+      driveStraightLeftScaler = (float) Math.max(Math.min(driveStraightLeftScaler, 1.2), -1.2);
+      driveStraightRightScaler = (float) Math.max(Math.min(driveStraightRightScaler, 1.2), -1.2);
     }
 
     if (autoAlign) {
@@ -152,9 +167,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
         rightPowerDesired += visionX/100;
       }
     }
-    
-    leftPowerDesired = getCappedPower(leftPowerDesired * driveStraightLeftScaler);
-    rightPowerDesired = getCappedPower(rightPowerDesired * driveStraightRightScaler);
 
     double newPowerRight = rightPowerDesired;
     double newPowerLeft = leftPowerDesired;
@@ -162,36 +174,30 @@ public class DriveTrainSubsystem extends SubsystemBase {
     double currentRightPower = rightDriveFalconFront.get();
     double currentLeftPower = leftDriveFalconFront.get();
 
-    if (speedMod == Constants.SLOW_SPEED) {
-      newPowerLeft *= 1 / Constants.SLOW_SPEED;
-      newPowerRight *= 1 / Constants.SLOW_SPEED;
-    }
+    // if (speedMod == Constants.SLOW_SPEED) {
+    //   newPowerLeft *= 1 / Constants.SLOW_SPEED;
+    //   newPowerRight *= 1 / Constants.SLOW_SPEED;
+    // }
 
-    if(speedMod == Constants.NORMAL_SPEED) {
-      newPowerLeft *= 1 / Constants.NORMAL_SPEED;
-      newPowerRight *= 1 / Constants.NORMAL_SPEED;
-    }
+    // if(speedMod == Constants.NORMAL_SPEED) {
+    //   newPowerLeft *= 1 / Constants.NORMAL_SPEED;
+    //   newPowerRight *= 1 / Constants.NORMAL_SPEED;
+    // }
 
-    newPowerLeft = Math.signum(newPowerLeft) * Math.pow(newPowerLeft, Constants.DRIVE_TRAIN_POWER_EXPONENT);
-    newPowerRight = Math.signum(newPowerRight) * Math.pow(newPowerRight, Constants.DRIVE_TRAIN_POWER_EXPONENT);
+    // newPowerLeft = Math.signum(newPowerLeft) * Math.pow(newPowerLeft, Constants.DRIVE_TRAIN_POWER_EXPONENT);
+    // newPowerRight = Math.signum(newPowerRight) * Math.pow(newPowerRight, Constants.DRIVE_TRAIN_POWER_EXPONENT);
     
-    if (Math.abs(newPowerLeft) >= 0.01)
-      newPowerLeft = Math.signum(newPowerLeft) * Math.max(Math.abs(newPowerLeft), 0.1);
-    if(Math.abs(newPowerRight) >= 0.01)
-      newPowerRight = Math.signum(newPowerRight) * Math.max(Math.abs(newPowerRight), 0.1);
+    // if (Math.abs(newPowerLeft) >= 0.01)
+    //   newPowerLeft = Math.signum(newPowerLeft) * Math.max(Math.abs(newPowerLeft), 0.1);
+    // if(Math.abs(newPowerRight) >= 0.01)
+    //   newPowerRight = Math.signum(newPowerRight) * Math.max(Math.abs(newPowerRight), 0.1);
 
-    newPowerLeft *= leftScaler;
-    newPowerRight *= rightScaler;
+    // newPowerLeft *= Constants.drivetrainLeftScaler;
+    // newPowerRight *= Constants.drivetrainRightScaler;
 
-    if (speedMod == Constants.SLOW_SPEED) {
-      newPowerLeft /= 1 / Constants.SLOW_SPEED;;
-      newPowerRight /= 1 / Constants.SLOW_SPEED;;
-    }
+    newPowerLeft *= speedMod;
+    newPowerRight *= speedMod;
 
-    if(speedMod == Constants.NORMAL_SPEED) {
-      newPowerLeft /= 1 / Constants.NORMAL_SPEED;;
-      newPowerRight /= 1 / Constants.NORMAL_SPEED;;
-    }
 
     if ((rightPowerDesired < currentRightPower))
     {
@@ -221,6 +227,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     // System.out.println("Calculated Powers: L: " + newPowerLeft
     //   + ", R: " + newPowerRight);
+  
+    
+    newPowerLeft = getCappedPower(newPowerLeft * driveStraightLeftScaler);
+    newPowerRight = getCappedPower(newPowerRight * driveStraightRightScaler);
 
     leftDriveFalconFront.set(newPowerLeft, reason);
     rightDriveFalconFront.set(newPowerRight, reason);

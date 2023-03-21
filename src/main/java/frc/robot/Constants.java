@@ -32,23 +32,23 @@ public final class Constants {
 
 
     public static final double DRIVETRAIN_MAX_POWER_CHANGE = 0.15;
-    public static final double ELEVATOR_MAX_POWER_CHANGE = 0.15;
+    public static final double ELEVATOR_MAX_POWER_CHANGE = 0.275;
 
     public static float drivetrainLeftScaler = 1f;
     public static float drivetrainRightScaler = 1.16f;
     public static double stopSpeed = 0;
 
     public static final double ELEVATOR_DEADBAND_VALUE = .4;
-    public static final double maxElevatorMotorSpeed = 0.25; //Normally .2
+    public static final double maxElevatorMotorSpeed = 0.3; //Normally .2
 
-    public static final double MINIMUM_ELEVATOR_POSITION = 2.5;
-    public static final double restElevatorTargetPosition = 17;
-    public static final double carryElevatorPos = 7.8;
-    public static final double bottomElevatorTargetPosition = 23.3;
-    public static final double middleElevatorTargetPosition = 35.1;
-    public static final double topElevatorTargetPosition = 45.8; //48.3;
-    public static final double substationPickupElevatorTargetPosition = 34.7;
-    public static final double clawCloseThreshold = 18;
+    public static final double MINIMUM_ELEVATOR_POSITION = 2.2;
+    public static final double restElevatorTargetPosition = 10.6;
+    public static final double carryElevatorPos = 7.05;
+    public static final double bottomElevatorTargetPosition = 21.08;
+    public static final double middleElevatorTargetPosition = 33.15;
+    public static final double topElevatorTargetPosition = 45.5; //48.3;
+    public static final double substationPickupElevatorTargetPosition = 31.05;
+    public static final double clawCloseThreshold = 11.6;
 
     public static final double turnDegreesMotorSpeed = 0.1;
 
