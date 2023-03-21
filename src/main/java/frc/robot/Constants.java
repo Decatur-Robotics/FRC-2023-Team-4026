@@ -68,7 +68,7 @@ public final class Constants {
 
     public static final double intakeMotorSpeed = 0.25;
 
-    public static final double DRIVE_TRAIN_POWER_EXPONENT = 2;
+    public static final double DRIVE_TRAIN_POWER_EXPONENT = 3;
     public static final double ELEVATOR_POWER_EXPONENT = 3;
 
     public static final double SLOW_SPEED = 0.25; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
