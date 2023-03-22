@@ -96,10 +96,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     driveStraight = false;
   }
 
-  public void setSpeedMod(double newSpeedMod) {
-    speedMod = newSpeedMod;
-  }
-
   // public void setFindingGillSide(double newFindingGillSide) {
   //   findingGillSide = newFindingGillSide;
   // }

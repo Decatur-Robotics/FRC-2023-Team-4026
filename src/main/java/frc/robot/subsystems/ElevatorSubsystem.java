@@ -103,22 +103,22 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         if((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0) ||
             (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
-            newPower = 0;
+            speed = 0;
         }
 
         if (elevatorLimitSwitch.get()) {
-            if (newPower < 0) {
-                newPower = 0;
+            if (speed < 0) {
+                speed = 0;
             }
         }
 
         speed = getCappedPower(speed);
 
-        speed = Math.abs(speed) * sign;
+        // speed = Math.abs(speed) * sign;
 
         // System.out.println("Elevator Speed: " + speed + ", Sign: " + sign);
-        elevatorMotorMain.set(newPower, "Joystick said so");
-        elevatorMotorSub.set(newPower, "Joystick said so");
+        elevatorMotorMain.set(speed, "Joystick said so");
+        elevatorMotorSub.set(speed, "Joystick said so");
     }
 
     public void periodic() {
@@ -127,6 +127,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         
         if(!targetOverridden) {
             if (!isInTarget()) {
+                System.out.println("Periodic is setting elevator speed to " + (targetPosition - potentiometer.get()));
                 setSpeed(Math.signum(targetPosition - potentiometer.get()));
             } 
             else {

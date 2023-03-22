@@ -18,7 +18,7 @@ public class SpeedModeCommand extends CommandBase {
 
     public void initialize() {
         System.out.println("Initting speed mode. Speed Mod: " + speedMod);
-        drivetrain.setSpeedMod(speedMod);
+        drivetrain.speedMod = speedMod;
     }
 
     public boolean isFinished() {

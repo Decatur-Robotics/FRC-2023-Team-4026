@@ -101,7 +101,7 @@ public class RobotContainer {
     // JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
     // JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
     // JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
-    // JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
+    JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
     JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
     JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
     JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
@@ -111,16 +111,16 @@ public class RobotContainer {
     // JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
     // JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
     
-    bumperRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain))
+    bumperLeft.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain))
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
     triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,drivetrain))
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
     // triggerRight.onTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
-    bumperRight.onTrue(new DriveStraightCommand(true, drivetrain));
-    bumperRight.onFalse(new DriveStraightCommand(false, drivetrain));
+    bumperRight.onTrue(new DriveStraightCommand(true, drivetrain))
+      .onFalse(new DriveStraightCommand(false, drivetrain));
 
-    bumperLeft.whileTrue(new VisionCommand(vision, drivetrain));
+    y.whileTrue(new VisionCommand(vision, drivetrain));
   }
 
   private void configureSecondaryBindings() {
