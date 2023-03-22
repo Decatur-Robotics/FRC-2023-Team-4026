@@ -137,20 +137,34 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return alignScalers;
   }
 
-  private double getRampedPower(double desired) {
+  private double[] getRampedPower(double desiredLeft, double desiredRight) {
     double currentRightPower = rightDriveFalconFront.get();
     double currentLeftPower = leftDriveFalconFront.get();
 
-    if ((desired < currentRightPower))
+    if ((desiredLeft < currentLeftPower))
     {
-      desired = Math.max(desired, currentRightPower - Constants.DRIVETRAIN_MAX_POWER_CHANGE);
+      desiredLeft = Math.max(desiredLeft, currentLeftPower - Constants.DRIVETRAIN_MAX_POWER_CHANGE);
     } 
-    else if ((desired > currentRightPower))
+    else if ((desiredLeft > currentLeftPower))
     {
-      desired = Math.min(desired, currentRightPower + Constants.DRIVETRAIN_MAX_POWER_CHANGE);
+      desiredLeft = Math.min(desiredLeft, currentLeftPower + Constants.DRIVETRAIN_MAX_POWER_CHANGE);
     }
 
-    return desired;
+    if ((desiredRight < currentRightPower))
+    {
+      desiredRight = Math.max(desiredRight, currentRightPower - Constants.DRIVETRAIN_MAX_POWER_CHANGE);
+    } 
+    else if ((desiredRight > currentRightPower))
+    {
+      desiredRight = Math.min(desiredRight, currentRightPower + Constants.DRIVETRAIN_MAX_POWER_CHANGE);
+    }
+
+    double[] desiredPowers = new double[2];
+
+    desiredPowers[0] = desiredLeft;
+    desiredPowers[1] = desiredRight;
+
+    return desiredPowers;
   }
 
   private double getCappedPower(double desired) {
@@ -180,14 +194,19 @@ public class DriveTrainSubsystem extends SubsystemBase {
       alignRightScaler = alignScalers[1];
     }
 
-    leftPowerDesired = getRampedPower(leftPowerDesired);
-    rightPowerDesired = getRampedPower(rightPowerDesired);
+    leftPowerDesired *= alignLeftScaler;
+    rightPowerDesired *= alignRightScaler;
+
+    double[] rampedPowers = getRampedPower(leftPowerDesired, rightPowerDesired);
+
+    leftPowerDesired = rampedPowers[0];
+    rightPowerDesired = rampedPowers[1];
+
+    leftPowerDesired = getCappedPower(leftPowerDesired);
+    rightPowerDesired = getCappedPower(rightPowerDesired);
 
     // System.out.println("Calculated Powers: L: " + leftPowerDesired
     //   + ", R: " + rightPowerDesired);
-    
-    leftPowerDesired = getCappedPower(leftPowerDesired * alignLeftScaler);
-    rightPowerDesired = getCappedPower(rightPowerDesired * alignRightScaler);
 
     leftDriveFalconFront.set(leftPowerDesired, reason);
     rightDriveFalconFront.set(rightPowerDesired, reason);

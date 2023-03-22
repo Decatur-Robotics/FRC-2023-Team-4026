@@ -72,36 +72,34 @@ public class ElevatorSubsystem extends SubsystemBase {
         targetPosition = newTargetPosition;
     }
 
+    private double getRampedPower(double desired) {
+        double currentPower = elevatorMotorMain.get();
+    
+        if ((desired < currentPower))
+        {
+          desired = Math.max(desired, currentPower - Constants.ELEVATOR_MAX_POWER_CHANGE);
+        } 
+        else if ((desired > currentPower))
+        {
+          desired = Math.min(desired, currentPower + Constants.ELEVATOR_MAX_POWER_CHANGE);
+        }
+    
+        return desired;
+      }
+
     private double getCappedPower(double desired)
     {
-        return Math.min(Constants.maxElevatorMotorSpeed, Math.max(desired, -Constants.maxElevatorMotorSpeed));
+        return Math.min(1, Math.max(desired, -1));
     }
 
     public void setSpeed(double newSpeed) {
         double sign = Math.signum(newSpeed);
         // System.out.println("Passed Speed: " + newSpeed);
-        this.speed = newSpeed;
-
-        speed = Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
+        speed = newSpeed;
 
         speed *= Constants.maxElevatorMotorSpeed;
 
-        speed = getCappedPower(speed);
-
-        double currentPower = elevatorMotorMain.get();
-        
-        if ((speed < currentPower))
-        {
-            newPower = Math.max(speed, currentPower - Constants.ELEVATOR_MAX_POWER_CHANGE);
-        } 
-        else if ((speed > currentPower))
-        {
-            newPower = Math.min(speed, currentPower + Constants.ELEVATOR_MAX_POWER_CHANGE);
-        } 
-        else 
-        {
-            newPower = speed;
-        }
+        speed = getRampedPower(speed);
 
         if((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0) ||
             (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
@@ -113,6 +111,8 @@ public class ElevatorSubsystem extends SubsystemBase {
                 newPower = 0;
             }
         }
+
+        speed = getCappedPower(speed);
 
         speed = Math.abs(speed) * sign;
 
