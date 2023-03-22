@@ -8,30 +8,19 @@ import java.util.function.DoubleSupplier;
 public class MoveElevatorCommand extends CommandBase {
 
     public ElevatorSubsystem elevator;
-    public double input;
+    public DoubleSupplier input;
 
     public MoveElevatorCommand(DoubleSupplier in, ElevatorSubsystem elev) {
         elevator = elev;
-        input = in.getAsDouble();
+        input = in;
 
         addRequirements(elevator);
-    }
-
-    double deadZone(double input) 
-    {
-        if (Math.abs(input) <= 0.05) 
-        {
-            return 0;
-        }
-        else return input;
     }
 
     public void execute() {
         // System.out.println("Executing move elevator... Input: " + input.getAsDouble());
         if(elevator.targetOverridden)
-            input = deadZone(input);
-
-            elevator.setSpeed(input);
+            elevator.setSpeed(Math.abs(input.getAsDouble()) > .05 ? input.getAsDouble() : 0);
     }
 
 }
