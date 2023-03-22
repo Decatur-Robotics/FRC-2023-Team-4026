@@ -177,25 +177,26 @@ public class DriveTrainSubsystem extends SubsystemBase {
       resetEncoders();
     lastInput = leftPowerDesired;
 
-    leftPowerDesired *= speedMod;
-    rightPowerDesired *= speedMod;
-
     leftPowerDesired *= Constants.drivetrainLeftScaler;
     rightPowerDesired *= Constants.drivetrainRightScaler;
 
     if (autoAlign) {
+      rightPowerDesired = leftPowerDesired;
+
       float[] alignScalers = getAlignmentScalers(visionX, leftPowerDesired);
-      alignLeftScaler = alignScalers[0];
-      alignRightScaler = alignScalers[1];
+      leftPowerDesired *= alignScalers[0];
+      rightPowerDesired *= alignScalers[1];
     }
     else if (driveStraight) {
+      rightPowerDesired = leftPowerDesired;
+
       float[] alignScalers = getAlignmentScalers(gyro.getAngle(), leftPowerDesired);
-      alignLeftScaler = alignScalers[0];
-      alignRightScaler = alignScalers[1];
+      leftPowerDesired *= alignScalers[0];
+      rightPowerDesired *= alignScalers[1];
     }
 
-    leftPowerDesired *= alignLeftScaler;
-    rightPowerDesired *= alignRightScaler;
+    leftPowerDesired *= speedMod;
+    rightPowerDesired *= speedMod;
 
     double[] rampedPowers = getRampedPower(leftPowerDesired, rightPowerDesired);
 
