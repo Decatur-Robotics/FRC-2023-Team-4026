@@ -72,53 +72,53 @@ public class ElevatorSubsystem extends SubsystemBase {
         targetPosition = newTargetPosition;
     }
 
-    private double getRampedPower(double desired) {
-        double currentPower = elevatorMotorMain.get();
-    
-        if ((desired < currentPower))
-        {
-          desired = Math.max(desired, currentPower - Constants.ELEVATOR_MAX_POWER_CHANGE);
-        } 
-        else if ((desired > currentPower))
-        {
-          desired = Math.min(desired, currentPower + Constants.ELEVATOR_MAX_POWER_CHANGE);
-        }
-    
-        return desired;
-      }
-
     private double getCappedPower(double desired)
     {
-        return Math.min(1, Math.max(desired, -1));
+        return Math.min(Constants.maxElevatorMotorSpeed, Math.max(desired, -Constants.maxElevatorMotorSpeed));
     }
 
     public void setSpeed(double newSpeed) {
         double sign = Math.signum(newSpeed);
         // System.out.println("Passed Speed: " + newSpeed);
-        speed = newSpeed;
+        this.speed = newSpeed;
+
+        speed = Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
 
         speed *= Constants.maxElevatorMotorSpeed;
 
-        speed = getRampedPower(speed);
+        speed = getCappedPower(speed);
+
+        double currentPower = elevatorMotorMain.get();
+        
+        if ((speed < currentPower))
+        {
+            newPower = Math.max(speed, currentPower - Constants.ELEVATOR_MAX_POWER_CHANGE);
+        } 
+        else if ((speed > currentPower))
+        {
+            newPower = Math.min(speed, currentPower + Constants.ELEVATOR_MAX_POWER_CHANGE);
+        } 
+        else 
+        {
+            newPower = speed;
+        }
 
         if((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0) ||
             (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
-            speed = 0;
+            newPower = 0;
         }
 
         if (elevatorLimitSwitch.get()) {
-            if (speed < 0) {
-                speed = 0;
+            if (newPower < 0) {
+                newPower = 0;
             }
         }
 
-        speed = getCappedPower(speed);
-
-        // speed = Math.abs(speed) * sign;
+        speed = Math.abs(speed) * sign;
 
         // System.out.println("Elevator Speed: " + speed + ", Sign: " + sign);
-        elevatorMotorMain.set(speed, "Joystick said so");
-        elevatorMotorSub.set(speed, "Joystick said so");
+        elevatorMotorMain.set(newPower, "Joystick said so");
+        elevatorMotorSub.set(newPower, "Joystick said so");
     }
 
     public void periodic() {
@@ -127,7 +127,6 @@ public class ElevatorSubsystem extends SubsystemBase {
         
         if(!targetOverridden) {
             if (!isInTarget()) {
-                System.out.println("Periodic is setting elevator speed to " + (targetPosition - potentiometer.get()));
                 setSpeed(Math.signum(targetPosition - potentiometer.get()));
             } 
             else {
