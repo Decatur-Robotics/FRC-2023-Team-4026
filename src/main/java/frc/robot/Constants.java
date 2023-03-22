@@ -34,8 +34,8 @@ public final class Constants {
     public static final double DRIVETRAIN_MAX_POWER_CHANGE = 0.15;
     public static final double ELEVATOR_MAX_POWER_CHANGE = 0.275;
 
-    public static float drivetrainLeftScaler = 1f;
-    public static float drivetrainRightScaler = 1.16f;
+    public static float drivetrainLeftScaler = 0.84f;
+    public static float drivetrainRightScaler = 1.00f;
     public static double stopSpeed = 0;
 
     public static final double ELEVATOR_DEADBAND_VALUE = .4;

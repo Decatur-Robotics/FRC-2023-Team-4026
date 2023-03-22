@@ -27,8 +27,8 @@ public class DriveStraightCommand extends CommandBase {
             drivetrain.rightDriveFalconFront.resetEncoder();
             RobotContainer.gyro.reset();
         } else {
-            drivetrain.driveStraightLeftScaler = 1;
-            drivetrain.driveStraightRightScaler = 1;
+            drivetrain.alignLeftScaler = 1;
+            drivetrain.alignRightScaler = 1;
             drivetrain.driveStraight = false;
         }
     }
