@@ -31,7 +31,7 @@ public class MoveElevatorCommand extends CommandBase {
         if(elevator.targetOverridden)
             input = deadZone(input);
 
-            elevator.setSpeed(Math.pow(input, Constants.ELEVATOR_POWER_EXPONENT));
+            elevator.setSpeed(input);
     }
 
 }
