@@ -17,6 +17,8 @@ import frc.robot.TeamTalonFX;
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
+  VisionSubsystem vision = new VisionSubsystem();
+
   public ITeamTalon rightDriveFalconFront;
   public ITeamTalon leftDriveFalconFront;
   ITeamTalon rightDriveFalconBack;
@@ -113,6 +115,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   private float[] getAlignmentScalers(double offset, double value) {
+    System.out.println("Getting alignment scalers...");
+
     float[] alignScalers = new float[2];
 
     double minOffset = 3, maxOffset = 90;
@@ -129,6 +133,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     alignScalers[0] = (float) Math.max(Math.min(alignScalers[0], 1.2), -1.2);
     alignScalers[1] = (float) Math.max(Math.min(alignScalers[1], 1.2), -1.2);
+
+    System.out.println("Returning alignment scalers...");
 
     return alignScalers;
   }
@@ -177,9 +183,24 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightPowerDesired *= Constants.drivetrainRightScaler;
 
     if (autoAlign) {
+      System.out.println("Auto align running in drivetrain...");
+
       rightPowerDesired = leftPowerDesired;
 
-      float[] alignScalers = getAlignmentScalers(visionX, leftPowerDesired);
+      if (vision.coneVisible == 1) {
+        System.out.println("Cone seen...");
+        visionX = vision.coneX;
+      }
+      else if (vision.cubeVisible == 1) {
+        System.out.println("Cube seen...");
+        visionX = vision.cubeX;
+      }
+      else {
+        System.out.println("Nothing seen...");
+        visionX = 0;
+      }
+
+      float[] alignScalers = getAlignmentScalers(-visionX, leftPowerDesired);
       leftPowerDesired *= alignScalers[0];
       rightPowerDesired *= alignScalers[1];
     }

@@ -44,14 +44,14 @@ public class VisionSubsystem extends SubsystemBase {
     public double coneX;
     public double coneY;
 
-    public int coneVisible;
+    public double coneVisible;
 
     public double cubeX;
     public double cubeY;
 
-    public int cubeVisible;
+    public double cubeVisible;
 
-    public void Periodic() {
+    //public void Periodic() {
         // numberOfApriltags = (double) TeamUtils.getFromNetworkTable("apriltags", "Tags");
         
         // tag1Visible = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 1 Visible");
@@ -89,12 +89,26 @@ public class VisionSubsystem extends SubsystemBase {
         // tag7Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 7 Width");
         // tag8Width = (double) TeamUtils.getFromNetworkTable("apriltags", "Tag 8 Width");
 
+    //     System.out.println("Network Tables is happening ------");
+
+    //     coneX = (double) TeamUtils.getFromNetworkTable("cones", "Cone X");
+    //     coneY = (double) TeamUtils.getFromNetworkTable("cones", "Cone Y");
+    //     coneVisible = (int) TeamUtils.getFromNetworkTable("cones", "Cone Visible");
+
+    //     cubeX = (double) TeamUtils.getFromNetworkTable("cubes", "Cube X");
+    //     cubeY = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Y");
+    //     cubeVisible = (int) TeamUtils.getFromNetworkTable("cubes", "Cube Visible");
+    // }
+
+    public void periodic() {
+        System.out.println("Network Tables is happening ------");
+
         coneX = (double) TeamUtils.getFromNetworkTable("cones", "Cone X");
         coneY = (double) TeamUtils.getFromNetworkTable("cones", "Cone Y");
-        coneVisible = (int) TeamUtils.getFromNetworkTable("cones", "Cone Visible");
+        coneVisible = (double) TeamUtils.getFromNetworkTable("cones", "Cone Visible");
 
         cubeX = (double) TeamUtils.getFromNetworkTable("cubes", "Cube X");
         cubeY = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Y");
-        cubeVisible = (int) TeamUtils.getFromNetworkTable("cubes", "Cube Visible");
+        cubeVisible = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Visible");
     }
 }

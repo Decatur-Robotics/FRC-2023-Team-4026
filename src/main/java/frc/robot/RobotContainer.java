@@ -111,7 +111,7 @@ public class RobotContainer {
     // JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
     // JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
     
-    bumperLeft.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain))
+    triggerRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain))
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
     triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,drivetrain))
       .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
@@ -120,7 +120,8 @@ public class RobotContainer {
     bumperRight.onTrue(new DriveStraightCommand(true, drivetrain))
       .onFalse(new DriveStraightCommand(false, drivetrain));
 
-    y.whileTrue(new VisionCommand(vision, drivetrain));
+    bumperLeft.onTrue(new VisionCommand(true, vision, drivetrain))
+      .onFalse(new VisionCommand(false, vision, drivetrain));
   }
 
   private void configureSecondaryBindings() {
