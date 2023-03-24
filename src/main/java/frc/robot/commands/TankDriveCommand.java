@@ -37,7 +37,7 @@ public class TankDriveCommand extends CommandBase {
     
     public void execute() 
     {
-        // System.out.println("Left Input: " + leftStick.getAsDouble() + ", Right Input: " + rightStick.getAsDouble());
+        System.out.println("Left Input: " + leftStick.getAsDouble() + ", Right Input: " + rightStick.getAsDouble());
         driveTrain.setMotorPowers(cubePower(deadZone(leftStick.getAsDouble())), cubePower(deadZone(rightStick.getAsDouble())), "Joysticks said so");
     }
 }

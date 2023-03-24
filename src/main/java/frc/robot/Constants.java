@@ -20,7 +20,7 @@ public final class Constants {
     public static final double chargeStationAutoDriveForwardDistance = 1.93;
     public static final double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
 
-    public static final double BALANCE_DISTANCE = -50000.0 * 1.53;
+    public static final double BALANCE_DISTANCE = -50000.0 * 1.5;
     public static final double OVER_CHARGESTATION_DISTANCE = -50000.0 * 1;
     public static final double RETURN_TO_CHARGESTATION_DISTANCE = 50000 * 1;
 
@@ -34,17 +34,17 @@ public final class Constants {
     public static final double DRIVETRAIN_MAX_POWER_CHANGE = 0.15;
     public static final double ELEVATOR_MAX_POWER_CHANGE = 0.275;
 
-    public static float drivetrainLeftScaler = 0.84f;
-    public static float drivetrainRightScaler = 1.00f;
+    public static float drivetrainLeftScaler = 0.95f;
+    public static float drivetrainRightScaler = 1.16f;
     public static double stopSpeed = 0;
 
-    public static final double ELEVATOR_DEADBAND_VALUE = .4;
+    public static final double ELEVATOR_DEADBAND_VALUE = .6;
     public static final double maxElevatorMotorSpeed = 0.3; //Normally .2
 
     public static final double MINIMUM_ELEVATOR_POSITION = 2.2;
     public static final double restElevatorTargetPosition = 10.6;
     public static final double carryElevatorPos = 7.05;
-    public static final double bottomElevatorTargetPosition = 21.08;
+    public static final double bottomElevatorTargetPosition = 17.08;
     public static final double middleElevatorTargetPosition = 32.61;
     public static final double topElevatorTargetPosition = 45.5; //48.3;
     public static final double substationPickupElevatorTargetPosition = 31.05;

@@ -59,6 +59,7 @@ public class RobotContainer {
   public VisionSubsystem vision = new VisionSubsystem();
 
   public static AnalogGyro gyro = new AnalogGyro(Ports.GYRO);
+  public static AnalogGyro balanceGyro = new AnalogGyro(Ports.GYRO_VERTICAL);
 
   public Joystick primaryController;
   public Joystick secondaryController;
@@ -75,7 +76,7 @@ public class RobotContainer {
     // shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
     gyro.reset();
-    shuffleboard.addDouble("Gyro", ()->gyro.getAngle());
+    shuffleboard.addDouble("Gyro", ()->drivetrain.currAngle);
 
     // findingGill =;
     secondaryController = new Joystick(2); //We need this for testing in elevator
@@ -145,8 +146,8 @@ public class RobotContainer {
     POVButton right = new POVButton(secondaryController,LogitechControllerButtons.right);
     JoystickButton start = new JoystickButton(secondaryController, LogitechControllerButtons.start);
 
-    a.whileTrue(new ClawGrabberCommand(Value.kForward,clawIntake));
-    b.whileTrue(new ClawGrabberCommand(Value.kReverse,clawIntake));
+    a.whileTrue(new ClawGrabberCommand(Value.kForward, clawIntake, true));
+    b.whileTrue(new ClawGrabberCommand(Value.kReverse, clawIntake, false));
     // new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
 
     up.onTrue(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, elevator));
@@ -184,35 +185,35 @@ public class RobotContainer {
 
 
   private final Command normalAuto = new SetElevatorTargetCommand( Constants.middleElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand( Value.kForward,clawIntake))
-    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand( Value.kForward,clawIntake,true))
+    .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
 
   private final Command chargeStationAuto = new SetElevatorTargetCommand( Constants.topElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand( Value.kForward,clawIntake))
-    .andThen(new SetElevatorTargetCommand( Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand( Value.kForward,clawIntake, true))
+    .andThen(new SetElevatorTargetCommand( Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
 
   private final Command driveBackAuto = new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain);
 
-  private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kForward, clawIntake)
+  private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kForward, clawIntake, true)
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
     
-  private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake);
+  private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake, true);
 
   private final Command overThenBalanceAuto = new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain)
     .andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain));
 
   private final Command highBalance = 
     new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
-    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+    .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
     //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
@@ -221,8 +222,8 @@ public class RobotContainer {
     
   private final Command midBalance = 
     new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
-    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+    .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
     //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
@@ -233,8 +234,8 @@ public class RobotContainer {
 
   private final Command lowBalance = 
     new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
-    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+    .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
     //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
@@ -243,16 +244,16 @@ public class RobotContainer {
 
   private final Command highBack = 
     new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
-    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+    .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
 
   private final Command midBack = 
     new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
-    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+    .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
@@ -260,8 +261,8 @@ public class RobotContainer {
 
   private final Command lowBack = 
     new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true, elevator)
-    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
-    .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+    .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+    .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
     .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
@@ -275,12 +276,12 @@ public class RobotContainer {
     //   autoChooser.addOption(enumValues[i].toString(), enumValues[i]);
     // }
 
-    autoChooser.setDefaultOption("Open, then Drive Back", openThenDriveAuto);
+    autoChooser.setDefaultOption("High Balance", highBalance);
+    autoChooser.addOption("Open, then Drive Back", openThenDriveAuto);
     autoChooser.addOption("Normal", normalAuto);
     autoChooser.addOption("Charge Station", chargeStationAuto);
     autoChooser.addOption("Drive Back", driveBackAuto);
     autoChooser.addOption("Over, then Balance", overThenBalanceAuto);
-    autoChooser.addOption("High Balance", highBalance);
     autoChooser.addOption("High Back Out", highBack);
     autoChooser.addOption("Mid Balance", midBalance);
     autoChooser.addOption("Mid Back Out", midBack);

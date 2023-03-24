@@ -18,6 +18,8 @@ public class ClawIntakeSubsystem extends SubsystemBase {
 
     public TeamSparkMAX intakeMotor;
 
+    public boolean open;
+    boolean closed;
     public ClawIntakeSubsystem() {
         mainCompressor = new Compressor(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH);
         clawGrabberLeft = new DoubleSolenoid(Ports.PNEUMATICS_HUB, PneumaticsModuleType.REVPH, Ports.CLAW_LEFT_CLOSE, Ports.CLAW_LEFT_OPEN);
@@ -34,10 +36,13 @@ public class ClawIntakeSubsystem extends SubsystemBase {
         // mainCompressor.enableAnalog(100, 115);
         RobotContainer.shuffleboard.addDouble(
             "Pressure", () -> mainCompressor.getPressure());
+            RobotContainer.shuffleboard.addBoolean("Grabber Closed (new)", ()->closed);
     }
 
     public void periodic() {
-        // System.out.println("Solenoid Mode: " + clawGrabber.get());
+        closed = clawGrabberLeft.get() == Value.kForward && clawGrabberRight.get() == Value.kForward;
+
+
     }
 
     public void setSolenoid(Value mode) {

@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
     System.out.println("Auto Command: " + m_autonomousCommand);
     // if(m_autonomousCommand == null) m_autonomousCommand = new NormalAutoCommand();
 
-    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake);
+    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
     isEnabled = true;
     RobotContainer.instance.elevator.resetTarget();
     
@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     RobotContainer.instance.drivetrain.setMotorPowers(0, 0, "teleop initialized");
     RobotContainer.instance.elevator.resetTarget();
 
-    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake);
+    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
     isEnabled = true;
   }
 

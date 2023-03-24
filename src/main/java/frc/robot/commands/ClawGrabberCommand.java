@@ -14,10 +14,13 @@ public class ClawGrabberCommand extends CommandBase {
     LocalTime startTime;
     long timeToWait = 100000000;
 
-    public ClawGrabberCommand( Value clawMode,ClawIntakeSubsystem clawIntake) {
+    public boolean open = false;
+
+    public ClawGrabberCommand( Value clawMode,ClawIntakeSubsystem clawIntake, boolean open) {
         System.out.println("Constructing ClawGrabberCommand...");
         this.clawIntake = clawIntake;
         this.clawMode = clawMode;
+        this.open = open;
         addRequirements(clawIntake);
     }
 
@@ -29,6 +32,9 @@ public class ClawGrabberCommand extends CommandBase {
 
     public void execute() {
         System.out.println("Executing ClawGrabberCommand...");
+
+        clawIntake.open = open;
+
         if (clawIntake.clawGrabberLeft.get() == Value.kOff && startTime == null) {
             clawIntake.setSolenoid(clawMode);
             startTime = LocalTime.now();

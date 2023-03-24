@@ -103,12 +103,12 @@ public class VisionSubsystem extends SubsystemBase {
     public void periodic() {
         //System.out.println("Network Tables is happening ------");
 
-        coneX = (double) TeamUtils.getFromNetworkTable("cones", "Cone X");
-        coneY = (double) TeamUtils.getFromNetworkTable("cones", "Cone Y");
-        coneVisible = (double) TeamUtils.getFromNetworkTable("cones", "Cone Visible");
+        // coneX = (double) TeamUtils.getFromNetworkTable("cones", "Cone X");
+        // coneY = (double) TeamUtils.getFromNetworkTable("cones", "Cone Y");
+        // coneVisible = (double) TeamUtils.getFromNetworkTable("cones", "Cone Visible");
 
-        cubeX = (double) TeamUtils.getFromNetworkTable("cubes", "Cube X");
-        cubeY = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Y");
-        cubeVisible = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Visible");
+        // cubeX = (double) TeamUtils.getFromNetworkTable("cubes", "Cube X");
+        // cubeY = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Y");
+        // cubeVisible = (double) TeamUtils.getFromNetworkTable("cubes", "Cube Visible");
     }
 }

@@ -41,6 +41,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public AnalogGyro gyro;
 
+  public double currAngle;
   public DriveTrainSubsystem() 
   {
     rightDriveFalconFront = new TeamTalonFX("Subsystems.DriveTrain.RightMain", Ports.RIGHT_DRIVE_FALCON_FRONT);
@@ -79,7 +80,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // leftDriveFalconFront.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(), 0);
 
     gyro = RobotContainer.gyro;
-
+    currAngle = gyro.getAngle();
     ShuffleboardTab tab = RobotContainer.shuffleboard;
     tab.addDouble("Speed Mod", ()->speedMod);
     tab.addDouble("Left Drive", ()->leftDriveFalconFront.get());
@@ -132,8 +133,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
       alignScalers[1] = 1;
     }
 
-    alignScalers[0] = (float) Math.max(Math.min(alignScalers[0], 1.2), -1.2);
-    alignScalers[1] = (float) Math.max(Math.min(alignScalers[1], 1.2), -1.2);
+    alignScalers[0] = (float) Math.max(Math.min(alignScalers[0], 2.00), -2.00);
+    alignScalers[1] = (float) Math.max(Math.min(alignScalers[1], 2.00), -2.00);
 
     System.out.println("Returning alignment scalers...");
 
@@ -208,7 +209,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     else if (driveStraight) {
       rightPowerDesired = leftPowerDesired;
 
-      float[] alignScalers = getAlignmentScalers(gyro.getAngle(), leftPowerDesired, 90);
+      double gyroOffset; 
+      gyroOffset = gyro.getAngle();
+
+      float[] alignScalers = getAlignmentScalers(gyroOffset, leftPowerDesired, 30);
       leftPowerDesired *= alignScalers[0];
       rightPowerDesired *= alignScalers[1];
     }
@@ -247,6 +251,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() 
   {
+    currAngle = gyro.getAngle();
     // This method will be called once per scheduler run
   }
 }
