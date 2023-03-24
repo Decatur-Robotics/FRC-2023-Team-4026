@@ -101,7 +101,7 @@ public class VisionSubsystem extends SubsystemBase {
     // }
 
     public void periodic() {
-        System.out.println("Network Tables is happening ------");
+        //System.out.println("Network Tables is happening ------");
 
         coneX = (double) TeamUtils.getFromNetworkTable("cones", "Cone X");
         coneY = (double) TeamUtils.getFromNetworkTable("cones", "Cone Y");

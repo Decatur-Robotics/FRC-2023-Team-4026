@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMaxLowLevel;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -212,8 +214,9 @@ public class RobotContainer {
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
     .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
-    .andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
+    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+    //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
+    //.andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
     
   private final Command midBalance = 
@@ -221,8 +224,9 @@ public class RobotContainer {
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
     .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
-    .andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
+    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+    //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
+    //.andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
 
   private final Command backOut = new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain);
@@ -232,8 +236,9 @@ public class RobotContainer {
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake))
     .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
     .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
-    .andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
+    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+    //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
+    //.andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
     .andThen(new DriveStraightCommand(false, drivetrain));
 
   private final Command highBack = 

@@ -21,7 +21,7 @@ public final class Constants {
     public static final double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
 
     public static final double BALANCE_DISTANCE = -50000.0 * 1.53;
-    public static final double OVER_CHARGESTATION_DISTANCE = -50000.0 * 2;
+    public static final double OVER_CHARGESTATION_DISTANCE = -50000.0 * 1;
     public static final double RETURN_TO_CHARGESTATION_DISTANCE = 50000 * 1;
 
     public static final double encoderTicksPerRevolution = 2048;
@@ -45,7 +45,7 @@ public final class Constants {
     public static final double restElevatorTargetPosition = 10.6;
     public static final double carryElevatorPos = 7.05;
     public static final double bottomElevatorTargetPosition = 21.08;
-    public static final double middleElevatorTargetPosition = 33.15;
+    public static final double middleElevatorTargetPosition = 32.61;
     public static final double topElevatorTargetPosition = 45.5; //48.3;
     public static final double substationPickupElevatorTargetPosition = 31.05;
     public static final double clawCloseThreshold = 11.6;

@@ -17,6 +17,7 @@ import frc.robot.TeamTalonFX;
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
+  
   VisionSubsystem vision = new VisionSubsystem();
 
   public ITeamTalon rightDriveFalconFront;
@@ -114,12 +115,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftDriveFalconBack.resetEncoder();
   }
 
-  private float[] getAlignmentScalers(double offset, double value) {
+  private float[] getAlignmentScalers(double offset, double value, double newMaxOffset) {
     System.out.println("Getting alignment scalers...");
 
     float[] alignScalers = new float[2];
 
-    double minOffset = 3, maxOffset = 90;
+    double minOffset = 3, maxOffset = newMaxOffset;
 
     if (Math.abs(offset) > minOffset) {
       double pct = (offset)/maxOffset * -Math.signum(value);
@@ -200,14 +201,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
         visionX = 0;
       }
 
-      float[] alignScalers = getAlignmentScalers(-visionX, leftPowerDesired);
+      float[] alignScalers = getAlignmentScalers(-visionX, leftPowerDesired, 135);
       leftPowerDesired *= alignScalers[0];
       rightPowerDesired *= alignScalers[1];
     }
     else if (driveStraight) {
       rightPowerDesired = leftPowerDesired;
 
-      float[] alignScalers = getAlignmentScalers(gyro.getAngle(), leftPowerDesired);
+      float[] alignScalers = getAlignmentScalers(gyro.getAngle(), leftPowerDesired, 90);
       leftPowerDesired *= alignScalers[0];
       rightPowerDesired *= alignScalers[1];
     }
