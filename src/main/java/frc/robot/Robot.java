@@ -107,6 +107,8 @@ public class Robot extends TimedRobot {
 
     new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
     isEnabled = true;
+
+    RobotContainer.balanceGyro.reset();
   }
 
   /** This function is called periodically during operator control. */

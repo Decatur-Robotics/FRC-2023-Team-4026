@@ -9,33 +9,60 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class AutoBalanceCommand extends CommandBase {
     DriveTrainSubsystem drivetrain;
-    AnalogGyro gyro = RobotContainer.gyro;
     double power;
     double stopSpeed = Constants.stopSpeed;
 
+    double minAngle = 3;
+
+    double angle;
+
+    double balanceSpeed = 0.25;
+
+    int crossOver = 1;
+
+    double minSpeed = 0.1;
+
     public AutoBalanceCommand(DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
+        balanceSpeed = 0.25;
+        crossOver = 1;
         addRequirements(drivetrain);
+
+        ShuffleboardTab tab = RobotContainer.shuffleboard;
+
+        tab.addDouble("Balance Speed", ()->balanceSpeed);
 
     }
 
     public void execute() {
-        if (gyro.getAngle() < -1) {
-            power = (gyro.getAngle()/Constants.AUTO_BALANCE_DEGREES_TO_MOTOR_POWER_DIVISOR);
+        angle = RobotContainer.balanceGyro.getAngle();
 
-            drivetrain.setMotorPowers(power, power, "auto balance");
+        if (angle > minAngle) {
+            if (crossOver == -1) {
+                balanceSpeed /= 2;
+            }
+            crossOver = 1;
+
+            drivetrain.setMotorPowers(Math.max(balanceSpeed, minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
         }
-        else if (gyro.getAngle() > 1) {
-            power = -(gyro.getAngle()/Constants.AUTO_BALANCE_DEGREES_TO_MOTOR_POWER_DIVISOR);
+        else if (angle < -minAngle) {
+            if (crossOver == 1) {
+                balanceSpeed /= 2;
+            }
+            crossOver = -1;
 
-            drivetrain.setMotorPowers(power, power, "auto balance");
+            drivetrain.setMotorPowers(-Math.max(balanceSpeed, minSpeed), -Math.max(balanceSpeed, minSpeed), "auto balance");
+        }
+        else {
+            drivetrain.setMotorPowers(0, 0, "auto balance end");
         }
     }
 
     public void end() {
-        drivetrain.setMotorPowers(stopSpeed, stopSpeed, "auto balance ended");
+        angle = 0;
     }
 }
