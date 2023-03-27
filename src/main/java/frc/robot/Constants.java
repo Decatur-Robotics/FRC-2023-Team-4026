@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -79,8 +81,13 @@ public final class Constants {
 
     public static final double DRIVE_STRAIGHT_DIVISOR = 250;
 
+    public static final double CURRENT_LIMIT_AMPS = 50, CURRENT_TRIGGER_THRESHOLD = 55, CURRENT_LIMIT_TIME = 0.5;
+    public static final SupplyCurrentLimitConfiguration CURRENT_LIMIT = 
+        new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT_AMPS, CURRENT_TRIGGER_THRESHOLD, CURRENT_LIMIT_TIME);
+
     public static final double AUTO_BALANCE_ANGLE_DIVISOR = 15;
     public static final double AUTO_BALANCE_MINIMUM_ANGLE = 15;
     public static final double AUTO_BALANCE_FALL_ANGLE_SIZE = 2;
     public static final double AUTO_BALANCE_MINIMUM_SPEED = 0.15;
+    
 }
