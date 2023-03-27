@@ -54,7 +54,7 @@ public class AutoBalanceCommand extends CommandBase {
                 drivetrain.setMotorPowers(0, 0, "auto balance");
             }
             else {
-                drivetrain.setMotorPowers(-Math.max(balanceSpeed * (angle / 15), minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
+                drivetrain.setMotorPowers(-Math.max(balanceSpeed * (Math.abs(angle) / 15), minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
 
             }
             
@@ -69,7 +69,7 @@ public class AutoBalanceCommand extends CommandBase {
                 drivetrain.setMotorPowers(0, 0, "auto balance");
             }
             else {
-                drivetrain.setMotorPowers(Math.max(balanceSpeed * (angle / 15), minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
+                drivetrain.setMotorPowers(Math.max(balanceSpeed * (Math.abs(angle) / 15), minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
 
             }
 
