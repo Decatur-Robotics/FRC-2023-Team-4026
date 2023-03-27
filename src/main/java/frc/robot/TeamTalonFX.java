@@ -26,12 +26,13 @@ public class TeamTalonFX extends WPI_TalonFX implements ITeamTalon {
     super(deviceNumber);
     this.smartDashboardPrefix = smartDashboardPrefix;
     // assuming quadencoder
-    this.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    this.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
   }
 
-  public long getCurrentEncoderValue() {
+  public double getCurrentEncoderValue() {
     // This should be configurable
-    return (long) getSensorCollection().getIntegratedSensorPosition();
+    // return (long) getSensorCollection().getIntegratedSensorPosition();
+    return getSelectedSensorPosition(0);
   }
 
   public void set(double power, String reason) {

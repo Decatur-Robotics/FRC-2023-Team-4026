@@ -12,7 +12,7 @@ public class LogitechControllerButtons {
   public static final int home = 9;
   public static final int start = 10;
 
-  public static final int up = 360;
+  public static final int up = 0;
   public static final int right = 90;
   public static final int down = 180;
   public static final int left = 270;

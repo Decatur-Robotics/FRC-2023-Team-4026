@@ -50,7 +50,7 @@ public interface ITeamTalon extends MotorController, IMotorControllerEnhanced {
     setNumEStops(getNumEStops() + 1);
   }
 
-  public long getCurrentEncoderValue();
+  public double getCurrentEncoderValue();
 
   public void resetEncoder();
 
@@ -63,7 +63,7 @@ public interface ITeamTalon extends MotorController, IMotorControllerEnhanced {
 
     setLastTelemetryUpdate(now);
 
-    long currentEncoderValue = getCurrentEncoderValue();
+    double currentEncoderValue = getCurrentEncoderValue();
     double currentSpeed = getSelectedSensorVelocity(0);
 
     if (getMaxSpeed() == Double.MAX_VALUE || currentSpeed > getMaxSpeed())

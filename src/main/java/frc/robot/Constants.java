@@ -15,32 +15,42 @@ package frc.robot;
 public final class Constants {
 
 
-    public static double normalAutoDriveBackDistance = -3.78;
-    public static double chargeStationAutoDriveBackDistance = -2.18;
-    public static double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
+    public static final double normalAutoDriveBackDistance = -3.78;
+    public static final double chargeStationAutoDriveBackDistance = -4.11;
+    public static final double chargeStationAutoDriveForwardDistance = 1.93;
+    public static final double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
 
-    public static double encoderTicksPerRevolution = 2048;
-    public static double andyMarkHiGripWheelCircumference = 0.1524*Math.PI;
-    public static double motorRotationsPerWheelRotationGearRatio = 10.71;
-    public static double driveDistanceMotorSpeed = 0.1;
+    public static final double BALANCE_DISTANCE = -50000.0 * 1.5;
+    public static final double OVER_CHARGESTATION_DISTANCE = -50000.0 * 1;
+    public static final double RETURN_TO_CHARGESTATION_DISTANCE = 50000 * 1;
+
+    public static final double encoderTicksPerRevolution = 2048;
+    public static final double andyMarkHiGripWheelCircumference = 0.1524*Math.PI;
+    public static final double motorRotationsPerWheelRotationGearRatio = 10.71;
+    public static final double driveDistanceMotorSpeed = 0.25;
     public static final double DRIVEDISTANCE_DEADBANDVALUE = 200;
 
 
-    public static final double DRIVETRAIN_MAXPOWERCHANGE = 0.1;
-    public static float drivetrainLeftScaler = 1;
-    public static float drivetrainRightScaler = 1;
+    public static final double DRIVETRAIN_MAX_POWER_CHANGE = 0.15;
+    public static final double ELEVATOR_MAX_POWER_CHANGE = 0.275;
+
+    public static float drivetrainLeftScaler = 0.95f;
+    public static float drivetrainRightScaler = 1.16f;
     public static double stopSpeed = 0;
 
+    public static final double ELEVATOR_DEADBAND_VALUE = .6;
+    public static final double maxElevatorMotorSpeed = 0.3; //Normally .2
 
-    public static final double ELEVATOR_DEADBAND_VALUE = 10;
-    public static double elevatorMotorSpeed = 0.01;
+    public static final double MINIMUM_ELEVATOR_POSITION = 2.2;
+    public static final double restElevatorTargetPosition = 10.6;
+    public static final double carryElevatorPos = 7.05;
+    public static final double bottomElevatorTargetPosition = 17.08;
+    public static final double middleElevatorTargetPosition = 32.61;
+    public static final double topElevatorTargetPosition = 45.5; //48.3;
+    public static final double substationPickupElevatorTargetPosition = 31.05;
+    public static final double clawCloseThreshold = 11.6;
 
-    public static long retractedElevatorTargetPosition = 0;
-    public static long bottomElevatorTargetPositionv = 5;
-    public static long middleElevatorTargetPosition = 10;
-    public static long highElevatorTargetPosition = 15; 
-
-    public static double turnDegreesMotorSpeed = 0.1;
+    public static final double turnDegreesMotorSpeed = 0.1;
 
     public static final int FINDING_GILL_TAG_WIDTH_DIVISOR = 320;
 
@@ -54,5 +64,19 @@ public final class Constants {
     public static final int FINDING_GILL_TARGET_SUBSTATION = 3;
 
     public static final int AUTO_BALANCE_DEGREES_TO_MOTOR_POWER_DIVISOR = 90;
+
+
+    public static final double intakeMotorSpeed = 0.25;
+
+    public static final double DRIVE_TRAIN_POWER_EXPONENT = 3;
+    public static final double ELEVATOR_POWER_EXPONENT = 3;
+
+    public static final double SLOW_SPEED = 0.25; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
+    public static final double NORMAL_SPEED = 0.5; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
+    public static final double FAST_SPEED = 0.8; //CHANGE AFTER ROBOT WEIGHT IS CHANGED!!!
+
+    public static final double AUTO_SPEED_MOD = .8;
+
+    public static final double DRIVE_STRAIGHT_DIVISOR = 250;
 
 }

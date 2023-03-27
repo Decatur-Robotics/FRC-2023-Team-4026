@@ -12,27 +12,42 @@ public class ClawGrabberCommand extends CommandBase {
 
     Value clawMode;
     LocalTime startTime;
-    long timeToWait = 3;
+    long timeToWait = 100000000;
 
-    public ClawGrabberCommand(ClawIntakeSubsystem clawIntake, Value clawMode) {
+    public boolean open = false;
+
+    public ClawGrabberCommand( Value clawMode,ClawIntakeSubsystem clawIntake, boolean open) {
+        System.out.println("Constructing ClawGrabberCommand...");
         this.clawIntake = clawIntake;
-        addRequirements(clawIntake);
         this.clawMode = clawMode;
+        this.open = open;
+        addRequirements(clawIntake);
+    }
+
+    public void initialize() {        
+        System.out.println("Initializing ClawGrabberCommand...");
+        clawIntake.setSolenoid(clawMode);
+        startTime = LocalTime.now();
     }
 
     public void execute() {
-        if (clawIntake.clawGrabber.get() == Value.kOff && startTime == null) {
-            clawIntake.clawGrabber.set(clawMode);
+        System.out.println("Executing ClawGrabberCommand...");
+
+        clawIntake.open = open;
+
+        if (clawIntake.clawGrabberLeft.get() == Value.kOff && startTime == null) {
+            clawIntake.setSolenoid(clawMode);
             startTime = LocalTime.now();
         }
     }
 
     public boolean isFinished() {
-        return startTime == null && LocalTime.now().minusSeconds(timeToWait).compareTo(startTime) > 0;
+        return startTime != null && LocalTime.now().minusNanos(timeToWait).compareTo(startTime) > 0;
     }
 
     public void end() {
-        clawIntake.clawGrabber.set(Value.kOff);
+        System.out.println("Ending ClawGrabberCommand...");
+        clawIntake.clawGrabberLeft.set(Value.kOff);
     }
 }
 

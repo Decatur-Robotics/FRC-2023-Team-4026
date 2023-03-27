@@ -14,14 +14,15 @@ public class TurnDegrees extends CommandBase {
     double motorSpeed = Constants.turnDegreesMotorSpeed;
     double stopSpeed = Constants.stopSpeed;
     
-    public TurnDegrees(double changeDeg, DriveTrainSubsystem driveTrain, AnalogGyro gyro){
+    public TurnDegrees(double changeDeg,AnalogGyro gyro, DriveTrainSubsystem driveTrain ){
         this.gyro = gyro;
         this.startDeg = this.gyro.getAngle();
         this.endDeg = startDeg + changeDeg;
         this.driveTrain = driveTrain;
+        addRequirements(driveTrain);
         
     }
-    //henry pls tell me what the rest of these constants are
+    
     
     public void initialize() {
         if(endDeg-startDeg < 0 && Math.abs(endDeg-startDeg)<180){
