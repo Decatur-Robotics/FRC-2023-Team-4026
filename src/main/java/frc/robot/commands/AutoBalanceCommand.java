@@ -16,19 +16,23 @@ public class AutoBalanceCommand extends CommandBase {
     double power;
     double stopSpeed = Constants.stopSpeed;
 
-    double minAngle = 3;
+    double minAngle = 15;
+
+    double fallAngleSize = 3;
 
     double angle;
 
-    double balanceSpeed = 0.25;
+    double balanceSpeed = 0.2;
 
     int crossOver = 1;
 
-    double minSpeed = 0.1;
+    double minSpeed = 0.15;
+
+    double previousAngle = 0;
 
     public AutoBalanceCommand(DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
-        balanceSpeed = 0.25;
+        balanceSpeed = 0.2;
         crossOver = 1;
         addRequirements(drivetrain);
 
@@ -45,21 +49,37 @@ public class AutoBalanceCommand extends CommandBase {
             if (crossOver == -1) {
                 balanceSpeed /= 2;
             }
-            crossOver = 1;
 
-            drivetrain.setMotorPowers(Math.max(balanceSpeed, minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
+            if (angle < previousAngle - fallAngleSize) {
+                drivetrain.setMotorPowers(0, 0, "auto balance");
+            }
+            else {
+                drivetrain.setMotorPowers(Math.max(balanceSpeed, minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
+
+            }
+            
+            crossOver = 1;
         }
         else if (angle < -minAngle) {
             if (crossOver == 1) {
                 balanceSpeed /= 2;
             }
-            crossOver = -1;
 
-            drivetrain.setMotorPowers(-Math.max(balanceSpeed, minSpeed), -Math.max(balanceSpeed, minSpeed), "auto balance");
+            if (angle < previousAngle - fallAngleSize) {
+                drivetrain.setMotorPowers(0, 0, "auto balance");
+            }
+            else {
+                drivetrain.setMotorPowers(Math.max(balanceSpeed, minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
+
+            }
+
+            crossOver = -1;
         }
         else {
             drivetrain.setMotorPowers(0, 0, "auto balance end");
         }
+
+        previousAngle = angle;
     }
 
     public void end() {
