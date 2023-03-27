@@ -16,17 +16,11 @@ public class AutoBalanceCommand extends CommandBase {
     double power;
     double stopSpeed = Constants.stopSpeed;
 
-    double minAngle = 15;
-
-    double fallAngleSize = 2;
-
     double angle;
 
     double balanceSpeed = 0.2;
 
     int crossOver = 1;
-
-    double minSpeed = 0.15;
 
     double previousAngle = 0;
 
@@ -45,31 +39,31 @@ public class AutoBalanceCommand extends CommandBase {
     public void execute() {
         angle = RobotContainer.balanceGyro.getAngle();
 
-        if (angle > minAngle) {
+        if (angle > Constants.AUTO_BALANCE_MINIMUM_ANGLE) {
             if (crossOver == -1) {
                 balanceSpeed /= 2;
             }
 
-            if (angle < previousAngle - fallAngleSize) {
+            if (angle < previousAngle - Constants.AUTO_BALANCE_FALL_ANGLE_SIZE) {
                 drivetrain.setMotorPowers(0, 0, "auto balance");
             }
             else {
-                drivetrain.setMotorPowers(-Math.max(balanceSpeed * (Math.abs(angle) / 15), minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
+                drivetrain.setMotorPowers(-Math.max(balanceSpeed * (Math.abs(angle) / Constants.AUTO_BALANCE_ANGLE_DIVISOR), Constants.AUTO_BALANCE_MINIMUM_SPEED), Math.max(balanceSpeed, Constants.AUTO_BALANCE_MINIMUM_SPEED), "auto balance");
 
             }
             
             crossOver = 1;
         }
-        else if (angle < -minAngle) {
+        else if (angle < -Constants.AUTO_BALANCE_MINIMUM_ANGLE) {
             if (crossOver == 1) {
                 balanceSpeed /= 2;
             }
 
-            if (angle < previousAngle - fallAngleSize) {
+            if (angle < previousAngle - Constants.AUTO_BALANCE_FALL_ANGLE_SIZE) {
                 drivetrain.setMotorPowers(0, 0, "auto balance");
             }
             else {
-                drivetrain.setMotorPowers(Math.max(balanceSpeed * (Math.abs(angle) / 15), minSpeed), Math.max(balanceSpeed, minSpeed), "auto balance");
+                drivetrain.setMotorPowers(Math.max(balanceSpeed * (Math.abs(angle) / Constants.AUTO_BALANCE_ANGLE_DIVISOR), Constants.AUTO_BALANCE_MINIMUM_SPEED), Math.max(balanceSpeed, Constants.AUTO_BALANCE_MINIMUM_SPEED), "auto balance");
 
             }
 
