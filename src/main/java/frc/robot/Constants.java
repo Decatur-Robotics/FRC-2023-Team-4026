@@ -79,4 +79,6 @@ public final class Constants {
 
     public static final double DRIVE_STRAIGHT_DIVISOR = 250;
 
+    public static final double CURRENT_LIMIT = 50, CURRENT_TRIGGER_THRESHOLD = 55, CURRENT_LIMIT_TIME = 0.5;
+
 }

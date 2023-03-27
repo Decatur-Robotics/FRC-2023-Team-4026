@@ -67,10 +67,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     //Docs here: https://v5.docs.ctr-electronics.com/en/latest/ch13_MC.html#new-api-in-2020
     SupplyCurrentLimitConfiguration config = new SupplyCurrentLimitConfiguration();
-    config.currentLimit = 50;
+    config.currentLimit = Constants.CURRENT_LIMIT;
     config.enable = true;
-    config.triggerThresholdCurrent = 55;
-    config.triggerThresholdTime = .5;
+    config.triggerThresholdCurrent = Constants.CURRENT_TRIGGER_THRESHOLD;
+    config.triggerThresholdTime = Constants.CURRENT_LIMIT_TIME;
 
     leftDriveFalconFront.configSupplyCurrentLimit(config, 250);
     leftDriveFalconBack.configSupplyCurrentLimit(config, 250);
