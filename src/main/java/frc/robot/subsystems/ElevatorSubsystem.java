@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
@@ -34,6 +35,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double newPower;
 
     public DigitalInput elevatorLimitSwitch;
+
+    PIDController pid = new PIDController(1.2392, 0, 0.019259);
 
     public ElevatorSubsystem(ClawIntakeSubsystem intake)
     {
@@ -127,7 +130,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         
         if(!targetOverridden) {
             if (!isInTarget()) {
-                setSpeed(Math.signum(targetPosition - potentiometer.get()));
+                //setSpeed(Math.signum(targetPosition - potentiometer.get()));
+                
+                setSpeed(pid.calculate(potentiometer.get(), targetPosition));
             } 
             else {
                 setSpeed(0);
