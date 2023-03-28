@@ -35,6 +35,12 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public DigitalInput elevatorLimitSwitch;
 
+    public int elevatorDirection; //pos = up, neg = down
+    
+    public int previousDirection;
+
+    public double elevatorSpeedMod = 1;
+
     public ElevatorSubsystem(ClawIntakeSubsystem intake)
     {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain", Ports.ELEVATOR_MOTOR_MAIN);
@@ -70,6 +76,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void setTargetPosition(double newTargetPosition, String reason) {
         targetPosition = newTargetPosition;
+        previousDirection = (int) (Math.signum(targetPosition - potentiometer.get()));
     }
 
     private double getCappedPower(double desired)
@@ -85,6 +92,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         speed = Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
 
         speed *= Constants.maxElevatorMotorSpeed;
+
+        speed *= elevatorSpeedMod;
 
         speed = getCappedPower(speed);
 
@@ -131,13 +140,22 @@ public class ElevatorSubsystem extends SubsystemBase {
             } 
             else {
                 setSpeed(0);
+                elevatorSpeedMod = 1;
             }
+        }
+
+        
+        if(previousDirection != Math.signum(targetPosition - potentiometer.get())) {
+            previousDirection = (int) (Math.signum(targetPosition - potentiometer.get()));
+            elevatorSpeedMod = 0.5;
         }
 
         if(potentiometer.get() < Constants.clawCloseThreshold && !clawThresholdOverridden
             && intake.clawGrabberLeft.get() != Value.kReverse && Robot.isEnabled)
             intake.setSolenoid(Value.kReverse);
-            
+
+       
+        
     }
 
     public boolean isInTarget() {
