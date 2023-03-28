@@ -77,6 +77,7 @@ public class RobotContainer {
 
     gyro.reset();
     shuffleboard.addDouble("Gyro", ()->drivetrain.currAngle);
+    shuffleboard.addDouble("Balance Gyro", ()-> balanceGyro.getAngle());
 
     // findingGill =;
     secondaryController = new Joystick(2); //We need this for testing in elevator
@@ -101,10 +102,10 @@ public class RobotContainer {
     
     drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
     
-    // JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
+    JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
     // JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
     // JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
-    JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
+    // JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
     JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
     JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
     JoystickButton triggerLeft = new JoystickButton(primaryController,LogitechControllerButtons.triggerLeft);
@@ -125,6 +126,8 @@ public class RobotContainer {
 
     bumperLeft.onTrue(new VisionCommand(true, vision, drivetrain))
       .onFalse(new VisionCommand(false, vision, drivetrain));
+
+    a.whileTrue(new AutoBalanceCommand(drivetrain));
   }
 
   private void configureSecondaryBindings() {
