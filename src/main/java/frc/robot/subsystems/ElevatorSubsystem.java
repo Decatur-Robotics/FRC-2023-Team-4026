@@ -36,7 +36,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public DigitalInput elevatorLimitSwitch;
 
-    PIDController pid = new PIDController(1.2392, 0, 0.019259);
+    private static final double kP = 1.2392;
+    private static final double kI = 0;
+    private static final double kD = 0.019259;
+
+    PIDController pid = new PIDController(kP, kI, kD);
 
     public ElevatorSubsystem(ClawIntakeSubsystem intake)
     {
@@ -131,7 +135,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         if(!targetOverridden) {
             if (!isInTarget()) {
                 //setSpeed(Math.signum(targetPosition - potentiometer.get()));
-                
+
                 setSpeed(pid.calculate(potentiometer.get(), targetPosition));
             } 
             else {
