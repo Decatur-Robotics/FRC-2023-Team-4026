@@ -34,8 +34,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double newPower;
 
     public DigitalInput elevatorLimitSwitch;
-
-    public int elevatorDirection; //pos = up, neg = down
     
     public int previousDirection;
 
@@ -147,7 +145,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         
         if(previousDirection != Math.signum(targetPosition - potentiometer.get())) {
             previousDirection = (int) (Math.signum(targetPosition - potentiometer.get()));
-            elevatorSpeedMod = 0.5;
+            elevatorSpeedMod = Constants.ELEVATOR_SPEED_MOD_REDUCED;
         }
 
         if(potentiometer.get() < Constants.clawCloseThreshold && !clawThresholdOverridden
