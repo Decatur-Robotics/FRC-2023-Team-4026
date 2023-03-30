@@ -85,4 +85,9 @@ public final class Constants {
     public static final SupplyCurrentLimitConfiguration CURRENT_LIMIT = 
         new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT_AMPS, CURRENT_TRIGGER_THRESHOLD, CURRENT_LIMIT_TIME);
 
+    public static final double AUTO_BALANCE_ANGLE_DIVISOR = 15;
+    public static final double AUTO_BALANCE_MINIMUM_ANGLE = 15;
+    public static final double AUTO_BALANCE_FALL_ANGLE_SIZE = 2;
+    public static final double AUTO_BALANCE_MINIMUM_SPEED = 0.15;
+    
 }
