@@ -65,9 +65,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftDriveFalconFront.setNeutralMode(NeutralMode.Brake);
     leftDriveFalconBack.setNeutralMode(NeutralMode.Brake);
 
-    //Docs here: https://v5.docs.ctr-electronics.com/en/latest/ch13_MC.html#new-api-in-2020
-    SupplyCurrentLimitConfiguration config = Constants.CURRENT_LIMIT;
-
+    SupplyCurrentLimitConfiguration config = new SupplyCurrentLimitConfiguration();
+    config.currentLimit = 55;
     leftDriveFalconFront.configSupplyCurrentLimit(config, 250);
     leftDriveFalconBack.configSupplyCurrentLimit(config, 250);
     rightDriveFalconFront.configSupplyCurrentLimit(config, 250);
