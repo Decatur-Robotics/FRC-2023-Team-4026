@@ -35,6 +35,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double newPower;
 
     public DigitalInput elevatorLimitSwitch;
+    
+    public int previousDirection;
+
+    public double elevatorSpeedMod = 1;
 
     private static final double kP = 1.32; //1.2392;
     private static final double kI = 0;
@@ -77,6 +81,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void setTargetPosition(double newTargetPosition, String reason) {
         targetPosition = newTargetPosition;
+        previousDirection = (int) (Math.signum(targetPosition - potentiometer.get()));
     }
 
     private double getCappedPower(double desired)
@@ -92,6 +97,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         speed = Math.pow(speed, Constants.ELEVATOR_POWER_EXPONENT);
 
         speed *= Constants.maxElevatorMotorSpeed;
+
+        speed *= elevatorSpeedMod;
 
         speed = getCappedPower(speed);
 
@@ -140,13 +147,22 @@ public class ElevatorSubsystem extends SubsystemBase {
             }
             else {
                 setSpeed(0);
+                elevatorSpeedMod = 1;
             }
+        }
+
+        
+        if(previousDirection != Math.signum(targetPosition - potentiometer.get())) {
+            previousDirection = (int) (Math.signum(targetPosition - potentiometer.get()));
+            elevatorSpeedMod = Constants.ELEVATOR_SPEED_MOD_REDUCED;
         }
 
         if(potentiometer.get() < Constants.clawCloseThreshold && !clawThresholdOverridden
             && intake.clawGrabberLeft.get() != Value.kReverse && Robot.isEnabled)
             intake.setSolenoid(Value.kReverse);
-            
+
+       
+        
     }
 
     public boolean isInTarget() {
