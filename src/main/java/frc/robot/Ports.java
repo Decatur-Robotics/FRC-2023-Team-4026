@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.I2C.Port;
+
 public class Ports {
    public final static int RIGHT_DRIVE_FALCON_FRONT = 2;
    public final static int RIGHT_DRIVE_FALCON_BACK = 4;
@@ -17,5 +19,6 @@ public class Ports {
    public final static int GYRO = 0;
    public final static int GYRO_VERTICAL = 1;
    public final static int ELEVATOR_LIMIT_SWITCH = 9;
+   public final static Port NAV_X = Port.kMXP; //Need to check this
 }
 

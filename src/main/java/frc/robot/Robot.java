@@ -28,6 +28,8 @@ public class Robot extends TimedRobot {
   public static boolean isEnabled;
   public static boolean isTest;
 
+  public static CTREConfigs ctreConfigs;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -36,6 +38,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
     CameraServer.startAutomaticCapture();
   }
@@ -60,7 +63,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     if(RobotContainer.instance != null)
-      RobotContainer.instance.drivetrain.driveStraight = false;
+      // RobotContainer.instance.drivetrain.driveStraight = false;
     
       isEnabled = false;
       isTest = false;
@@ -102,7 +105,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
 
     RobotContainer.instance.elevator.setSpeed(0);
-    RobotContainer.instance.drivetrain.setMotorPowers(0, 0, "teleop initialized");
+    // RobotContainer.instance.drivetrain.setMotorPowers(0, 0, "teleop initialized");
     RobotContainer.instance.elevator.resetTarget();
 
     new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);

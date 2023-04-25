@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.SetElevatorTargetCommand;
 import frc.robot.commands.SetElevatorTargetOverrideCommand;
+import frc.robot.autos.DriveDistanceAuto;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
@@ -30,14 +31,17 @@ import frc.robot.commands.NormalAutoCommand;
 import frc.robot.commands.SetClawThresholdOverrideCommand;
 import frc.robot.commands.SpeedModeCommand;
 import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.commands.MoveElevatorCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -53,7 +57,8 @@ public class RobotContainer {
   public static RobotContainer instance;
 
   // public  FindingGillSubsystem findingGill =  new FindingGillSubsystem();
-  public DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();
+  // public DriveTrainSubsystem drivetrain =  new DriveTrainSubsystem();
+  public SwerveDriveSubsystem swerveDrive = new SwerveDriveSubsystem();
   public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();
   public ElevatorSubsystem elevator = new ElevatorSubsystem(clawIntake);;
   public VisionSubsystem vision = new VisionSubsystem();
@@ -76,7 +81,7 @@ public class RobotContainer {
     // shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
     gyro.reset();
-    shuffleboard.addDouble("Gyro", ()->drivetrain.currAngle);
+    shuffleboard.addDouble("Gyro", ()->swerveDrive.gyro.getAngle());
 
     // findingGill =;
     secondaryController = new Joystick(2); //We need this for testing in elevator
@@ -99,7 +104,6 @@ public class RobotContainer {
   private void configurePrimaryBindings() {
     primaryController = new Joystick(1);
     
-    drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
     
     // JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
     // JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
@@ -114,17 +118,22 @@ public class RobotContainer {
     // JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
     // JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
     
-    triggerRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,drivetrain))
-      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
-    triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,drivetrain))
-      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, drivetrain));
+    // drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
+    swerveDrive.setDefaultCommand(new TeleopSwerveCommand(swerveDrive, 
+      ()->-primaryController.getY(), ()->-primaryController.getX(), ()->-primaryController.getThrottle(), ()->y.getAsBoolean()));
+
+    triggerRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,swerveDrive))
+      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, swerveDrive));
+    triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,swerveDrive))
+      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, swerveDrive));
     // triggerRight.onTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
-    bumperRight.onTrue(new DriveStraightCommand(true, drivetrain))
-      .onFalse(new DriveStraightCommand(false, drivetrain));
+    //Add drivestraight back later
+    // bumperRight.onTrue(new DriveStraightCommand(true, swerveDrive))
+    //   .onFalse(new DriveStraightCommand(false, swerveDrive));
 
-    bumperLeft.onTrue(new VisionCommand(true, vision, drivetrain))
-      .onFalse(new VisionCommand(false, vision, drivetrain));
+    // bumperLeft.onTrue(new VisionCommand(true, vision, swerveDrive))
+    //   .onFalse(new VisionCommand(false, vision, swerveDrive));
   }
 
   private void configureSecondaryBindings() {
@@ -187,85 +196,85 @@ public class RobotContainer {
   private final Command normalAuto = new SetElevatorTargetCommand( Constants.middleElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand( Value.kForward,clawIntake,true))
     .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
 
   private final Command chargeStationAuto = new SetElevatorTargetCommand( Constants.topElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand( Value.kForward,clawIntake, true))
     .andThen(new SetElevatorTargetCommand( Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
 
-  private final Command driveBackAuto = new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain);
+  private final Command driveBackAuto = new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive);
 
   private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kForward, clawIntake, true)
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
     
   private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake, true);
 
-  private final Command overThenBalanceAuto = new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain)
-    .andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain));
+  private final Command overThenBalanceAuto = new DriveDistanceAuto(Constants.OVER_CHARGESTATION_DISTANCE, swerveDrive)
+    .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGESTATION_DISTANCE, swerveDrive));
 
   private final Command highBalance = 
     new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
     .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
     //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
     //.andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
     
   private final Command midBalance = 
     new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
     .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
     //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
     //.andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
 
-  private final Command backOut = new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain);
+  private final Command backOut = new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance, swerveDrive);
 
   private final Command lowBalance = 
     new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
     .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(Constants.BALANCE_DISTANCE, drivetrain))
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
     //.andThen(new DriveDistance(Constants.OVER_CHARGESTATION_DISTANCE, drivetrain))
     //.andThen(new DriveDistance(Constants.RETURN_TO_CHARGESTATION_DISTANCE, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
 
   private final Command highBack = 
     new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
     .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
 
   private final Command midBack = 
     new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
     .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
 
 
   private final Command lowBack = 
     new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true, elevator)
     .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
     .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-    .andThen(new DriveStraightCommand(true, drivetrain))
-    .andThen(new DriveDistance(50000 * Constants.normalAutoDriveBackDistance, drivetrain))
-    .andThen(new DriveStraightCommand(false, drivetrain));
+    // .andThen(new DriveStraightCommand(true, swerveDrive))
+    .andThen(new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance, swerveDrive));
+    // .andThen(new DriveStraightCommand(false, swerveDrive));
 
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();

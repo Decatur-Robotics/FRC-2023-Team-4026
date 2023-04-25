@@ -42,6 +42,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public AnalogGyro gyro;
 
   public double currAngle;
+  
   public DriveTrainSubsystem() 
   {
     rightDriveFalconFront = new TeamTalonFX("Subsystems.DriveTrain.RightMain", Ports.RIGHT_DRIVE_FALCON_FRONT);

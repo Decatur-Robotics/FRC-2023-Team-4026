@@ -3,13 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 
 public class SpeedModeCommand extends CommandBase {
-    DriveTrainSubsystem drivetrain;
+    SwerveDriveSubsystem drivetrain;
     public double speedMod;
 
 
-    public SpeedModeCommand( double newSpeedMod, DriveTrainSubsystem drivetrain) {
+    public SpeedModeCommand( double newSpeedMod, SwerveDriveSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         
         speedMod = newSpeedMod;
