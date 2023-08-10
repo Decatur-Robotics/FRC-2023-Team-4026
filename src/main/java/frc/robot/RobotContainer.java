@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -14,34 +13,21 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.SetElevatorTargetCommand;
 import frc.robot.commands.SetElevatorTargetOverrideCommand;
 import frc.robot.autos.DriveDistanceAuto;
-import frc.robot.commands.AutoBalanceCommand;
-import frc.robot.commands.ChargeStationAutoCommand;
 import frc.robot.commands.ClawGrabberCommand;
-import frc.robot.commands.DriveBackAutoCommand;
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.VisionCommand;
-import frc.robot.commands.IntakeMotorCommand;
-import frc.robot.commands.NormalAutoCommand;
 import frc.robot.commands.SetClawThresholdOverrideCommand;
-import frc.robot.commands.SpeedModeCommand;
-import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.commands.MoveElevatorCommand;
-import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.ClawIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -107,7 +93,7 @@ public class RobotContainer {
     
     // JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
     // JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
-    // JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
+    JoystickButton x = new JoystickButton(primaryController,LogitechControllerButtons.x);
     JoystickButton y = new JoystickButton(primaryController,LogitechControllerButtons.y);
     JoystickButton bumperLeft = new JoystickButton(primaryController,LogitechControllerButtons.bumperLeft);
     JoystickButton bumperRight = new JoystickButton(primaryController,LogitechControllerButtons.bumperRight);
@@ -119,13 +105,20 @@ public class RobotContainer {
     // JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
     
     // drivetrain.setDefaultCommand(new TankDriveCommand(()-> primaryController.getY(), ()-> primaryController.getThrottle(), drivetrain));
-    swerveDrive.setDefaultCommand(new TeleopSwerveCommand(swerveDrive, 
-      ()->-primaryController.getY(), ()->-primaryController.getX(), ()->-primaryController.getThrottle(), ()->y.getAsBoolean()));
+    swerveDrive.setDefaultCommand(
+      new TeleopSwerveCommand(swerveDrive, 
+        () -> -primaryController.getY(), // vertical axis of left joystick-> translation
+        () -> -primaryController.getX(), // horizontal axis of left joystick-> strafe
+        () -> -primaryController.getTwist() // we want horizontal of right stick, if not twist, then change
+        /*()->y.getAsBoolean()  owen doesn't want a button to turn field-relative off*/
+        ));
 
-    triggerRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,swerveDrive))
-      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, swerveDrive));
-    triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,swerveDrive))
-      .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, swerveDrive));
+    x.onTrue(new InstantCommand(() -> swerveDrive.zeroGyro()));
+
+    //  triggerRight.onTrue(new SpeedModeCommand( Constants.FAST_SPEED,swerveDrive))
+      // .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, swerveDrive));
+    // triggerLeft.onTrue(new SpeedModeCommand( Constants.SLOW_SPEED,swerveDrive))
+      // .onFalse(new SpeedModeCommand(Constants.NORMAL_SPEED, swerveDrive));
     // triggerRight.onTrue(new SpeedModeCommand( Constants.NORMAL_SPEED,drivetrain));
 
     //Add drivestraight back later

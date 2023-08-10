@@ -8,7 +8,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import com.ctre.phoenix.sensors.Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -27,10 +26,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public double speedMod = Constants.NORMAL_SPEED;
 
     public SwerveDriveSubsystem() {
-        gyro = new AHRS(Port.kMXP);
-        // gyro.configFactoryDefault();
+        gyro = new AHRS(Port.kMXP); //need to check this. port for gyro
+        //pls check ahrs gyro setup EDIT: gyro should automatically calibrate once powered on
         zeroGyro();
-
+        
+        // swerve module construction
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -44,9 +44,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         Timer.delay(1.0);
         resetModulesToAbsolute();
 
+        // construct odometry (full robot position/incorporated module states)
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
     }
 
+    // main driving method. translation is change in every direction
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
@@ -61,8 +63,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                                     translation.getY(), 
                                     rotation)
                                 );
+        // speedmods swerve modules (cool right?), swervemodulestates is current state (described elsewhere too)
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, speedMod);
 
+        // sets modules to desired state (angle, speed)
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
@@ -77,14 +81,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         }
     }    
 
+    // gets position of robot on the field (odometry)
     public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }
 
+    // resets odometry (position on field)
     public void resetOdometry(Pose2d pose) {
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     }
 
+    // returns array of a modules' states (angle, speed) for each one
     public SwerveModuleState[] getModuleStates(){
         SwerveModuleState[] states = new SwerveModuleState[4];
         for(SwerveModule mod : mSwerveMods){
@@ -93,6 +100,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         return states;
     }
 
+    // returns module positions(for each individual module)
     public SwerveModulePosition[] getModulePositions(){
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for(SwerveModule mod : mSwerveMods){
@@ -119,6 +127,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
 
+        // smartdashboard logging per module
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());

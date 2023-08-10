@@ -18,7 +18,7 @@ public class TeleopSwerveCommand extends CommandBase {
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
 
-    public TeleopSwerveCommand(SwerveDriveSubsystem s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
+    public TeleopSwerveCommand(SwerveDriveSubsystem s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup /*BooleanSupplier robotCentricSup*/) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
@@ -39,7 +39,7 @@ public class TeleopSwerveCommand extends CommandBase {
         s_Swerve.drive(
             new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
             rotationVal * Constants.Swerve.maxAngularVelocity, 
-            !robotCentricSup.getAsBoolean(), 
+            /*!robotCentricSup.getAsBoolean(),*/ true, // field relative is always on
             true
         );
     }
