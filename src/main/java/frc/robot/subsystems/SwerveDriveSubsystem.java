@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
-import frc.robot.Ports;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -23,7 +22,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public AHRS gyro; //AHRS is the NavX class
-    public double speedMod = Constants.NORMAL_SPEED;
+    public double maxModuleSpeed = Constants.Swerve.maxSpeed;
 
     public SwerveDriveSubsystem() {
         gyro = new AHRS(Port.kMXP); //need to check this. port for gyro
@@ -63,8 +62,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                                     translation.getY(), 
                                     rotation)
                                 );
-        // speedmods swerve modules (cool right?), swervemodulestates is current state (described elsewhere too)
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, speedMod);
+        // lowers module speeds to max attainable speed (avoids going above topspeed)
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxModuleSpeed);
 
         // sets modules to desired state (angle, speed)
         for(SwerveModule mod : mSwerveMods){
@@ -74,7 +73,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, speedMod);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, maxModuleSpeed);
         
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
