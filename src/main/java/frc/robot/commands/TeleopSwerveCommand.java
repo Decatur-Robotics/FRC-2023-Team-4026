@@ -16,7 +16,7 @@ public class TeleopSwerveCommand extends CommandBase {
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
-    private BooleanSupplier robotCentricSup;
+    private BooleanSupplier robotCentricSup; // used for field relative
 
     public TeleopSwerveCommand(SwerveDriveSubsystem s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup /*BooleanSupplier robotCentricSup*/) {
         this.s_Swerve = s_Swerve;
