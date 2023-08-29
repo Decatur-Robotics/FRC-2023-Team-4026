@@ -73,13 +73,13 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("Auto Command: " + m_autonomousCommand);
     // if(m_autonomousCommand == null) m_autonomousCommand = new NormalAutoCommand();
 
-    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
-    isEnabled = true;
-    RobotContainer.instance.elevator.resetTarget();
+    // new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
+    // isEnabled = true;
+    // RobotContainer.instance.elevator.resetTarget(); TODO: uncomment with working swerve
     
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -102,11 +102,10 @@ public class Robot extends TimedRobot {
     // }
     CommandScheduler.getInstance().cancelAll();
 
-    RobotContainer.instance.elevator.setSpeed(0);
-    // RobotContainer.instance.drivetrain.setMotorPowers(0, 0, "teleop initialized");
-    RobotContainer.instance.elevator.resetTarget();
+    // RobotContainer.instance.elevator.setSpeed(0); TODO: uncomment with working swerve
+    // RobotContainer.instance.elevator.resetTarget();
 
-    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
+    // new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
     isEnabled = true;
   }
 
