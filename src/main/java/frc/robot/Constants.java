@@ -59,7 +59,6 @@ public final class Constants {
     public static final double JOYSTICK_DEADBAND = 0.1;
 
     public static final class Swerve {
-        public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         /* Drivetrain Constants */
@@ -80,8 +79,8 @@ public final class Constants {
         public static final double voltageComp = 12.0; // need to confirm this
 
         /* Module Gear Ratios */
-        public static final double driveGearRatio = (6.75 / 1.0);
-        public static final double angleGearRatio = ((150.0 / 7.0) / 1.0);
+        public static final double driveGearRatio = 6.75;
+        public static final double angleGearRatio = 150.0 / 7.0;
 
         /* Motor Inverts */
         public static final boolean angleMotorInvert = true; //check when testing
@@ -134,7 +133,7 @@ public final class Constants {
         public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
-        public static final IdleMode angleNeutralMode = IdleMode.kCoast;
+        public static final IdleMode angleNeutralMode = IdleMode.kBrake;
         public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
 
         /* Module Specific Constants */

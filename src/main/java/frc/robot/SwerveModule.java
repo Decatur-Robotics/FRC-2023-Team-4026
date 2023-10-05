@@ -65,6 +65,7 @@ public class SwerveModule {
     }
 
     private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
+        // if isOpenLoop is false, we convert to a Falcon unit. If true, we set the motor speed using a PercentOutput of motor power
         if(isOpenLoop){
             double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
             mDriveMotor.set(ControlMode.PercentOutput, percentOutput);
