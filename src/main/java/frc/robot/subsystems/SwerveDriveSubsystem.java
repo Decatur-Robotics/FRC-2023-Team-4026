@@ -67,6 +67,8 @@ public class SwerveDriveSubsystem extends SubsystemBase
         {
             SwerveModuleState mod = swerveModuleStates[i];
             SmartDashboard.putNumber("Mod " + i + " Target Angle", mod.angle.getDegrees());
+            SmartDashboard.putNumber("Mod " + i + " Target - CANCoder",
+                    mod.angle.getDegrees() - mSwerveMods[i].getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + i + " Target Speed", mod.speedMetersPerSecond);
         }
 

@@ -25,7 +25,7 @@ public class TeleopSwerveCommand extends CommandBase {
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
-        this.robotCentricSup = robotCentricSup;
+        // this.robotCentricSup = robotCentricSup;
     }
 
     @Override

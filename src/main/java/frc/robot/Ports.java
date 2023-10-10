@@ -21,7 +21,7 @@ public class Ports
 
       // Front right
       public final static int MOD0_DRIVEMOTOR = 3;
-      public final static int MOD0_ANGLEMOTOR = 6;
+      public final static int MOD0_ANGLEMOTOR = 9;
       public final static int MOD0_CANCODER = 2;
 
       // Rear right
@@ -36,7 +36,7 @@ public class Ports
 
       // Rear left
       public final static int MOD3_DRIVEMOTOR = 2;
-      public final static int MOD3_ANGLEMOTOR = 9;
+      public final static int MOD3_ANGLEMOTOR = 6;
       public final static int MOD3_CANCODER = 3;
 
    }

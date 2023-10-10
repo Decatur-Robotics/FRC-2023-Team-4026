@@ -22,7 +22,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
-public class SwerveModule {
+public class SwerveModule
+{
     public int moduleNumber;
     private Rotation2d angleOffset;
     private Rotation2d lastAngle;
@@ -34,12 +35,14 @@ public class SwerveModule {
     private SparkMaxPIDController angleController;
     private CANCoder angleEncoder;
 
-    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
+    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS,
+            Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
-    public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
+    public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants)
+    {
         this.moduleNumber = moduleNumber;
         this.angleOffset = moduleConstants.angleOffset;
-        
+
         /* Angle Encoder Config */
         angleEncoder = new CANCoder(moduleConstants.cancoderID);
         configAngleEncoder();
@@ -57,57 +60,74 @@ public class SwerveModule {
         lastAngle = getState().angle;
     }
 
-    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
-        /* This is a custom optimize function, since default WPILib optimize assumes continuous controller which CTRE and Rev onboard is not */
-        desiredState = CTREModuleState.optimize(desiredState, getState().angle); 
+    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop)
+    {
+        /*
+         * This is a custom optimize function, since default WPILib optimize assumes continuous
+         * controller which CTRE and Rev onboard is not
+         */
+        desiredState = CTREModuleState.optimize(desiredState, getState().angle);
         setAngle(desiredState);
         setSpeed(desiredState, isOpenLoop);
     }
 
-    private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
-        // if isOpenLoop is false, we convert to a Falcon unit. If true, we set the motor speed using a PercentOutput of motor power
-        if(isOpenLoop){
+    private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop)
+    {
+        // if isOpenLoop is false, we convert to a Falcon unit. If true, we set the motor speed
+        // using a PercentOutput of motor power
+        if (isOpenLoop)
+        {
             double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
             mDriveMotor.set(ControlMode.PercentOutput, percentOutput);
         }
-        else {
-            double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio);
-            mDriveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
+        else
+        {
+            double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond,
+                    Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio);
+            mDriveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
+                    feedforward.calculate(desiredState.speedMetersPerSecond));
         }
     }
 
-    private void setAngle(SwerveModuleState desiredState){
-        Rotation2d angle = 
-            (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) 
-            ? lastAngle 
-            : desiredState.angle; //Prevent rotating module if speed is less then 1%. Prevents Jittering.
-        
+    private void setAngle(SwerveModuleState desiredState)
+    {
+        Rotation2d angle = (Math
+                .abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01))
+                        ? lastAngle
+                        : desiredState.angle; // Prevent rotating module if speed is less then 1%.
+                                              // Prevents Jittering.
+
         angleController.setReference(angle.getDegrees(), ControlType.kPosition);
         lastAngle = angle;
     }
 
-    private Rotation2d getAngle(){
+    private Rotation2d getAngle()
+    {
         return Rotation2d.fromDegrees(integratedAngleEncoder.getPosition());
     }
 
-    public Rotation2d getCanCoder(){
+    public Rotation2d getCanCoder()
+    {
         return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
     }
 
-    public void resetToAbsolute(){
+    public void resetToAbsolute()
+    {
         double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
         integratedAngleEncoder.setPosition(absolutePosition);
     }
 
-    private void configAngleEncoder(){        
+    private void configAngleEncoder()
+    {
         angleEncoder.configFactoryDefault();
         CANCoderUtil.setCANCoderBusUsage(angleEncoder, CCUsage.kMinimal);
         angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);
     }
 
-    private void configAngleMotor(){
+    private void configAngleMotor()
+    {
         mAngleMotor.restoreFactoryDefaults();
-        CANSparkMaxUtil.setCANSparkMaxBusUsage(mAngleMotor, Usage.kPositionOnly);
+        CANSparkMaxUtil.setCANSparkMaxBusUsage(mAngleMotor, Usage.kMinimal);
         mAngleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
         mAngleMotor.setInverted(Constants.Swerve.angleMotorInvert);
         mAngleMotor.setIdleMode(Constants.Swerve.angleNeutralMode);
@@ -117,11 +137,12 @@ public class SwerveModule {
         angleController.setD(Constants.Swerve.angleKD);
         angleController.setFF(Constants.Swerve.angleKF);
         mAngleMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
-        mAngleMotor.burnFlash(); //idk what this does pls find out
+        mAngleMotor.burnFlash(); // idk what this does pls find out
         resetToAbsolute();
     }
 
-    private void configDriveMotor(){        
+    private void configDriveMotor()
+    {
         mDriveMotor.configFactoryDefault();
         mDriveMotor.configAllSettings(Robot.ctreConfigs.swerveDriveFXConfig);
         mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
@@ -129,17 +150,19 @@ public class SwerveModule {
         mDriveMotor.setSelectedSensorPosition(0);
     }
 
-    public SwerveModuleState getState(){
+    public SwerveModuleState getState()
+    {
         return new SwerveModuleState(
-            Conversions.falconToMPS(mDriveMotor.getSelectedSensorVelocity(), Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio), 
-            getAngle()
-        ); 
+                Conversions.falconToMPS(mDriveMotor.getSelectedSensorVelocity(),
+                        Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio),
+                getAngle());
     }
 
-    public SwerveModulePosition getPosition(){
+    public SwerveModulePosition getPosition()
+    {
         return new SwerveModulePosition(
-            Conversions.falconToMeters(mDriveMotor.getSelectedSensorPosition(), Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio), 
-            getAngle()
-        );
+                Conversions.falconToMeters(mDriveMotor.getSelectedSensorPosition(),
+                        Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio),
+                getAngle());
     }
 }
