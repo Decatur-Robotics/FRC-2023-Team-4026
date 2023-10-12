@@ -31,13 +31,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
 
   public static RobotContainer instance;
 
@@ -57,9 +59,10 @@ public class RobotContainer
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer()
-  {
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
+  public RobotContainer() {
     // shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
     shuffleboard.addDouble("Gyro", () -> swerveDrive.gyro.getAngle());
@@ -74,17 +77,20 @@ public class RobotContainer
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
    * instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configurePrimaryBindings()
-  {
+  private void configurePrimaryBindings() {
     primaryController = new Joystick(1);
 
-    // JoystickButton a = new JoystickButton(primaryController,LogitechControllerButtons.a);
-    // JoystickButton b = new JoystickButton(primaryController,LogitechControllerButtons.b);
+    // JoystickButton a = new
+    // JoystickButton(primaryController,LogitechControllerButtons.a);
+    // JoystickButton b = new
+    // JoystickButton(primaryController,LogitechControllerButtons.b);
     JoystickButton x = new JoystickButton(primaryController, LogitechControllerButtons.x);
     JoystickButton y = new JoystickButton(primaryController, LogitechControllerButtons.y);
     JoystickButton bumperLeft = new JoystickButton(primaryController,
@@ -95,10 +101,14 @@ public class RobotContainer
         LogitechControllerButtons.triggerLeft);
     JoystickButton triggerRight = new JoystickButton(primaryController,
         LogitechControllerButtons.triggerRight);
-    // JoystickButton up = new JoystickButton(primaryController,LogitechControllerButtons.up);
-    // JoystickButton down = new JoystickButton(primaryController,LogitechControllerButtons.down);
-    // JoystickButton left = new JoystickButton(primaryController,LogitechControllerButtons.left);
-    // JoystickButton right = new JoystickButton(primaryController,LogitechControllerButtons.right);
+    // JoystickButton up = new
+    // JoystickButton(primaryController,LogitechControllerButtons.up);
+    // JoystickButton down = new
+    // JoystickButton(primaryController,LogitechControllerButtons.down);
+    // JoystickButton left = new
+    // JoystickButton(primaryController,LogitechControllerButtons.left);
+    // JoystickButton right = new
+    // JoystickButton(primaryController,LogitechControllerButtons.right);
 
     swerveDrive
         // vertical axis of left joystick -> translation
@@ -110,8 +120,7 @@ public class RobotContainer
         ));
 
     x.onTrue(new InstantCommand(() -> swerveDrive.zeroGyro()));
-    y.onTrue(new InstantCommand(() ->
-    {
+    y.onTrue(new InstantCommand(() -> {
       for (SwerveModule mod : swerveDrive.mSwerveMods)
         mod.resetToAbsolute();
     }));
@@ -121,13 +130,18 @@ public class RobotContainer
   // private void configureSecondaryBindings() {
   // // secondaryController = new Joystick(2);
 
-  // elevator.setDefaultCommand(new MoveElevatorCommand(() -> -secondaryController.getY(),
+  // elevator.setDefaultCommand(new MoveElevatorCommand(() ->
+  // -secondaryController.getY(),
   // elevator));
 
-  // JoystickButton a = new JoystickButton(secondaryController,LogitechControllerButtons.a);
-  // JoystickButton b = new JoystickButton(secondaryController,LogitechControllerButtons.b);
-  // JoystickButton x = new JoystickButton(secondaryController,LogitechControllerButtons.x);
-  // JoystickButton y = new JoystickButton(secondaryController,LogitechControllerButtons.y);
+  // JoystickButton a = new
+  // JoystickButton(secondaryController,LogitechControllerButtons.a);
+  // JoystickButton b = new
+  // JoystickButton(secondaryController,LogitechControllerButtons.b);
+  // JoystickButton x = new
+  // JoystickButton(secondaryController,LogitechControllerButtons.x);
+  // JoystickButton y = new
+  // JoystickButton(secondaryController,LogitechControllerButtons.y);
   // JoystickButton bumperLeft = new
   // JoystickButton(secondaryController,LogitechControllerButtons.bumperLeft);
   // JoystickButton bumperRight = new
@@ -136,10 +150,14 @@ public class RobotContainer
   // JoystickButton(secondaryController,LogitechControllerButtons.triggerLeft);
   // JoystickButton triggerRight = new
   // JoystickButton(secondaryController,LogitechControllerButtons.triggerRight);
-  // POVButton up = new POVButton(secondaryController,LogitechControllerButtons.up);
-  // POVButton down = new POVButton(secondaryController,LogitechControllerButtons.down);
-  // POVButton left = new POVButton(secondaryController,LogitechControllerButtons.left);;
-  // POVButton right = new POVButton(secondaryController,LogitechControllerButtons.right);
+  // POVButton up = new
+  // POVButton(secondaryController,LogitechControllerButtons.up);
+  // POVButton down = new
+  // POVButton(secondaryController,LogitechControllerButtons.down);
+  // POVButton left = new
+  // POVButton(secondaryController,LogitechControllerButtons.left);;
+  // POVButton right = new
+  // POVButton(secondaryController,LogitechControllerButtons.right);
   // JoystickButton start = new JoystickButton(secondaryController,
   // LogitechControllerButtons.start);
 
@@ -147,12 +165,17 @@ public class RobotContainer
   // b.whileTrue(new ClawGrabberCommand(Value.kReverse, clawIntake, false));
   // // new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
 
-  // up.onTrue(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, elevator));
-  // left.onTrue(new SetElevatorTargetCommand(Constants.carryElevatorPos, elevator));
-  // right.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, elevator));
-  // down.onTrue(new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
+  // up.onTrue(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition,
+  // elevator));
+  // left.onTrue(new SetElevatorTargetCommand(Constants.carryElevatorPos,
+  // elevator));
+  // right.onTrue(new
+  // SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, elevator));
+  // down.onTrue(new
+  // SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
   // bumperLeft.onTrue(new
-  // SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition, elevator));
+  // SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition,
+  // elevator));
 
   // bumperRight.onTrue(new SetClawThresholdOverrideCommand(true, elevator));
   // bumperRight.onFalse(new SetClawThresholdOverrideCommand(false, elevator));
@@ -160,19 +183,29 @@ public class RobotContainer
   // triggerLeft.onTrue(new SetElevatorTargetOverrideCommand(true, elevator));
   // triggerLeft.onFalse(new SetElevatorTargetOverrideCommand(false, elevator));
 
-  // start.onTrue(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, elevator));
+  // start.onTrue(new
+  // SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, elevator));
 
   // shuffleboard.addBoolean("Test", () -> Robot.isTest);
   // if(Robot.isTest) {
-  // x.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true,
+  // x.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
+  // true, elevator)
+  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
+  // elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
+  // true, elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
+  // elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
+  // true, elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
+  // elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
+  // true, elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
+  // elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
+  // true,
   // elevator)));
   // }
   // }
@@ -185,66 +218,87 @@ public class RobotContainer
   // private final Command normalAuto = new SetElevatorTargetCommand(
   // Constants.middleElevatorTargetPosition, true, elevator)
   // .andThen(new ClawGrabberCommand( Value.kForward,clawIntake,true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
   // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
   // private final Command chargeStationAuto = new SetElevatorTargetCommand(
   // Constants.topElevatorTargetPosition, true, elevator)
   // .andThen(new ClawGrabberCommand( Value.kForward,clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand( Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+  // .andThen(new SetElevatorTargetCommand( Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
   // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command driveBackAuto = new DriveDistanceAuto(Constants.BALANCE_DISTANCE,
+  // private final Command driveBackAuto = new
+  // DriveDistanceAuto(Constants.BALANCE_DISTANCE,
   // swerveDrive);
 
-  // private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kForward, clawIntake,
+  // private final Command openThenDriveAuto = new
+  // ClawGrabberCommand(Value.kForward, clawIntake,
   // true)
   // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake, true);
+  // private final Command openClaw = new ClawGrabberCommand(Value.kReverse,
+  // clawIntake, true);
 
   // private final Command overThenBalanceAuto = new
   // DriveDistanceAuto(Constants.OVER_CHARGESTATION_DISTANCE, swerveDrive)
-  // .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGESTATION_DISTANCE, swerveDrive));
+  // .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGESTATION_DISTANCE,
+  // swerveDrive));
 
   // private final Command highBalance =
-  // new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
+  // new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true,
+  // elevator)
   // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
   // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
   // private final Command midBalance =
-  // new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+  // new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true,
+  // elevator)
   // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
   // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
   // private final Command backOut = new DriveDistanceAuto(50000 *
   // Constants.normalAutoDriveBackDistance, swerveDrive);
 
   // private final Command lowBalance =
-  // new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true, elevator)
+  // new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true,
+  // elevator)
   // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
   // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
   // private final Command highBack =
-  // new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true, elevator)
+  // new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true,
+  // elevator)
   // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
+  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
+  // .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance,
+  // swerveDrive));
 
   // private final Command midBack =
-  // new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+  // new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true,
+  // elevator)
   // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
+  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
+  // .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance,
+  // swerveDrive));
 
   // private final Command lowBack =
-  // new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true, elevator)
+  // new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true,
+  // elevator)
   // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-  // .andThen(new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance, swerveDrive));
+  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
+  // true, elevator))
+  // .andThen(new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance,
+  // swerveDrive));
 
   // SendableChooser<Command> autoChooser = new SendableChooser<>();
 
