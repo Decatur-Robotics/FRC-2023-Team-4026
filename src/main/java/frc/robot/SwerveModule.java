@@ -137,7 +137,7 @@ public class SwerveModule
         angleController.setD(Constants.Swerve.angleKD);
         angleController.setFF(Constants.Swerve.angleKF);
         mAngleMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
-        mAngleMotor.burnFlash(); // idk what this does pls find out
+        mAngleMotor.burnFlash(); // writes configurations to flash memory so they save if a PDP breaker trips
         resetToAbsolute();
     }
 
