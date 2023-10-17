@@ -7,12 +7,9 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ClawGrabberCommand;
-import frc.robot.commands.DriveStraightCommand;
-import frc.robot.commands.NormalAutoCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,6 +25,8 @@ public class Robot extends TimedRobot {
   public static boolean isEnabled;
   public static boolean isTest;
 
+  public static CTREConfigs ctreConfigs;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -36,6 +35,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
     CameraServer.startAutomaticCapture();
   }
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     if(RobotContainer.instance != null)
-      RobotContainer.instance.drivetrain.driveStraight = false;
+      // RobotContainer.instance.drivetrain.driveStraight = false;
     
       isEnabled = false;
       isTest = false;
@@ -72,13 +72,13 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("Auto Command: " + m_autonomousCommand);
     // if(m_autonomousCommand == null) m_autonomousCommand = new NormalAutoCommand();
 
-    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
-    isEnabled = true;
-    RobotContainer.instance.elevator.resetTarget();
+    // new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
+    // isEnabled = true;
+    // RobotContainer.instance.elevator.resetTarget(); TODO: uncomment with working swerve
     
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -101,11 +101,10 @@ public class Robot extends TimedRobot {
     // }
     CommandScheduler.getInstance().cancelAll();
 
-    RobotContainer.instance.elevator.setSpeed(0);
-    RobotContainer.instance.drivetrain.setMotorPowers(0, 0, "teleop initialized");
-    RobotContainer.instance.elevator.resetTarget();
+    // RobotContainer.instance.elevator.setSpeed(0); TODO: uncomment with working swerve
+    // RobotContainer.instance.elevator.resetTarget();
 
-    new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
+    // new ClawGrabberCommand(Value.kForward, RobotContainer.instance.clawIntake, true);
     isEnabled = true;
   }
 
