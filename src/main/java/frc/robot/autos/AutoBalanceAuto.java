@@ -69,8 +69,10 @@ public class AutoBalanceAuto extends CommandBase
         if (balancingSpeed < 0.1)
             balancingSpeed = 0.1;
 
-        s_Swerve.drive(new Translation2d(balancingSpeed * balancingDirection, 0).times(
-                Constants.Swerve.maxSpeed), wheelLockSpeed * Constants.Swerve.maxAngularVelocity,
+        s_Swerve.drive(
+                new Translation2d(balancingSpeed * balancingDirection, wheelLockSpeed)
+                        .times(Constants.Swerve.maxSpeed),
+                0 * Constants.Swerve.maxAngularVelocity,
                 /* !robotCentricSup.getAsBoolean(), */ true, // field relative is always on
                 true);
 
