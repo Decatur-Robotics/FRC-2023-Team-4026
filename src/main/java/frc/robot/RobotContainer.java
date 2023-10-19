@@ -31,23 +31,20 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer
+{
 
   public static RobotContainer instance;
 
   public SwerveDriveSubsystem swerveDrive = new SwerveDriveSubsystem();
-  // TODO: uncomment Robot.java code when swerve is done
-  // public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();
-  // public ElevatorSubsystem elevator = new ElevatorSubsystem(clawIntake);;
-  // public VisionSubsystem vision = new VisionSubsystem();
+  public ClawIntakeSubsystem clawIntake = new ClawIntakeSubsystem();
+  public ElevatorSubsystem elevator = new ElevatorSubsystem(clawIntake);;
+  public VisionSubsystem vision = new VisionSubsystem();
 
   public Joystick primaryController;
   public Joystick secondaryController;
@@ -59,33 +56,51 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  SendableChooser<Command> autoChooser;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+  public RobotContainer()
+  {
     // shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
     shuffleboard.addDouble("Gyro", () -> swerveDrive.gyro.getAngle());
+
+    autoChooser = new SendableChooser<>();
+
+    autoChooser.setDefaultOption("High Balance", highBalance);
+    autoChooser.addOption("Open, then Drive Back", openThenDriveAuto);
+    autoChooser.addOption("Normal", normalAuto);
+    autoChooser.addOption("Charge Station", chargeStationAuto);
+    autoChooser.addOption("Drive Back", driveBackAuto);
+    autoChooser.addOption("Over, then Balance", overThenBalanceAuto);
+    autoChooser.addOption("High Back Out", highBack);
+    autoChooser.addOption("Mid Balance", midBalance);
+    autoChooser.addOption("Mid Back Out", midBack);
+    autoChooser.addOption("Low Balance", lowBalance);
+    autoChooser.addOption("Low Back Out", lowBack);
+
+    shuffleboard.add(autoChooser);
 
     secondaryController = new Joystick(2); // We need this for testing in elevator
 
     // Configure the button bindings
     configurePrimaryBindings();
-    // configureSecondaryBindings();
+    configureSecondaryBindings();
 
     instance = this;
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
+   * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configurePrimaryBindings() {
-    primaryController = new Joystick(1);
+  private void configurePrimaryBindings()
+  {
+    primaryController = new Joystick(0);
 
     // JoystickButton a = new
     // JoystickButton(primaryController,LogitechControllerButtons.a);
@@ -120,213 +135,166 @@ public class RobotContainer {
         ));
 
     x.onTrue(new InstantCommand(() -> swerveDrive.zeroGyro()));
-    y.onTrue(new InstantCommand(() -> {
+    y.onTrue(new InstantCommand(() ->
+    {
       for (SwerveModule mod : swerveDrive.mSwerveMods)
         mod.resetToAbsolute();
     }));
 
   }
 
-  // private void configureSecondaryBindings() {
-  // // secondaryController = new Joystick(2);
+  private void configureSecondaryBindings()
+  {
+    secondaryController = new Joystick(1);
 
-  // elevator.setDefaultCommand(new MoveElevatorCommand(() ->
-  // -secondaryController.getY(),
-  // elevator));
+    elevator
+        .setDefaultCommand(new MoveElevatorCommand(() -> -secondaryController.getY(), elevator));
 
-  // JoystickButton a = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.a);
-  // JoystickButton b = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.b);
-  // JoystickButton x = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.x);
-  // JoystickButton y = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.y);
-  // JoystickButton bumperLeft = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.bumperLeft);
-  // JoystickButton bumperRight = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.bumperRight);
-  // JoystickButton triggerLeft = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.triggerLeft);
-  // JoystickButton triggerRight = new
-  // JoystickButton(secondaryController,LogitechControllerButtons.triggerRight);
-  // POVButton up = new
-  // POVButton(secondaryController,LogitechControllerButtons.up);
-  // POVButton down = new
-  // POVButton(secondaryController,LogitechControllerButtons.down);
-  // POVButton left = new
-  // POVButton(secondaryController,LogitechControllerButtons.left);;
-  // POVButton right = new
-  // POVButton(secondaryController,LogitechControllerButtons.right);
-  // JoystickButton start = new JoystickButton(secondaryController,
-  // LogitechControllerButtons.start);
+    JoystickButton a = new JoystickButton(secondaryController, LogitechControllerButtons.a);
+    JoystickButton b = new JoystickButton(secondaryController, LogitechControllerButtons.b);
+    JoystickButton x = new JoystickButton(secondaryController, LogitechControllerButtons.x);
+    JoystickButton y = new JoystickButton(secondaryController, LogitechControllerButtons.y);
+    JoystickButton bumperLeft = new JoystickButton(secondaryController,
+        LogitechControllerButtons.bumperLeft);
+    JoystickButton bumperRight = new JoystickButton(secondaryController,
+        LogitechControllerButtons.bumperRight);
+    JoystickButton triggerLeft = new JoystickButton(secondaryController,
+        LogitechControllerButtons.triggerLeft);
+    JoystickButton triggerRight = new JoystickButton(secondaryController,
+        LogitechControllerButtons.triggerRight);
+    POVButton up = new POVButton(secondaryController, LogitechControllerButtons.up);
+    POVButton down = new POVButton(secondaryController, LogitechControllerButtons.down);
+    POVButton left = new POVButton(secondaryController, LogitechControllerButtons.left);
+    ;
+    POVButton right = new POVButton(secondaryController, LogitechControllerButtons.right);
+    JoystickButton start = new JoystickButton(secondaryController, LogitechControllerButtons.start);
 
-  // a.whileTrue(new ClawGrabberCommand(Value.kForward, clawIntake, true));
-  // b.whileTrue(new ClawGrabberCommand(Value.kReverse, clawIntake, false));
-  // // new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
+    a.whileTrue(new ClawGrabberCommand(Value.kForward, clawIntake, true));
+    b.whileTrue(new ClawGrabberCommand(Value.kReverse, clawIntake, false));
+    // new IntakeMotorCommand( () -> bumperRight.getAsBoolean(),clawIntake);
 
-  // up.onTrue(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition,
-  // elevator));
-  // left.onTrue(new SetElevatorTargetCommand(Constants.carryElevatorPos,
-  // elevator));
-  // right.onTrue(new
-  // SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, elevator));
-  // down.onTrue(new
-  // SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
-  // bumperLeft.onTrue(new
-  // SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition,
-  // elevator));
+    up.onTrue(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, elevator));
+    left.onTrue(new SetElevatorTargetCommand(Constants.carryElevatorPos, elevator));
+    right.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, elevator));
+    down.onTrue(new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, elevator));
+    bumperLeft.onTrue(
+        new SetElevatorTargetCommand(Constants.substationPickupElevatorTargetPosition, elevator));
 
-  // bumperRight.onTrue(new SetClawThresholdOverrideCommand(true, elevator));
-  // bumperRight.onFalse(new SetClawThresholdOverrideCommand(false, elevator));
+    bumperRight.onTrue(new SetClawThresholdOverrideCommand(true, elevator));
+    bumperRight.onFalse(new SetClawThresholdOverrideCommand(false, elevator));
 
-  // triggerLeft.onTrue(new SetElevatorTargetOverrideCommand(true, elevator));
-  // triggerLeft.onFalse(new SetElevatorTargetOverrideCommand(false, elevator));
+    triggerLeft.onTrue(new SetElevatorTargetOverrideCommand(true, elevator));
+    triggerLeft.onFalse(new SetElevatorTargetOverrideCommand(false, elevator));
 
-  // start.onTrue(new
-  // SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, elevator));
+    start.onTrue(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, elevator));
 
-  // shuffleboard.addBoolean("Test", () -> Robot.isTest);
-  // if(Robot.isTest) {
-  // x.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
-  // true, elevator)
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
-  // elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
-  // true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
-  // elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
-  // true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
-  // elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
-  // true, elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true,
-  // elevator))
-  // .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition,
-  // true,
-  // elevator)));
-  // }
-  // }
+    shuffleboard.addBoolean("Test", () -> Robot.isTest);
+    if (Robot.isTest)
+    {
+      x.onTrue(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator)
+          .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
+          .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
+          .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true, elevator))
+          .andThen(new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+          .andThen(new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true,
+              elevator)));
+    }
+  }
 
-  // enum PossibleAutos {
-  // NORMAL_AUTO,
-  // CHARGE_STATION_AUTO,
-  // }
+  enum PossibleAutos
+  {
+    NORMAL_AUTO, CHARGE_STATION_AUTO,
+  }
 
-  // private final Command normalAuto = new SetElevatorTargetCommand(
-  // Constants.middleElevatorTargetPosition, true, elevator)
-  // .andThen(new ClawGrabberCommand( Value.kForward,clawIntake,true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+  private final Command normalAuto = new SetElevatorTargetCommand(
+      Constants.middleElevatorTargetPosition, true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command chargeStationAuto = new SetElevatorTargetCommand(
-  // Constants.topElevatorTargetPosition, true, elevator)
-  // .andThen(new ClawGrabberCommand( Value.kForward,clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand( Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+  private final Command chargeStationAuto = new SetElevatorTargetCommand(
+      Constants.topElevatorTargetPosition, true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command driveBackAuto = new
-  // DriveDistanceAuto(Constants.BALANCE_DISTANCE,
-  // swerveDrive);
+  private final Command driveBackAuto = new DriveDistanceAuto(Constants.BALANCE_DISTANCE,
+      swerveDrive);
 
-  // private final Command openThenDriveAuto = new
-  // ClawGrabberCommand(Value.kForward, clawIntake,
-  // true)
-  // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+  private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kForward, clawIntake, true)
+      .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command openClaw = new ClawGrabberCommand(Value.kReverse,
-  // clawIntake, true);
+  private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake, true);
 
-  // private final Command overThenBalanceAuto = new
-  // DriveDistanceAuto(Constants.OVER_CHARGESTATION_DISTANCE, swerveDrive)
-  // .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGESTATION_DISTANCE,
-  // swerveDrive));
+  private final Command overThenBalanceAuto = new DriveDistanceAuto(
+      Constants.OVER_CHARGESTATION_DISTANCE, swerveDrive)
+          .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGESTATION_DISTANCE, swerveDrive));
 
-  // private final Command highBalance =
-  // new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true,
-  // elevator)
-  // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+  private final Command highBalance = new SetElevatorTargetCommand(
+      Constants.topElevatorTargetPosition, true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command midBalance =
-  // new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true,
-  // elevator)
-  // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+  private final Command midBalance = new SetElevatorTargetCommand(
+      Constants.middleElevatorTargetPosition, true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command backOut = new DriveDistanceAuto(50000 *
-  // Constants.normalAutoDriveBackDistance, swerveDrive);
+  private final Command backOut = new DriveDistanceAuto(
+      50000 * Constants.normalAutoDriveBackDistance, swerveDrive);
 
-  // private final Command lowBalance =
-  // new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true,
-  // elevator)
-  // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+  private final Command lowBalance = new SetElevatorTargetCommand(
+      Constants.bottomElevatorTargetPosition, true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  // private final Command highBack =
-  // new SetElevatorTargetCommand(Constants.topElevatorTargetPosition, true,
-  // elevator)
-  // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance,
-  // swerveDrive));
+  private final Command highBack = new SetElevatorTargetCommand(Constants.topElevatorTargetPosition,
+      true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
 
-  // private final Command midBack =
-  // new SetElevatorTargetCommand(Constants.middleElevatorTargetPosition, true,
-  // elevator)
-  // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance,
-  // swerveDrive));
+  private final Command midBack = new SetElevatorTargetCommand(
+      Constants.middleElevatorTargetPosition, true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
 
-  // private final Command lowBack =
-  // new SetElevatorTargetCommand(Constants.bottomElevatorTargetPosition, true,
-  // elevator)
-  // .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-  // .andThen(new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION,
-  // true, elevator))
-  // .andThen(new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance,
-  // swerveDrive));
+  private final Command lowBack = new SetElevatorTargetCommand(
+      Constants.bottomElevatorTargetPosition, true, elevator)
+          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+          .andThen(
+              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+          .andThen(
+              new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance, swerveDrive));
 
-  // SendableChooser<Command> autoChooser = new SendableChooser<>();
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand()
+  {
+    // An ExampleCommand will run in autonomous
+    Command choice = autoChooser.getSelected();
+    // choice.schedule();
+    return choice;
 
-  // autoChooser.setDefaultOption("High Balance", highBalance);
-  // autoChooser.addOption("Open, then Drive Back", openThenDriveAuto);
-  // autoChooser.addOption("Normal", normalAuto);
-  // autoChooser.addOption("Charge Station", chargeStationAuto);
-  // autoChooser.addOption("Drive Back", driveBackAuto);
-  // autoChooser.addOption("Over, then Balance", overThenBalanceAuto);
-  // autoChooser.addOption("High Back Out", highBack);
-  // autoChooser.addOption("Mid Balance", midBalance);
-  // autoChooser.addOption("Mid Back Out", midBack);
-  // autoChooser.addOption("Low Balance", lowBalance);
-  // autoChooser.addOption("Low Back Out", lowBack);
-
-  // shuffleboard.add(autoChooser);
-  // }
-
-  // /**
-  // * Use this to pass the autonomous command to the main {@link Robot} class.
-  // *
-  // * @return the command to run in autonomous
-  // */
-  // public Command getAutonomousCommand() {
-  // // An ExampleCommand will run in autonomous
-  // Command choice = autoChooser.getSelected();
-  // // choice.schedule();
-  // return choice;
-
-  // }
+  }
 }
