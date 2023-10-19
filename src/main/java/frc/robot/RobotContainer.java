@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.SetElevatorTargetCommand;
 import frc.robot.commands.SetElevatorTargetOverrideCommand;
+import frc.robot.autos.AutoBalanceAuto;
 import frc.robot.autos.DriveDistanceAuto;
 import frc.robot.commands.ClawGrabberCommand;
 import frc.robot.commands.ExampleCommand;
@@ -69,17 +70,8 @@ public class RobotContainer
 
     autoChooser = new SendableChooser<>();
 
-    autoChooser.setDefaultOption("High Balance", highBalance);
-    autoChooser.addOption("Open, then Drive Back", openThenDriveAuto);
-    autoChooser.addOption("Normal", normalAuto);
-    autoChooser.addOption("Charge Station", chargeStationAuto);
-    autoChooser.addOption("Drive Back", driveBackAuto);
-    autoChooser.addOption("Over, then Balance", overThenBalanceAuto);
-    autoChooser.addOption("High Back Out", highBack);
-    autoChooser.addOption("Mid Balance", midBalance);
-    autoChooser.addOption("Mid Back Out", midBack);
-    autoChooser.addOption("Low Balance", lowBalance);
-    autoChooser.addOption("Low Back Out", lowBack);
+    autoChooser.setDefaultOption("Charge Station", chargeStationAuto);
+    autoChooser.addOption("Exit Community", exitCommunityAuto);
 
     shuffleboard.add(autoChooser);
 
@@ -207,82 +199,86 @@ public class RobotContainer
     }
   }
 
-  enum PossibleAutos
-  {
-    NORMAL_AUTO, CHARGE_STATION_AUTO,
-  }
+//   enum PossibleAutos
+//   {
+//     NORMAL_AUTO, 
+//     CHARGE_STATION_AUTO
+//   }
 
-  private final Command normalAuto = new SetElevatorTargetCommand(
-      Constants.middleElevatorTargetPosition, true, elevator)
+  private final Command exitCommunityAuto = new SetElevatorTargetCommand(
+      Constants.topElevatorTargetPosition, true, elevator)
           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
           .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+              new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+		  .andThen(new DriveDistanceAuto(Constants.EXIT_COMMUNITY_DISTANCE, swerveDrive));
 
   private final Command chargeStationAuto = new SetElevatorTargetCommand(
       Constants.topElevatorTargetPosition, true, elevator)
           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
           .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+              new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
+		  .andThen(new DriveDistanceAuto(Constants.EXIT_COMMUNITY_CHARGE_STATION_DISTANCE, swerveDrive))
+		  .andThen(new AutoBalanceAuto(swerveDrive));
 
-  private final Command driveBackAuto = new DriveDistanceAuto(Constants.BALANCE_DISTANCE,
-      swerveDrive);
+//   // Old autos below
 
-  private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kForward, clawIntake, true)
-      .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+//   private final Command driveBackAuto = new DriveDistanceAuto(Constants.BALANCE_DISTANCE,
+//       swerveDrive);
 
-  private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake, true);
+//   private final Command openThenDriveAuto = new ClawGrabberCommand(Value.kForward, clawIntake, true)
+//       .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  private final Command overThenBalanceAuto = new DriveDistanceAuto(
-      Constants.OVER_CHARGESTATION_DISTANCE, swerveDrive)
-          .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGESTATION_DISTANCE, swerveDrive));
+//   private final Command openClaw = new ClawGrabberCommand(Value.kReverse, clawIntake, true);
 
-  private final Command highBalance = new SetElevatorTargetCommand(
-      Constants.topElevatorTargetPosition, true, elevator)
-          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-          .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+//   private final Command overThenBalanceAuto = new DriveDistanceAuto(
+//       Constants.OVER_CHARGESTATION_DISTANCE, swerveDrive)
+//           .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGESTATION_DISTANCE, swerveDrive));
 
-  private final Command midBalance = new SetElevatorTargetCommand(
-      Constants.middleElevatorTargetPosition, true, elevator)
-          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-          .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+//   private final Command highBalance = new SetElevatorTargetCommand(
+//       Constants.topElevatorTargetPosition, true, elevator)
+//           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+//           .andThen(
+//               new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+//           .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  private final Command backOut = new DriveDistanceAuto(
-      50000 * Constants.normalAutoDriveBackDistance, swerveDrive);
+//   private final Command midBalance = new SetElevatorTargetCommand(
+//       Constants.middleElevatorTargetPosition, true, elevator)
+//           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+//           .andThen(
+//               new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+//           .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  private final Command lowBalance = new SetElevatorTargetCommand(
-      Constants.bottomElevatorTargetPosition, true, elevator)
-          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-          .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
+//   private final Command backOut = new DriveDistanceAuto(
+//       50000 * Constants.normalAutoDriveBackDistance, swerveDrive);
 
-  private final Command highBack = new SetElevatorTargetCommand(Constants.topElevatorTargetPosition,
-      true, elevator)
-          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-          .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
+//   private final Command lowBalance = new SetElevatorTargetCommand(
+//       Constants.bottomElevatorTargetPosition, true, elevator)
+//           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+//           .andThen(
+//               new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+//           .andThen(new DriveDistanceAuto(Constants.BALANCE_DISTANCE, swerveDrive));
 
-  private final Command midBack = new SetElevatorTargetCommand(
-      Constants.middleElevatorTargetPosition, true, elevator)
-          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-          .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
+//   private final Command highBack = new SetElevatorTargetCommand(Constants.topElevatorTargetPosition,
+//       true, elevator)
+//           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+//           .andThen(
+//               new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+//           .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
 
-  private final Command lowBack = new SetElevatorTargetCommand(
-      Constants.bottomElevatorTargetPosition, true, elevator)
-          .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
-          .andThen(
-              new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
-          .andThen(
-              new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance, swerveDrive));
+//   private final Command midBack = new SetElevatorTargetCommand(
+//       Constants.middleElevatorTargetPosition, true, elevator)
+//           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+//           .andThen(
+//               new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+//           .andThen(new DriveDistanceAuto(Constants.normalAutoDriveBackDistance, swerveDrive));
+
+//   private final Command lowBack = new SetElevatorTargetCommand(
+//       Constants.bottomElevatorTargetPosition, true, elevator)
+//           .andThen(new ClawGrabberCommand(Value.kForward, clawIntake, true))
+//           .andThen(
+//               new SetElevatorTargetCommand(Constants.MINIMUM_ELEVATOR_POSITION, true, elevator))
+//           .andThen(
+//               new DriveDistanceAuto(50000 * Constants.normalAutoDriveBackDistance, swerveDrive));
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

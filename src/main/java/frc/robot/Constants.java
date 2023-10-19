@@ -27,11 +27,8 @@ public final class Constants
 {
 
     // auto distances, need to adjust for swerve and get rid of unused ones
-    public static final double normalAutoDriveBackDistance = -3.78;
-    public static final double backOfGridToFrontOfGridForAutosButNotUsed = 1.42;
-    public static final double BALANCE_DISTANCE = -50000.0 * 1.5;
-    public static final double OVER_CHARGESTATION_DISTANCE = -50000.0 * 1;
-    public static final double RETURN_TO_CHARGESTATION_DISTANCE = 50000 * 1;
+    public static final double EXIT_COMMUNITY_DISTANCE = 1;
+    public static final double EXIT_COMMUNITY_CHARGE_STATION_DISTANCE = 1;
 
     public static final double ELEVATOR_MAX_POWER_CHANGE = 0.275;
 
