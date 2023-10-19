@@ -218,6 +218,7 @@ public class RobotContainer
           .andThen(
               new SetElevatorTargetCommand(Constants.carryElevatorPos, true, elevator))
 		  .andThen(new DriveDistanceAuto(Constants.EXIT_COMMUNITY_CHARGE_STATION_DISTANCE, swerveDrive))
+          .andThen(new DriveDistanceAuto(Constants.RETURN_TO_CHARGE_STATION_DISTANCE, swerveDrive))
 		  .andThen(new AutoBalanceAuto(swerveDrive));
 
 //   // Old autos below

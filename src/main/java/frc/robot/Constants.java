@@ -27,8 +27,9 @@ public final class Constants
 {
 
     // auto distances, need to adjust for swerve and get rid of unused ones
-    public static final double EXIT_COMMUNITY_DISTANCE = 1;
-    public static final double EXIT_COMMUNITY_CHARGE_STATION_DISTANCE = 1;
+    public static final double EXIT_COMMUNITY_DISTANCE = -1;
+    public static final double EXIT_COMMUNITY_CHARGE_STATION_DISTANCE = -1;
+    public static final double RETURN_TO_CHARGE_STATION_DISTANCE = 1;
 
     public static final double ELEVATOR_MAX_POWER_CHANGE = 0.275;
 
