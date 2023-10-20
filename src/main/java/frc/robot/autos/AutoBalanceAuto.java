@@ -26,7 +26,7 @@ public class AutoBalanceAuto extends CommandBase
     public AutoBalanceAuto(SwerveDriveSubsystem s_Swerve)
     {
         this.s_Swerve = s_Swerve;
-        balancingSpeed = 0.5;
+        balancingSpeed = 0.25;
         balancingDirection = 1;
         tiltDeadband = 10;
         wheelLockSpeed = 0;
@@ -67,7 +67,7 @@ public class AutoBalanceAuto extends CommandBase
         }
 
         if (balancingSpeed < 0.1)
-            balancingSpeed = 0.1;
+            balancingSpeed = 0.05;
 
         s_Swerve.drive(
                 new Translation2d(balancingSpeed * balancingDirection, wheelLockSpeed)

@@ -45,7 +45,8 @@ public class GoodDriveDistanceAuto extends CommandBase
 
     private boolean isInTarget()
     {
-        return true;
+        if (distance > 0) return (s_Swerve.getPose().getX() > targetPosition);
+        else return (s_Swerve.getPose().getX() < targetPosition);
     }
 
     @Override
