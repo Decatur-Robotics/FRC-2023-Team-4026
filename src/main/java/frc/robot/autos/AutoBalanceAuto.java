@@ -71,7 +71,7 @@ public class AutoBalanceAuto extends CommandBase
 
         s_Swerve.drive(
                 new Translation2d(balancingSpeed * balancingDirection, wheelLockSpeed)
-                        .times(Constants.Swerve.maxSpeed),
+                        .times( Constants.Swerve.maxSpeed),
                 0 * Constants.Swerve.maxAngularVelocity,
                 /* !robotCentricSup.getAsBoolean(), */ true, // field relative is always on
                 true);
