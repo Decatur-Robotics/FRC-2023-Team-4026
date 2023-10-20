@@ -66,7 +66,7 @@ public class AutoBalanceAuto extends CommandBase
             wheelsLocked = false;
         }
 
-        if (balancingSpeed < 0.1)
+        if (balancingSpeed < 0.05)
             balancingSpeed = 0.05;
 
         s_Swerve.drive(
