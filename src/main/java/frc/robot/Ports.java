@@ -14,6 +14,8 @@ public class Ports {
    public final static int ELEVATOR_POTENTIOMETER = 2;
    public final static int ELEVATOR_LIMIT_SWITCH = 9;
    public final static Port NAV_X = Port.kMXP; // Need to check this
+   public final static int YAW_GYRO = 0; // Horizontal
+   public final static int PITCH_GYRO = 1; // Vertical
 
    public class SwervePorts { // TODO: Assign port values for each module
 

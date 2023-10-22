@@ -17,11 +17,10 @@ import frc.robot.TeamTalonFX;
 import frc.robot.commands.MoveElevatorCommand;
 import edu.wpi.first.math.controller.PIDController;
 
-public class ElevatorSubsystem extends SubsystemBase
-{
+public class ElevatorSubsystem extends SubsystemBase {
 
     public ITeamTalon elevatorMotorMain, elevatorMotorSub;
-    public double targetPosition = Constants.restElevatorTargetPosition;
+    public double targetPosition = Constants.MINIMUM_ELEVATOR_POSITION;
     public final double DEADBAND_VALUE = Constants.ELEVATOR_DEADBAND_VALUE;
 
     public AnalogPotentiometer potentiometer;
@@ -43,8 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase
 
     PIDController pid = new PIDController(kP, kI, kD);
 
-    public ElevatorSubsystem(ClawIntakeSubsystem intake)
-    {
+    public ElevatorSubsystem(ClawIntakeSubsystem intake) {
         elevatorMotorMain = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorMain",
                 Ports.ELEVATOR_MOTOR_MAIN);
         elevatorMotorSub = new TeamTalonFX("Subsystem.Elevator.ElevatorMotorSub",
@@ -82,19 +80,16 @@ public class ElevatorSubsystem extends SubsystemBase
         this.intake = intake;
     }
 
-    public void setTargetPosition(double newTargetPosition, String reason)
-    {
+    public void setTargetPosition(double newTargetPosition, String reason) {
         targetPosition = newTargetPosition;
     }
 
-    private double getCappedPower(double desired)
-    {
+    private double getCappedPower(double desired) {
         return Math.min(Constants.maxElevatorMotorSpeed,
                 Math.max(desired, -Constants.maxElevatorMotorSpeed));
     }
 
-    public void setSpeed(double newSpeed)
-    {
+    public void setSpeed(double newSpeed) {
         double sign = Math.signum(newSpeed);
         // System.out.println("Passed Speed: " + newSpeed);
         this.speed = newSpeed;
@@ -107,30 +102,24 @@ public class ElevatorSubsystem extends SubsystemBase
 
         double currentPower = elevatorMotorMain.get();
 
-        if ((speed < currentPower))
-        {
+        if ((speed < currentPower)) {
             newPower = Math.max(speed, currentPower - Constants.ELEVATOR_MAX_POWER_CHANGE);
-        } // /jack morton lawrence torrance jack morton lawrence torrance jack morton lawrence
+        } // /jack morton lawrence torrance jack morton lawrence torrance jack morton
+          // lawrence
           // torrance
-        else if ((speed > currentPower))
-        {
+        else if ((speed > currentPower)) {
             newPower = Math.min(speed, currentPower + Constants.ELEVATOR_MAX_POWER_CHANGE);
-        }
-        else
-        {
+        } else {
             newPower = speed;
         }
 
         if ((potentiometer.get() > Constants.topElevatorTargetPosition && speed > 0)
-                || (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0))
-        {
+                || (potentiometer.get() < Constants.MINIMUM_ELEVATOR_POSITION && speed < 0)) {
             newPower = 0;
         }
 
-        if (elevatorLimitSwitch.get())
-        {
-            if (newPower < 0)
-            {
+        if (elevatorLimitSwitch.get()) {
+            if (newPower < 0) {
                 newPower = 0;
             }
         }
@@ -142,21 +131,16 @@ public class ElevatorSubsystem extends SubsystemBase
         elevatorMotorSub.set(newPower, "Joystick said so");
     }
 
-    public void periodic()
-    {
+    public void periodic() {
         // System.out.println("Elevator Power: " + elevatorMotorMain.get());
         // System.out.println("Current Potentiometer Value: " + potentiometer.get());
 
-        if (!targetOverridden)
-        {
-            if (!isInTarget())
-            {
+        if (!targetOverridden) {
+            if (!isInTarget()) {
                 // setSpeed(Math.signum(targetPosition - potentiometer.get()));
 
                 setSpeed(pid.calculate(potentiometer.get(), targetPosition));
-            }
-            else
-            {
+            } else {
                 setSpeed(0);
             }
         }
@@ -167,14 +151,12 @@ public class ElevatorSubsystem extends SubsystemBase
 
     }
 
-    public boolean isInTarget()
-    {
+    public boolean isInTarget() {
         double delta = targetPosition - potentiometer.get();
         return Math.abs(delta) < DEADBAND_VALUE;
     }
 
-    public void resetTarget()
-    {
+    public void resetTarget() {
         targetPosition = potentiometer.get();
     }
 
