@@ -42,7 +42,7 @@ public final class Constants
         public static final double bottomElevatorTargetPosition = 21.30;
         public static final double middleElevatorTargetPosition = 31.91;
         public static final double topElevatorTargetPosition = 45.48;
-        public static final double substationPickupElevatorTargetPosition = 30;
+        public static final double substationPickupElevatorTargetPosition = 28;
 
         public static final double clawCloseThreshold = 11.6;
 
