@@ -1,5 +1,6 @@
 package frc.robot.autos;
 
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,9 +23,7 @@ public class AutoBalanceAuto extends CommandBase
 
     private boolean wheelsLocked;
 
-    private AnalogGyro gyro;
-
-    private double testAngle;
+    private Pigeon2 gyro;
 
     public AutoBalanceAuto(SwerveDriveSubsystem s_Swerve)
     {
@@ -36,9 +35,7 @@ public class AutoBalanceAuto extends CommandBase
 
         wheelsLocked = false;
 
-        gyro = s_Swerve.pitchGyro;
-
-        testAngle = -20;
+        gyro = s_Swerve.gyro;
 
         addRequirements(s_Swerve);
     }
@@ -47,8 +44,7 @@ public class AutoBalanceAuto extends CommandBase
     public void execute()
     {
         System.out.println("Autobalancing");
-        if (/* gyro.getAngle() */ testAngle < tiltDeadband
-                && /* gyro.getAngle() */ testAngle > -tiltDeadband)
+        if (gyro.getPitch() < tiltDeadband && gyro.getPitch() > -tiltDeadband)
         {
             balancingDirection = 0;
 
@@ -58,14 +54,14 @@ public class AutoBalanceAuto extends CommandBase
                 wheelsLocked = true;
             }
         }
-        else if (/* gyro.getAngle() */ testAngle > 0 && balancingDirection == 1)
+        else if (gyro.getPitch() > 0 && balancingDirection == 1)
         {
             balancingSpeed /= 2;
             balancingDirection = -1;
             wheelLockSpeed = 0;
             wheelsLocked = false;
         }
-        else if (/* gyro.getAngle() */ testAngle < 0 && balancingDirection == -1)
+        else if (gyro.getPitch() < 0 && balancingDirection == -1)
         {
             balancingSpeed /= 2;
             balancingDirection = 1;

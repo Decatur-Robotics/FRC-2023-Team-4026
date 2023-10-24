@@ -76,15 +76,15 @@ public class RobotContainer
                 swerveDrive.setAngleOffsets(SmartDashboard.getBoolean("Invert Swerve",
                                 Constants.Swerve.DEFAULT_ANGLE_INVERT));
 
-                shuffleboard.addDouble("Gyro", () -> swerveDrive.yawGyro.getAngle());
+                shuffleboard.addDouble("Gyro", () -> swerveDrive.gyro.getYaw());
 
                 autoChooser = new SendableChooser<>();
 
                 autoChooser.setDefaultOption("Charge Station", chargeStationAuto);
                 autoChooser.addOption("Exit Community", exitCommunityAuto);
 
-                shuffleboard.addDouble("Yaw Gyro", () -> swerveDrive.yawGyro.getAngle());
-                shuffleboard.addDouble("Pitch Gyro", () -> swerveDrive.pitchGyro.getAngle());
+                shuffleboard.addDouble("Yaw Gyro", () -> swerveDrive.gyro.getYaw());
+                shuffleboard.addDouble("Pitch Gyro", () -> swerveDrive.gyro.getPitch());
 
                 shuffleboard.addDouble("Gyro Offset", () -> swerveDrive.gyroOffset);
 
