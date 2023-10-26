@@ -15,7 +15,6 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.TeamTalonFX;
 import frc.robot.commands.MoveElevatorCommand;
-import edu.wpi.first.math.controller.PIDController;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
