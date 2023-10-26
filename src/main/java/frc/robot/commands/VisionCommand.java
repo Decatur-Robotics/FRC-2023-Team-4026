@@ -1,12 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class VisionCommand extends CommandBase {
     VisionSubsystem vision;
-    DriveTrainSubsystem drivetrain;
+    SwerveDriveSubsystem drivetrain;
 
     public double coneX;
     public int coneVisible;
@@ -18,7 +18,7 @@ public class VisionCommand extends CommandBase {
 
     public boolean enable = false;
 
-    public VisionCommand(boolean enable, VisionSubsystem vision, DriveTrainSubsystem drivetrain ) {
+    public VisionCommand(boolean enable, VisionSubsystem vision, SwerveDriveSubsystem drivetrain ) {
         this.enable = enable;
         this.vision = vision;
         this.drivetrain = drivetrain;
@@ -26,14 +26,6 @@ public class VisionCommand extends CommandBase {
     }
 
     public void initialize() {
-        if (enable) {
-            System.out.println("Starting auto align...");
-            drivetrain.autoAlign = true;
-        }
-        else {
-            System.out.println("Ending auto align...");
-            drivetrain.autoAlign = false;
-        }
     }
 
     // public void execute() {
