@@ -84,7 +84,7 @@ public class RobotContainer
                 autoChooser.addOption("Exit Community", exitCommunityAuto);
 
                 shuffleboard.addDouble("Yaw Gyro", () -> swerveDrive.gyro.getYaw());
-                shuffleboard.addDouble("Pitch Gyro", () -> swerveDrive.gyro.getPitch());
+                shuffleboard.addDouble("Pitch Gyro", () -> swerveDrive.gyro.getRoll());
 
                 shuffleboard.addDouble("Gyro Offset", () -> swerveDrive.gyroOffset);
 

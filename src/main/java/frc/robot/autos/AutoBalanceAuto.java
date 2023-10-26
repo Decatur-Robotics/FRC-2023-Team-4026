@@ -44,7 +44,7 @@ public class AutoBalanceAuto extends CommandBase
     public void execute()
     {
         System.out.println("Autobalancing");
-        if (gyro.getPitch() < tiltDeadband && gyro.getPitch() > -tiltDeadband)
+        if (gyro.getRoll() < tiltDeadband && gyro.getRoll() > -tiltDeadband)
         {
             balancingDirection = 0;
 
@@ -54,17 +54,17 @@ public class AutoBalanceAuto extends CommandBase
                 wheelsLocked = true;
             }
         }
-        else if (gyro.getPitch() > 0 && balancingDirection == 1)
-        {
-            balancingSpeed /= 2;
-            balancingDirection = -1;
-            wheelLockSpeed = 0;
-            wheelsLocked = false;
-        }
-        else if (gyro.getPitch() < 0 && balancingDirection == -1)
+        else if (gyro.getRoll() > 0 && balancingDirection == 1)
         {
             balancingSpeed /= 2;
             balancingDirection = 1;
+            wheelLockSpeed = 0;
+            wheelsLocked = false;
+        }
+        else if (gyro.getRoll() < 0 && balancingDirection == -1)
+        {
+            balancingSpeed /= 2;
+            balancingDirection = -1;
             wheelLockSpeed = 0;
             wheelsLocked = false;
         }
