@@ -37,13 +37,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
 
         public static RobotContainer instance;
 
@@ -67,8 +69,7 @@ public class RobotContainer
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
-        public RobotContainer()
-        {
+        public RobotContainer() {
                 // shuffleboard = Shuffleboard.getTab("SmartDashboard");
 
                 SmartDashboard.putBoolean("Invert Swerve", false);
@@ -90,12 +91,10 @@ public class RobotContainer
 
                 shuffleboard.add(autoChooser);
 
-                shuffleboard.add("Get Angle Offsets", new InstantCommand(() ->
-                {
+                shuffleboard.add("Get Angle Offsets", new InstantCommand(() -> {
                         System.out.println("Getting angle offsets...");
 
-                        for (int i = 0; i < swerveDrive.mSwerveMods.length; i++)
-                        {
+                        for (int i = 0; i < swerveDrive.mSwerveMods.length; i++) {
                                 double degrees = swerveDrive.mSwerveMods[i].getCanCoder()
                                                 .getDegrees();
                                 System.out.println("Setting mod " + i + " to " + degrees + "...");
@@ -120,13 +119,14 @@ public class RobotContainer
         }
 
         /**
-         * Use this method to define your button->command mappings. Buttons can be created by
+         * Use this method to define your button->command mappings. Buttons can be
+         * created by
          * instantiating a {@link GenericHID} or one of its subclasses
-         * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it
+         * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+         * passing it
          * to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
-        private void configurePrimaryBindings()
-        {
+        private void configurePrimaryBindings() {
                 primaryController = new Joystick(0);
 
                 JoystickButton a = new JoystickButton(primaryController,
@@ -175,34 +175,27 @@ public class RobotContainer
                                  */
                                 ));
 
-                x.onTrue(new InstantCommand(() ->
-                {
+                x.onTrue(new InstantCommand(() -> {
                         swerveDrive.zeroGyro();
                         swerveDrive.gyroOffset = 0;
                 }));
-                y.onTrue(new InstantCommand(() ->
-                {
+                y.onTrue(new InstantCommand(() -> {
                         for (SwerveModule mod : swerveDrive.mSwerveMods)
                                 mod.resetToAbsolute();
                 }));
 
-                a.onTrue(new InstantCommand(() ->
-                {
+                a.onTrue(new InstantCommand(() -> {
                         boolean invert = SmartDashboard.getBoolean("Invert Serve", false);
                         invert = !invert;
                         swerveDrive.setAngleOffsets(invert);
                         SmartDashboard.putBoolean("Invert Swerve", invert);
                 }));
-                b.onTrue(new InstantCommand(() ->
-                {
+                b.onTrue(new InstantCommand(() -> {
                         swerveDrive.setGyro(180);
                 }));
-
-                bumperLeft.onTrue(new AutoBalanceAuto(swerveDrive));
         }
 
-        private void configureSecondaryBindings()
-        {
+        private void configureSecondaryBindings() {
                 secondaryController = new Joystick(1);
 
                 elevator.setDefaultCommand(new MoveElevatorCommand(
@@ -257,34 +250,33 @@ public class RobotContainer
                                 elevator));
 
                 shuffleboard.addBoolean("Test", () -> Robot.isTest);
-                if (Robot.isTest)
-                {
+                if (Robot.isTest) {
                         x.onTrue(new SetElevatorTargetCommand(
                                         Constants.middleElevatorTargetPosition, true, elevator)
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.carryElevatorPos,
-                                                                        true, elevator))
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.middleElevatorTargetPosition,
-                                                                        true, elevator))
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.carryElevatorPos,
-                                                                        true, elevator))
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.middleElevatorTargetPosition,
-                                                                        true, elevator))
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.carryElevatorPos,
-                                                                        true, elevator))
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.middleElevatorTargetPosition,
-                                                                        true, elevator))
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.carryElevatorPos,
-                                                                        true, elevator))
-                                                        .andThen(new SetElevatorTargetCommand(
-                                                                        Constants.middleElevatorTargetPosition,
-                                                                        true, elevator)));
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.carryElevatorPos,
+                                                        true, elevator))
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.middleElevatorTargetPosition,
+                                                        true, elevator))
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.carryElevatorPos,
+                                                        true, elevator))
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.middleElevatorTargetPosition,
+                                                        true, elevator))
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.carryElevatorPos,
+                                                        true, elevator))
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.middleElevatorTargetPosition,
+                                                        true, elevator))
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.carryElevatorPos,
+                                                        true, elevator))
+                                        .andThen(new SetElevatorTargetCommand(
+                                                        Constants.middleElevatorTargetPosition,
+                                                        true, elevator)));
                 }
         }
 
@@ -294,8 +286,7 @@ public class RobotContainer
         // CHARGE_STATION_AUTO
         // }
 
-        private final Command exitCommunityAuto = new InstantCommand(() ->
-        {
+        private final Command exitCommunityAuto = new InstantCommand(() -> {
                 swerveDrive.resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
         }).andThen(new ClawGrabberCommand(Value.kReverse, clawIntake, false))
                         .andThen(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition,
@@ -306,8 +297,7 @@ public class RobotContainer
                         .andThen(new GoodDriveDistanceAuto(Constants.EXIT_COMMUNITY_DISTANCE, -0.4,
                                         swerveDrive));
 
-        private final Command chargeStationAuto = new InstantCommand(() ->
-        {
+        private final Command chargeStationAuto = new InstantCommand(() -> {
                 swerveDrive.resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
         }).andThen(new ClawGrabberCommand(Value.kReverse, clawIntake, false))
                         .andThen(new SetElevatorTargetCommand(Constants.topElevatorTargetPosition,
@@ -403,8 +393,7 @@ public class RobotContainer
          *
          * @return the command to run in autonomous
          */
-        public Command getAutonomousCommand()
-        {
+        public Command getAutonomousCommand() {
                 // An ExampleCommand will run in autonomous
                 Command choice = autoChooser.getSelected();
                 // choice.schedule();
