@@ -16,15 +16,17 @@ import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Ports.SwervePorts;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  * <p>
- * It is advised to statically import this class (or one of its inner classes) wherever the
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
+public final class Constants {
 
         // auto distances, need to adjust for swerve and get rid of unused ones
         public static final double EXIT_COMMUNITY_DISTANCE = 5;
@@ -50,17 +52,15 @@ public final class Constants
 
         public static final double JOYSTICK_DEADBAND = 0.1;
 
-        public static final class CANSparkMaxPeriodicRates
-        {
+        public static final class CANSparkMaxPeriodicRates {
                 // In ms
                 public static final int LOW_INTERVAL = 30; // Originally 20
                 public static final int MID_INTERVAL = 100; // Originally 50
                 public static final int HIGH_INTERVAL = 1000; // Originally 500
         }
 
-        public static final class Swerve
-        {
-                public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
+        public static final class Swerve {
+                public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
                 /* Drivetrain Constants */
                 public static final double trackWidth = Units.inchesToMeters(21.708); // will test
@@ -108,8 +108,10 @@ public final class Constants
                 public static final boolean driveEnableCurrentLimit = true;
 
                 /*
-                 * These values are used by the drive falcon to ramp in open loop and closed loop
-                 * driving. We found a small open loop ramp (0.25) helps with tread wear, tipping,
+                 * These values are used by the drive falcon to ramp in open loop and closed
+                 * loop
+                 * driving. We found a small open loop ramp (0.25) helps with tread wear,
+                 * tipping,
                  * etc
                  */
                 public static final double openLoopRamp = 0.25;
@@ -163,18 +165,16 @@ public final class Constants
 
                 public static final boolean DEFAULT_ANGLE_INVERT = false;
 
-                public static final double[] ANGLE_OFFSETS = new double[]
-                {
-                                94.92, // FL
-                                81.29, // FR
-                                73.82, // RL
-                                250.49 // RR
+                public static final double[] ANGLE_OFFSETS = new double[] {
+                                114.3, // FL
+                                80.2, // FR
+                                61.4, // RL
+                                313.4 // RR
                 };
 
                 /* Module Specific Constants */
                 /* Front Left Module - Module 0 */
-                public static final class Mod0
-                { // TODO: This must be tuned to specific robot
+                public static final class Mod0 { // TODO: This must be tuned to specific robot
                         public static final int driveMotorID = SwervePorts.MOD0_DRIVEMOTOR;
                         public static final int angleMotorID = SwervePorts.MOD0_ANGLEMOTOR;
                         public static final int canCoderID = SwervePorts.MOD0_CANCODER;
@@ -185,8 +185,7 @@ public final class Constants
                 }
 
                 /* Front Right Module - Module 1 */
-                public static final class Mod1
-                { // TODO: This must be tuned to specific robot
+                public static final class Mod1 { // TODO: This must be tuned to specific robot
                         public static final int driveMotorID = SwervePorts.MOD1_DRIVEMOTOR;
                         public static final int angleMotorID = SwervePorts.MOD1_ANGLEMOTOR;
                         public static final int canCoderID = SwervePorts.MOD1_CANCODER;
@@ -197,8 +196,7 @@ public final class Constants
                 }
 
                 /* Back Left Module - Module 2 */
-                public static final class Mod2
-                { // TODO: This must be tuned to specific robot
+                public static final class Mod2 { // TODO: This must be tuned to specific robot
                         public static final int driveMotorID = SwervePorts.MOD2_DRIVEMOTOR;
                         public static final int angleMotorID = SwervePorts.MOD2_ANGLEMOTOR;
                         public static final int canCoderID = SwervePorts.MOD2_CANCODER;
@@ -209,8 +207,7 @@ public final class Constants
                 }
 
                 /* Back Right Module - Module 3 */
-                public static final class Mod3
-                { // TODO: This must be tuned to specific robot
+                public static final class Mod3 { // TODO: This must be tuned to specific robot
                         public static final int driveMotorID = SwervePorts.MOD3_DRIVEMOTOR;
                         public static final int angleMotorID = SwervePorts.MOD3_ANGLEMOTOR;
                         public static final int canCoderID = SwervePorts.MOD3_CANCODER;
@@ -221,9 +218,8 @@ public final class Constants
                 }
         }
 
-        public static final class AutoConstants
-        { // TODO: The below constants are used in the example auto, and must be
-          // tuned to specific robot
+        public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be
+                                                  // tuned to specific robot
                 public static final double kMaxSpeedMetersPerSecond = 3;
                 public static final double kMaxAccelerationMetersPerSecondSquared = 3;
                 public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
