@@ -91,18 +91,18 @@ public class RobotContainer {
 
                 shuffleboard.add(autoChooser);
 
-                shuffleboard.add("Get Angle Offsets", new InstantCommand(() -> {
-                        System.out.println("Getting angle offsets...");
+                // shuffleboard.add("Get Angle Offsets", new InstantCommand(() -> {
+                //         System.out.println("Getting angle offsets...");
 
-                        for (int i = 0; i < swerveDrive.mSwerveMods.length; i++) {
-                                double degrees = swerveDrive.mSwerveMods[i].getCanCoder()
-                                                .getDegrees();
-                                System.out.println("Setting mod " + i + " to " + degrees + "...");
-                                Constants.Swerve.ANGLE_OFFSETS[i] = degrees;
-                        }
+                //         for (int i = 0; i < swerveDrive.mSwerveMods.length; i++) {
+                //                 double degrees = swerveDrive.mSwerveMods[i].getCanCoder()
+                //                                 .getDegrees();
+                //                 System.out.println("Setting mod " + i + " to " + degrees + "...");
+                //                 Constants.Swerve.ANGLE_OFFSETS[i] = degrees;
+                //         }
 
-                        swerveDrive.setAngleOffsets(false);
-                }));
+                //         swerveDrive.setAngleOffsets(false);
+                // }));
 
                 secondaryController = new Joystick(2); // We need this for testing in elevator
 
