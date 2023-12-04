@@ -47,7 +47,7 @@ public class ClawGrabberCommand extends CommandBase {
 
     public void end() {
         System.out.println("Ending ClawGrabberCommand...");
-        clawIntake.clawGrabberLeft.set(Value.kOff);
+        // clawIntake.clawGrabberLeft.set(Value.kOff);
     }
 }
 
